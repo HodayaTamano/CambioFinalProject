@@ -88,47 +88,47 @@ public class Card {
 	public String toString(){
 		//combine rank and suit together into a single string(ex: Ace of Diamonds)
 
-		//suing StringBuilder for modifiability later on
+		//using StringBuilder for modifiability later on
 		StringBuilder displayCard = new StringBuilder();
 
 		//personal choice to use switch
-		switch(value){
-		//since rank is int type, now match int 11 to String jack...14 to Ace
-		case 11:
-			displayCard.append("jack");
-			break;
-		case 12:
-			displayCard.append("queen");
-			break;
-		case 13:
-			displayCard.append("king");
-			break;
-		case 14:
-			displayCard.append("ace");
-			break;    
-		default:
-			displayCard.append(value); //number from 2 to 10 does not need to modify
-			break;
-		}//end rank switch
+		switch(type){
+			case 0:
+				displayCard.append("spades");
+				break;
+			case 1:
+				displayCard.append("hearts");
+				break;
+			case 2:
+				displayCard.append("clubs");
+				break;
+			case 3:
+				displayCard.append("diamonds");
+				break;
+			default: //anything else, do nothing
+				break;
+		}//end suit switch
 
 		displayCard.append("of"); //setting the format of the output
 
-		switch(type){
-		case 0:
-			displayCard.append("spades");
-			break;
-		case 1:
-			displayCard.append("hearts");
-			break;
-		case 2:
-			displayCard.append("clubs");
-			break;
-		case 3:
-			displayCard.append("diamonds");
-			break;
-		default: //anything else, do nothing
-			break;
-		}//end suit switch
+		switch(value){
+			//since rank is int type, now match int 11 to String jack...14 to Ace
+			case 11:
+				displayCard.append("jack");
+				break;
+			case 12:
+				displayCard.append("queen");
+				break;
+			case 13:
+				displayCard.append("king");
+				break;
+			case 14:
+				displayCard.append("ace");
+				break;
+			default:
+				displayCard.append(value); //number from 2 to 10 does not need to modify
+				break;
+		}//end rank switch
 
 		//return the result of an entire combined string
 		return displayCard.toString();

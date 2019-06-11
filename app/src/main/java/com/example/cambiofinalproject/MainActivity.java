@@ -29,12 +29,11 @@ public class MainActivity extends AppCompatActivity {
         backComputerCard1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-//            Example of displaying specific card:
-                int imageId = R.drawable.clubsof2;
-                String s = "R.drawable".concat(Computer.computerCards[1].toString());
+//          clicking on the back of the card and card displays
+                int imageId = getResources().getIdentifier(Computer.computerCards[1].toString(),"drawable", getPackageName());
                 Drawable myDrawable = getResources().getDrawable(imageId);
                 viewComputerCard1.setImageDrawable(myDrawable);
-                Toast.makeText(MainActivity.this,Computer.computerCards[1].toString()+" ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,Computer.computerCards[1].toString(),Toast.LENGTH_SHORT).show();
 
             }
         });
