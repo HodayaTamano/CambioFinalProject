@@ -1,2 +1,2 @@
 # CambioFinalProject
-## Avital Israeli Hodaya Tamano
+## Avital Israeli & Hodaya Tamano
