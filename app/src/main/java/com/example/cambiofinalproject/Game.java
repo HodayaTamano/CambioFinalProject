@@ -10,6 +10,7 @@ public class Game{
 	public static String winner;
 	public static Card currentCard;
 	public static String currentTurn;
+	public static Card [] playerCards = new Card[4];
 	public static Stack<Card> garbage = new Stack<Card>(); 
 
 	public Game() {}
@@ -48,8 +49,6 @@ public class Game{
 
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
-		Card [] playerCards = new Card[4]; 
-
 		for (int i=0; i<4; i++) {//Dividing 4 cards for the players and remove from the deck.
 			playerCards[i] = Card.cardDeck.get(i);
 			Computer.computerCards[i] = Card.cardDeck.get(i+4);
@@ -57,13 +56,6 @@ public class Game{
 				Computer.computerCards[i].setKnown(true);
 			}
 		}
-
-
-		//
-		//		for (int i=0; i<4; i++) { // Printing the cards in the arrays.
-		//			System.out.println("myCards: "+myCards[i]);
-		//			System.out.println("computerCards: "+computerCards[i]);
-		//		}
 
 		for (int i=0; i<8; i++) { // Removing the cards from the Deck.
 			Card.cardDeck.remove(i);
