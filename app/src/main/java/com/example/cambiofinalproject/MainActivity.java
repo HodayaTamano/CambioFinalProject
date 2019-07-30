@@ -23,9 +23,22 @@ public class MainActivity extends AppCompatActivity {
     ImageButton playerCard3;
     ImageButton playerCard4;
 
-    int counter = 0;
-    boolean cardIsPressed = true;
-    boolean secondCardIsPressed = true;
+    ImageButton cardDeck;
+
+    int counter1 = 0;
+    int counter2 = 0;
+
+    boolean p_cardIsPressed1 = true;
+    boolean p_cardIsPressed2 = true;
+    boolean p_cardIsPressed3 = true;
+    boolean p_cardIsPressed4 = true;
+
+    boolean c_cardIsPressed1 = true;
+    boolean c_cardIsPressed2 = true;
+    boolean c_cardIsPressed3 = true;
+    boolean c_cardIsPressed4 = true;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +50,26 @@ public class MainActivity extends AppCompatActivity {
         computerCard1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //          clicking on the back of the card and card displays
-                int imageId = getResources().getIdentifier(Computer.computerCards[0].toString(),"drawable", getPackageName());
-                Drawable myDrawable = getResources().getDrawable(imageId);
-                computerCard1.setImageDrawable(myDrawable);
-                Toast.makeText(MainActivity.this,Computer.computerCards[0].toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,Boolean.toString(Game.gameOn),Toast.LENGTH_SHORT).show();
+                if (Game.gameOn) {
+                    if (c_cardIsPressed1) {  //The card is exposed
+                        int imageId = getResources().getIdentifier(Computer.computerCards[0].toString(), "drawable", getPackageName());
+                        Drawable myDrawable = getResources().getDrawable(imageId);
+                        computerCard1.setImageDrawable(myDrawable);
+                        //  Toast.makeText(MainActivity.this,Computer.computerCards[0].toString(),Toast.LENGTH_SHORT).show();
+                        c_cardIsPressed1 = false;
+                    }
+                    else {                 // The card is hidden
+                        int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
+                        Drawable myDrawable = getResources().getDrawable(imageId);
+                        computerCard1.setImageDrawable(myDrawable);
+                        c_cardIsPressed1 = true;
+                    }
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"you can't pick the computer card",Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -48,11 +77,19 @@ public class MainActivity extends AppCompatActivity {
         computerCard2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //          clicking on the back of the card and card displays
-
-                int imageId = getResources().getIdentifier(Computer.computerCards[1].toString(),"drawable", getPackageName());
-                Drawable myDrawable = getResources().getDrawable(imageId);
-                computerCard2.setImageDrawable(myDrawable);
-                Toast.makeText(MainActivity.this,Computer.computerCards[1].toString(),Toast.LENGTH_SHORT).show();
+                if (c_cardIsPressed2) {                      //The card is exposed
+                    int imageId = getResources().getIdentifier(Computer.computerCards[1].toString(),"drawable", getPackageName());
+                    Drawable myDrawable = getResources().getDrawable(imageId);
+                    computerCard2.setImageDrawable(myDrawable);
+                 //   Toast.makeText(MainActivity.this,Computer.computerCards[1].toString(),Toast.LENGTH_SHORT).show();
+                    c_cardIsPressed2 = false;
+                }
+                else {                 // The card is hidden
+                    int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
+                    Drawable myDrawable = getResources().getDrawable(imageId);
+                    computerCard2.setImageDrawable(myDrawable);
+                    c_cardIsPressed2 = true;
+                }
             }
         });
 
@@ -60,10 +97,19 @@ public class MainActivity extends AppCompatActivity {
         computerCard3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //          clicking on the back of the card and card displays
+                    if (c_cardIsPressed3) {                //The card is exposed
                 int imageId = getResources().getIdentifier(Computer.computerCards[2].toString(),"drawable", getPackageName());
                 Drawable myDrawable = getResources().getDrawable(imageId);
                 computerCard3.setImageDrawable(myDrawable);
-                Toast.makeText(MainActivity.this,Computer.computerCards[2].toString(),Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this,Computer.computerCards[2].toString(),Toast.LENGTH_SHORT).show();
+                    c_cardIsPressed3 = false;
+                }
+                else {                            // The card is hidden
+                    int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
+                    Drawable myDrawable = getResources().getDrawable(imageId);
+                    computerCard3.setImageDrawable(myDrawable);
+                    c_cardIsPressed3 = true;
+                }
             }
         });
 
@@ -71,10 +117,19 @@ public class MainActivity extends AppCompatActivity {
         computerCard4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //          clicking on the back of the card and card displays
-                int imageId = getResources().getIdentifier(Computer.computerCards[3].toString(),"drawable", getPackageName());
-                Drawable myDrawable = getResources().getDrawable(imageId);
-                computerCard4.setImageDrawable(myDrawable);
-                Toast.makeText(MainActivity.this,Computer.computerCards[3].toString(),Toast.LENGTH_SHORT).show();
+                if (c_cardIsPressed4) {              //The card is exposed
+                    int imageId = getResources().getIdentifier(Computer.computerCards[3].toString(), "drawable", getPackageName());
+                    Drawable myDrawable = getResources().getDrawable(imageId);
+                    computerCard4.setImageDrawable(myDrawable);
+                    //   Toast.makeText(MainActivity.this,Computer.computerCards[3].toString(),Toast.LENGTH_SHORT).show();
+                    c_cardIsPressed4 = false;
+                }
+                else {                   // The card is hidden
+                    int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
+                    Drawable myDrawable = getResources().getDrawable(imageId);
+                    computerCard4.setImageDrawable(myDrawable);
+                    c_cardIsPressed4 = true;
+                }
             }
         });
 
@@ -84,19 +139,25 @@ public class MainActivity extends AppCompatActivity {
             playerCard1.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 //          clicking on the back of the card and card displays
-                    if (cardIsPressed) {
+                    if (counter1 < 2) {
+                    if (p_cardIsPressed1) {                 //The card is exposed
                         int imageId = getResources().getIdentifier(Game.playerCards[0].toString(), "drawable", getPackageName());
                         Drawable myDrawable = getResources().getDrawable(imageId);
                         playerCard1.setImageDrawable(myDrawable);
-                        Toast.makeText(MainActivity.this, Game.playerCards[0].toString(), Toast.LENGTH_SHORT).show();
-                        cardIsPressed = false;
+                     //   Toast.makeText(MainActivity.this, Game.playerCards[0].toString(), Toast.LENGTH_SHORT).show();
+                        counter1++;
+                        p_cardIsPressed1 = false;
                     }
-                    else{
+                    else{                        // The card is hidden
                         int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
                         Drawable myDrawable = getResources().getDrawable(imageId);
                         playerCard1.setImageDrawable(myDrawable);
-                        cardIsPressed = true;
+                        counter1++;
+                        p_cardIsPressed1 = true;
                     }
+                    }
+                    else
+                        Toast.makeText(MainActivity.this,"you already pick this card",Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -104,30 +165,46 @@ public class MainActivity extends AppCompatActivity {
             playerCard2.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 //          clicking on the back of the card and card displays
-                    if (cardIsPressed){
-                        int imageId = getResources().getIdentifier(Game.playerCards[1].toString(), "drawable", getPackageName());
-                        Drawable myDrawable = getResources().getDrawable(imageId);
-                        playerCard2.setImageDrawable(myDrawable);
-                        Toast.makeText(MainActivity.this, Game.playerCards[1].toString(), Toast.LENGTH_SHORT).show();
-                        cardIsPressed = false;
-                    }else{
-                        int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                        Drawable myDrawable = getResources().getDrawable(imageId);
-                        playerCard1.setImageDrawable(myDrawable);
-                        cardIsPressed = true;
-                    }
+                    if (counter2 < 2) {
+                        if (p_cardIsPressed2) {                        //The card is exposed
+                            int imageId = getResources().getIdentifier(Game.playerCards[1].toString(), "drawable", getPackageName());
+                            Drawable myDrawable = getResources().getDrawable(imageId);
+                            playerCard2.setImageDrawable(myDrawable);
+                            //    Toast.makeText(MainActivity.this, Game.playerCards[1].toString(), Toast.LENGTH_SHORT).show();
+                            counter2++;
+                            p_cardIsPressed2 = false;
+                        } else {                                    // The card is hidden
+                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
+                            Drawable myDrawable = getResources().getDrawable(imageId);
+                            playerCard2.setImageDrawable(myDrawable);
+                            counter2++;
+                            p_cardIsPressed2 = true;
+                        }
 
+                    }
+                    else
+                        Toast.makeText(MainActivity.this,"you already pick this card",Toast.LENGTH_SHORT).show();
                 }
+
             });
 
             playerCard3 = (ImageButton) findViewById(R.id.playerCard3);
             playerCard3.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 //          clicking on the back of the card and card displays
+                    if (p_cardIsPressed3){                         //The card is exposed
                     int imageId = getResources().getIdentifier(Game.playerCards[2].toString(),"drawable", getPackageName());
-                    Drawable myDrawable = getResources().getDrawable(imageId);
-                    playerCard3.setImageDrawable(myDrawable);
-                    Toast.makeText(MainActivity.this,Game.playerCards[2].toString(),Toast.LENGTH_SHORT).show();
+                        Drawable myDrawable = getResources().getDrawable(imageId);
+                        playerCard3.setImageDrawable(myDrawable);
+                       // Toast.makeText(MainActivity.this,Game.playerCards[2].toString(),Toast.LENGTH_SHORT).show();
+                        p_cardIsPressed3 = false;
+                    }
+                    else {                             // The card is hidden
+                        int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
+                        Drawable myDrawable = getResources().getDrawable(imageId);
+                        playerCard3.setImageDrawable(myDrawable);
+                        p_cardIsPressed3 = true;
+                    }
                 }
             });
 
@@ -135,30 +212,50 @@ public class MainActivity extends AppCompatActivity {
             playerCard4.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 //          clicking on the back of the card and card displays
+                if (p_cardIsPressed4){                          //The card is exposed
                     int imageId = getResources().getIdentifier(Game.playerCards[3].toString(),"drawable", getPackageName());
                     Drawable myDrawable = getResources().getDrawable(imageId);
                     playerCard4.setImageDrawable(myDrawable);
                     Toast.makeText(MainActivity.this,Game.playerCards[3].toString(),Toast.LENGTH_SHORT).show();
+                    p_cardIsPressed4 = false;
                 }
+                else {                                   // The card is hidden
+                    int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
+                    Drawable myDrawable = getResources().getDrawable(imageId);
+                    playerCard4.setImageDrawable(myDrawable);
+                    p_cardIsPressed4 = true;
+                }
+            }
             });
 
-
-
-//        backComputerCard4 = (ImageButton) findViewById(R.id.computerCard4);
-//        backComputerCard4.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-////          clicking on the back of the card and card displays
-//                boolean isPressed= true;
-//                if(isPressed) {
-//                    int imageId = getResources().getIdentifier(Computer.computerCards[3].toString(), "drawable", getPackageName());
-//                    Drawable myDrawable = getResources().getDrawable(imageId);
-//                    backComputerCard4.setImageDrawable(myDrawable);
-//                    isPressed = false;
-//                }
-//                else
-//                    backComputerCard4.setImageDrawable(backCard);
-//                Toast.makeText(MainActivity.this,Computer.computerCards[3].toString(),Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        cardDeck = (ImageButton) findViewById(R.id.deck);
+        cardDeck.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//          clicking on the back of the card and card displays
+                if((p_cardIsPressed1==true)&&(p_cardIsPressed2==true)){
+                    if((counter1==0) && (counter2==0))
+                        Toast.makeText(MainActivity.this,"You didn't pick your cards",Toast.LENGTH_SHORT).show();
+                    else if((counter1==0) && (counter2==2))
+                        Toast.makeText(MainActivity.this,"You pick only one card",Toast.LENGTH_SHORT).show();
+                    else if((counter1==2) && (counter2==0))
+                        Toast.makeText(MainActivity.this,"You pick only one card",Toast.LENGTH_SHORT).show();
+                    else Game.theGame();
+                }
+                else{
+                    if((counter1==0) && (counter2==1))
+                        Toast.makeText(MainActivity.this,"Your card is exposed",Toast.LENGTH_SHORT).show();
+                    else if((counter1==1) && (counter2==0))
+                        Toast.makeText(MainActivity.this,"Your card is exposed",Toast.LENGTH_SHORT).show();
+                    else if((counter1==1) && (counter2==1))
+                        Toast.makeText(MainActivity.this,"Your cards are exposed",Toast.LENGTH_SHORT).show();
+                    else if((counter1==1) && (counter2==2))
+                        Toast.makeText(MainActivity.this,"Your card is exposed",Toast.LENGTH_SHORT).show();
+                    else if((counter1==2) && (counter2==1))
+                        Toast.makeText(MainActivity.this,"Your card is exposed",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
+
+

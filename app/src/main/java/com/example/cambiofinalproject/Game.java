@@ -1,12 +1,14 @@
 package com.example.cambiofinalproject;
 
+import android.widget.Toast;
+
 import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
 
 public class Game{
 
-	public static boolean gameOn = true;
+	public static boolean gameOn = false;
 	public static String winner;
 	public static Card currentCard;
 	public static String currentTurn;
@@ -76,7 +78,8 @@ public class Game{
 	}
 
 	public static void theGame () {
-
+		gameOn=true;
+//		Toast.makeText(MainActivity.this,"the game work",Toast.LENGTH_SHORT).show();
 		//while (gameOn) {
 		for (int i=0; i<4; i++) { // Printing the cards in the arrays.
 			//System.out.println("myCards: "+myCards[i]);
