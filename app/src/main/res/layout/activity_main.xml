@@ -24,6 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        android:contentDescription="computerCard1"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -42,6 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.001"
+        android:contentDescription="computerCard2"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -60,6 +62,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.221"
+        android:contentDescription="computerCard3"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -78,6 +81,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.221"
+        android:contentDescription="computerCard4"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -96,6 +100,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.938"
+        android:contentDescription="playerCard1"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -114,6 +119,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.938"
+        android:contentDescription="playerCard2"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -132,6 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.715"
+        android:contentDescription="playerCard3"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -150,6 +157,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.715"
+        android:contentDescription="playerCard4"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -169,6 +177,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.46"
+        android:contentDescription="deck"
         app:srcCompat="@drawable/backdeck" />
 
     <ImageView
@@ -188,6 +197,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.47"
+        android:contentDescription="garbage"
         tools:srcCompat="@tools:sample/avatars" />
 
     <android.support.constraint.Group
