@@ -1,19 +1,28 @@
 package com.example.cambiofinalproject;
 
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+
 
 import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
 
-public class Game{
+
+public class Game extends MainActivity{
+//    public void onCreate(Bundle savedInstanceState) {
+//        Game regularClass = new RegularClass(this);
+//    }
 
 	public static boolean gameOn = false;
 	public static String winner;
 	public static Card currentCard;
 	public static String currentTurn;
-	public static Card [] playerCards = new Card[4];
-	public static Stack<Card> garbage = new Stack<Card>(); 
+	public static Stack<Card> garbage = new Stack<Card>();
+
 
 	public Game() {}
 
@@ -41,6 +50,8 @@ public class Game{
 		this.winner = winner;
 	}
 
+
+
 	public static String start() {
 
 		for(int x=0; x<4; x++){          //0-3 for type (4 types)
@@ -52,7 +63,7 @@ public class Game{
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
 		for (int i=0; i<4; i++) {//Dividing 4 cards for the players and remove from the deck.
-			playerCards[i] = Card.cardDeck.get(i);
+			Player.playerCards[i] = Card.cardDeck.get(i);
 			Computer.computerCards[i] = Card.cardDeck.get(i+4);
 			if (i < 2) {// the computer peek two of his cards.
 				Computer.computerCards[i].setKnown(true);
@@ -69,18 +80,23 @@ public class Game{
 		currentCard.setKnown(true);
 		Card.cardDeck.remove(0);
 
-		// The computer adds his two cards which are close to him into the ArrayList.
+		// The
+        // computer adds his two cards which are close to him into the ArrayList.
 		Computer.computerMemory.add(new CardLocation(Computer.computerCards[0],0,"computer"));
 		Computer.computerMemory.add(new CardLocation(Computer.computerCards[1],1,"computer"));
 
-		theGame();
+
 		return winner;
 	}
 
-	public static void theGame () {
+	public static void theGame() {
 		gameOn=true;
-//		Toast.makeText(MainActivity.this,"the game work",Toast.LENGTH_SHORT).show();
-		//while (gameOn) {
+		Player.playerTurn();
+//		while (gameOn) {
+//
+//		}
+//
+//        Toast.makeText(Game.this, Card.cardDeck.get(0).toString(), Toast.LENGTH_SHORT).show();
 		for (int i=0; i<4; i++) { // Printing the cards in the arrays.
 			//System.out.println("myCards: "+myCards[i]);
 			System.out.println("computerCards: "+Computer.computerCards[i]);
