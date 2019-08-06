@@ -36,14 +36,14 @@ public class Computer {
 			System.out.println("The current card: " +Game.currentCard);
 			// if the garbage is empty - Checking the ConfigurationValue with the current card.
 			if ((Game.garbage.isEmpty()) && (ConfigurationValue.after(Game.currentCard, i) <= minCurrent)) {
-				System.out.println("ConfigurationValue.after(Game.currentCard, i) <= minCurrent ? "+ ConfigurationValue.after(Game.currentCard, i) +", "+ minCurrent);
+//				System.out.println("ConfigurationValue.after(Game.currentCard, i) <= minCurrent ? "+ ConfigurationValue.after(Game.currentCard, i) +", "+ minCurrent);
 				minCurrent = ConfigurationValue.after(Game.currentCard, i);
 				minIndex = i;
 				System.out.println("the garbage is null! "+Game.garbage.toString());
 			}
 			// if the garbage is full - Checking the ConfigurationValue with the first in the garbage.
 			else if ((!Game.garbage.isEmpty()) && (ConfigurationValue.after(Game.garbage.peek(), i) <= minGarbage)) {
-				System.out.println("ConfigurationValue.after(Game.garbage.peek(), i) <= minGarbage ?" + ConfigurationValue.after(Game.garbage.peek(), i)+", "+minGarbage);
+//				System.out.println("ConfigurationValue.after(Game.garbage.peek(), i) <= minGarbage ?" + ConfigurationValue.after(Game.garbage.peek(), i)+", "+minGarbage);
 				minGarbage = ConfigurationValue.after(Game.garbage.peek(), i);
 				minIndex = i;
 				System.out.println("the garbage is full! "+Game.garbage.toString());
@@ -58,9 +58,11 @@ public class Computer {
 				// swap between the card from cardDeck and computerCards[minIndex].
 				swap(Game.currentCard, minIndex);
 			}	
-			else 
+			else {
 				// throw the current card to the stack.
-				Game.garbage.add(Game.currentCard); 
+				Game.garbage.add(Game.currentCard);
+//				System.out.println("GARBAGE "+Game.garbage.peek());
+			}
 		}
 		else{
 			if (minGarbage <= ConfigurationValue.before()) {
@@ -84,10 +86,12 @@ public class Computer {
 					// swap between the card from cardDeck and computerCards[minIndex].
 					swap(Game.currentCard, minIndex);
 				}	
-				else 
+				else {
 					// throw the current card to the stack.
-					Game.garbage.add(Game.currentCard); 
-			}
+					Game.garbage.add(Game.currentCard);
+//					System.out.println("GARBAGE: " + Game.garbage.peek());
+				}
+				}
 		}
 	}
 
@@ -96,6 +100,7 @@ public class Computer {
 
 		// Throw the card to the garbage and set it as known.
 		Game.garbage.add(computerCards[minIndex]);
+//		System.out.println("GARBAGE: "+Game.garbage.peek());
 		Game.garbage.peek().setKnown(true);;
 
 		// Put the current card in the computer cards

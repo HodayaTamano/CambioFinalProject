@@ -63,25 +63,34 @@ public class Game extends MainActivity{
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
 		for (int i=0; i<4; i++) {//Dividing 4 cards for the players and remove from the deck.
+
 			Player.playerCards[i] = Card.cardDeck.get(i);
+//			System.out.println("PLAYER: " + Player.playerCards[i]);
 			Computer.computerCards[i] = Card.cardDeck.get(i+4);
+//			System.out.println("COMPUTER: " + Computer.computerCards[i]);
 			if (i < 2) {// the computer peek two of his cards.
 				Computer.computerCards[i].setKnown(true);
 			}
 		}
+//		System.out.println("Card.cardDeck.get(0) before " +Card.cardDeck.get(0));
 
 		for (int i=0; i<8; i++) { // Removing the cards from the Deck.
-			Card.cardDeck.remove(i);
+			Card.cardDeck.remove(0);
 		}
-
+		for (int i=0; i<Card.cardDeck.size(); i++) {
+//			System.out.println("DECK: " + Card.cardDeck.get(i));
+		}
 		// Define current card to be the first card of the deck,
-		// set it as known card and remove it from the deck. 
-		currentCard = Card.cardDeck.get(0); 
+		// set it as known card and remove it from the deck.
+
+		currentCard = Card.cardDeck.get(0);
+		System.out.println("CURRENT: " + currentCard);
 		currentCard.setKnown(true);
 		Card.cardDeck.remove(0);
 
-		// The
-        // computer adds his two cards which are close to him into the ArrayList.
+
+
+		// The computer adds his two cards which are close to him into the ArrayList.
 		Computer.computerMemory.add(new CardLocation(Computer.computerCards[0],0,"computer"));
 		Computer.computerMemory.add(new CardLocation(Computer.computerCards[1],1,"computer"));
 
@@ -91,26 +100,18 @@ public class Game extends MainActivity{
 
 	public static void theGame() {
 		gameOn=true;
-		Player.playerTurn();
+		MainActivity.playerTurn();
 //		while (gameOn) {
 //
 //		}
 //
 //        Toast.makeText(Game.this, Card.cardDeck.get(0).toString(), Toast.LENGTH_SHORT).show();
-		for (int i=0; i<4; i++) { // Printing the cards in the arrays.
-			//System.out.println("myCards: "+myCards[i]);
-			System.out.println("computerCards: "+Computer.computerCards[i]);
-		}
+//		for (int i=0; i<4; i++) { // Printing the cards in the arrays.
+//			//System.out.println("myCards: "+myCards[i]);
+//			System.out.println("computerCards: "+Computer.computerCards[i]);
+//		}
 		Computer.computerTurn();
-		for (int i=0; i<4; i++) { // Printing the cards in the arrays.
-			//System.out.println("myCards: "+myCards[i]);
-			System.out.println("computerCards: "+Computer.computerCards[i]);
-		}
-		Computer.computerTurn();
-		for (int i=0; i<4; i++) { // Printing the cards in the arrays.
-			//System.out.println("myCards: "+myCards[i]);
-			System.out.println("computerCards: "+Computer.computerCards[i]);
-		}
+
 
 		//}
 
