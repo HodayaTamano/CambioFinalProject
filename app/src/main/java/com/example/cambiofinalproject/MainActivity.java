@@ -13,6 +13,8 @@ import com.example.cambiofinalproject.Game;
 import com.example.cambiofinalproject.R;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,33 +32,29 @@ public class MainActivity extends AppCompatActivity {
 
     static ImageView current;
 
-    static int counter1 = 0;
-    static int counter2 = 0;
-    static int counter3 = 0;
-    static int counter4 = 0;
-
-    public static boolean pick_computerCard = false;
+    static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
 
     static boolean p_cardIsPressed1 = true;
     static boolean p_cardIsPressed2 = true;
     static boolean p_cardIsPressed3 = true;
     static boolean p_cardIsPressed4 = true;
 
-    boolean c_cardIsPressed1 = true;
-    boolean c_cardIsPressed2 = true;
-    boolean c_cardIsPressed3 = true;
-    boolean c_cardIsPressed4 = true;
+    static boolean c_cardIsPressed1 = true;
+    static boolean c_cardIsPressed2 = true;
+    static boolean c_cardIsPressed3 = true;
+    static boolean c_cardIsPressed4 = true;
 
-    public static boolean available_playerCards12 = true;
-    public static boolean available_playerCards34 = false;
-    public static boolean available_computerCards = false;
-//    boolean available_playerCards = false;
+    private static boolean peek_computerCard = false;   //short press on the computer cards.
+    private static boolean swap_computerCards = false;
+    private static boolean peek_playerCard12 = true;
+    private static boolean peek_playerCard34 = false;
+    private static boolean swap_playerCards = false;
 
-// In order to use non-static function in static function,
+    // In order to use non-static function in static function,
 // we saved the context to a static field named mContext and mCurrent,
 // and we created a static methods that returns this field getContext() and getmCurrent().
-    private static WeakReference <Context> mContext;
-    private static WeakReference <ImageView> mCurrent;
+    private static WeakReference<Context> mContext;
+    private static WeakReference<ImageView> mCurrent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,30 +66,30 @@ public class MainActivity extends AppCompatActivity {
         mCurrent = new WeakReference<ImageView>(current);
         mContext = new WeakReference<Context>(this);
 
-///////////////////////////////////////////////// Computer Cards ////////////////////////////////////////////////////////////
         computerCard1 = (ImageButton) findViewById(R.id.computerCard1);
+        computerCard2 = (ImageButton) findViewById(R.id.computerCard2);
+        computerCard3 = (ImageButton) findViewById(R.id.computerCard3);
+        computerCard4 = (ImageButton) findViewById(R.id.computerCard4);
+
+        playerCard1 = (ImageButton) findViewById(R.id.playerCard1);
+        playerCard2 = (ImageButton) findViewById(R.id.playerCard2);
+        playerCard3 = (ImageButton) findViewById(R.id.playerCard3);
+        playerCard4 = (ImageButton) findViewById(R.id.playerCard4);
+
+///////////////////////////////////////////////// Computer Cards ////////////////////////////////////////////////////////////
+
+        ////////////////////////     Computer Card No.1     //////////////////////
         computerCard1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(pick_computerCard) {
-//          clicking on the back of the card and card displays
-                    Toast.makeText(MainActivity.this, Boolean.toString(Game.gameOn), Toast.LENGTH_SHORT).show();
-                    if (available_computerCards) {
-                        if (c_cardIsPressed1) {  //The card is exposed
-                            int imageId = getResources().getIdentifier(Computer.computerCards[0].toString(), "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            computerCard1.setImageDrawable(myDrawable);
-                            //  Toast.makeText(MainActivity.this,Computer.computerCards[0].toString(),Toast.LENGTH_SHORT).show();
-                            c_cardIsPressed1 = false;
-                        } else {                 // The card is hidden
-                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            computerCard1.setImageDrawable(myDrawable);
-                            c_cardIsPressed1 = true;
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "you can't pick the computer card", Toast.LENGTH_SHORT).show();
 
-                    }
+                if ((peek_computerCard == true) && (swap_computerCards == true)) { // black king allows peeking and swaping
+                    c_cardIsPressed1 = shortPress(Computer.computerCards[0].toString(), computerCard1, 0, c_cardIsPressed1);
+                } else if ((peek_computerCard == true) && (swap_computerCards == false)) { // 9 10 allows peeking
+                    c_cardIsPressed1 = shortPress(Computer.computerCards[0].toString(), computerCard1, 0, c_cardIsPressed1);
+                } else if ((peek_computerCard == false) && (swap_computerCards == true)) { // jack queen allows swaping
+                    // the player can't peek the computer cards
+                } else if ((peek_computerCard == false) && (swap_computerCards == false)) {
+                    // the player can't peek and swap the computer cards
                 }
             }
         });
@@ -99,39 +97,29 @@ public class MainActivity extends AppCompatActivity {
         computerCard1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (available_computerCards) {
-                    // TODO Auto-generated method stub
-                    Toast.makeText(MainActivity.this, "you click long press", Toast.LENGTH_SHORT).show();
+                    if ((peek_computerCard == true) && (swap_computerCards == true)) {// black king allows swaping
+                        Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                    }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                        // the player can't swap the computer cards
+                        Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
                 }
-                return true;
-            }
-
         });
 
+        ////////////////////////     Computer Card No.2     //////////////////////
 
-
-        computerCard2 = (ImageButton) findViewById(R.id.computerCard2);
         computerCard2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(pick_computerCard) {
-//          clicking on the back of the card and card displays
-                    if (available_computerCards) {
-                        if (c_cardIsPressed2) {                      //The card is exposed
-                            int imageId = getResources().getIdentifier(Computer.computerCards[1].toString(), "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            computerCard2.setImageDrawable(myDrawable);
-                            //   Toast.makeText(MainActivity.this,Computer.computerCards[1].toString(),Toast.LENGTH_SHORT).show();
-                            c_cardIsPressed2 = false;
-                        } else {                 // The card is hidden
-                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            computerCard2.setImageDrawable(myDrawable);
-                            c_cardIsPressed2 = true;
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "you can't pick the computer card", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {     //
 
-                    }
+                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                    c_cardIsPressed2 = shortPress(Computer.computerCards[1].toString(), computerCard2, 1, c_cardIsPressed2);
+                } else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                    c_cardIsPressed2 = shortPress(Computer.computerCards[1].toString(), computerCard2, 1, c_cardIsPressed2);
+                } else if ((peek_computerCard == false) && (swap_computerCards == true)) {
+
+                } else if ((peek_computerCard == false) && (swap_computerCards == false)) {
+
                 }
             }
         });
@@ -139,39 +127,28 @@ public class MainActivity extends AppCompatActivity {
         computerCard2.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (available_computerCards) {
-                    // TODO Auto-generated method stub
-                    Toast.makeText(MainActivity.this, "you click long press", Toast.LENGTH_SHORT).show();
+                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
-
         });
 
+        ////////////////////////     Computer Card No.3     //////////////////////
 
-
-        computerCard3 = (ImageButton) findViewById(R.id.computerCard3);
         computerCard3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (pick_computerCard) {
-//          clicking on the back of the card and card displays
-                    if (available_computerCards) {
-                        if (c_cardIsPressed3) {                //The card is exposed
-                            int imageId = getResources().getIdentifier(Computer.computerCards[2].toString(), "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            computerCard3.setImageDrawable(myDrawable);
-                            // Toast.makeText(MainActivity.this,Computer.computerCards[2].toString(),Toast.LENGTH_SHORT).show();
-                            c_cardIsPressed3 = false;
-                        } else {                            // The card is hidden
-                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            computerCard3.setImageDrawable(myDrawable);
-                            c_cardIsPressed3 = true;
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "you can't pick the computer card", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {     //
 
-                    }
+                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                    c_cardIsPressed3 = shortPress(Computer.computerCards[2].toString(), computerCard3, 2, c_cardIsPressed3);
+                } else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                    c_cardIsPressed3 = shortPress(Computer.computerCards[2].toString(), computerCard3, 2, c_cardIsPressed3);
+                } else if ((peek_computerCard == false) && (swap_computerCards == true)) {
+
+                } else if ((peek_computerCard == false) && (swap_computerCards == false)) {
+
                 }
             }
         });
@@ -179,38 +156,28 @@ public class MainActivity extends AppCompatActivity {
         computerCard3.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (available_computerCards) {
-                    // TODO Auto-generated method stub
-                    Toast.makeText(MainActivity.this, "you click long press", Toast.LENGTH_SHORT).show();
+                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
-
         });
 
+        ////////////////////////     Computer Card No.4     //////////////////////
 
-        computerCard4 = (ImageButton) findViewById(R.id.computerCard4);
         computerCard4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(pick_computerCard) {
-//          clicking on the back of the card and card displays
-                    if (available_computerCards) {
-                        if (c_cardIsPressed4) {              //The card is exposed
-                            int imageId = getResources().getIdentifier(Computer.computerCards[3].toString(), "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            computerCard4.setImageDrawable(myDrawable);
-                            //   Toast.makeText(MainActivity.this,Computer.computerCards[3].toString(),Toast.LENGTH_SHORT).show();
-                            c_cardIsPressed4 = false;
-                        } else {                   // The card is hidden
-                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            computerCard4.setImageDrawable(myDrawable);
-                            c_cardIsPressed4 = true;
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "you can't pick the computer card", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {     //
 
-                    }
+                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                    c_cardIsPressed4 = shortPress(Computer.computerCards[3].toString(), computerCard4, 3, c_cardIsPressed4);
+                } else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                    c_cardIsPressed4 = shortPress(Computer.computerCards[3].toString(), computerCard4, 3, c_cardIsPressed4);
+                } else if ((peek_computerCard == false) && (swap_computerCards == true)) {
+
+                } else if ((peek_computerCard == false) && (swap_computerCards == false)) {
+
                 }
             }
         });
@@ -218,40 +185,36 @@ public class MainActivity extends AppCompatActivity {
         computerCard4.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (available_computerCards) {
-                    // TODO Auto-generated method stub
-                    Toast.makeText(MainActivity.this, "you click long press", Toast.LENGTH_SHORT).show();
+                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
-
         });
-
 
 ///////////////////////////////////////////////// Player Cards ////////////////////////////////////////////////////////////
 
-        playerCard1 = (ImageButton) findViewById(R.id.playerCard1);
+        ////////////////////////     Player Card No.1     //////////////////////
+
         playerCard1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//          clicking on the back of the card and card displays
-                if (available_playerCards12) {
-                    if (counter1 < 2) {
-                        if (p_cardIsPressed1) {                 //The card is exposed
-                            int imageId = getResources().getIdentifier(Player.playerCards[0].toString(), "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            playerCard1.setImageDrawable(myDrawable);
-                            //   Toast.makeText(MainActivity.this, Game.playerCards[0].toString(), Toast.LENGTH_SHORT).show();
-                            counter1++;
-                            p_cardIsPressed1 = false;
-                        } else {                        // The card is hidden
-                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            playerCard1.setImageDrawable(myDrawable);
-                            counter1++;
-                            p_cardIsPressed1 = true;
-                        }
+                if ((swap_playerCards == true) && (peek_playerCard12 == true)) { // black king allows peeking and swaping
+                    if (counters[4] < 2) {
+                        p_cardIsPressed1 = shortPress(Player.playerCards[0].toString(), playerCard1, 4, p_cardIsPressed1);
                     } else
-                        Toast.makeText(MainActivity.this, "you already pick this card", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
+                } else if ((swap_playerCards == false) && (peek_playerCard12 == true)) {// 7 8 allows peeking
+                    if (counters[4] < 2) {
+                        p_cardIsPressed1 = shortPress(Player.playerCards[0].toString(), playerCard1, 4, p_cardIsPressed1);
+                    } else
+                        Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
+                } else if ((swap_playerCards == true) && (peek_playerCard12 == false)) {// jack queen allows swaping
+                    // the player can't peek his cards
+
+                } else if ((swap_playerCards == false) && (peek_playerCard12 == false)) {
+                    // the player can't peek and swap his cards
                 }
             }
         });
@@ -259,133 +222,120 @@ public class MainActivity extends AppCompatActivity {
         playerCard1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (available_playerCards12) {
+                if ((swap_playerCards == true) && (peek_playerCard12 == true)) {// black king allows peeking and swaping
                     // TODO Auto-generated method stub
-                    Toast.makeText(MainActivity.this, "you click long press", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
+                }else if ((swap_playerCards == true) && (peek_playerCard12 == false)){// jack queen allows swaping
+                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
 
         });
 
+        ////////////////////////     Player Card No.2     //////////////////////
 
-
-        playerCard2 = (ImageButton) findViewById(R.id.playerCard2);
         playerCard2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//          clicking on the back of the card and card displays
-                if (available_playerCards12) {
-                    if (counter2 < 2) {
-                        if (p_cardIsPressed2) {                        //The card is exposed
-                            int imageId = getResources().getIdentifier(Player.playerCards[1].toString(), "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            playerCard2.setImageDrawable(myDrawable);
-                            //    Toast.makeText(MainActivity.this, Game.playerCards[1].toString(), Toast.LENGTH_SHORT).show();
-                            counter2++;
-                            p_cardIsPressed2 = false;
-                        } else {                                    // The card is hidden
-                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            playerCard2.setImageDrawable(myDrawable);
-                            counter2++;
-                            p_cardIsPressed2 = true;
-                        }
-
+                if ((swap_playerCards == true) && (peek_playerCard12 == true)) {
+                    if (counters[5] < 2) {
+                        p_cardIsPressed2 = shortPress(Player.playerCards[1].toString(), playerCard2, 5, p_cardIsPressed2);
                     } else
-                        Toast.makeText(MainActivity.this, "you already pick this card", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
+                } else if ((swap_playerCards == false) && (peek_playerCard12 == true)) {
+                    if (counters[5] < 2) {
+                        p_cardIsPressed2 = shortPress(Player.playerCards[1].toString(), playerCard2, 5, p_cardIsPressed2);
+                    } else
+                        Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
+                } else if ((swap_playerCards == true) && (peek_playerCard12 == false)) {
+
+                } else if ((swap_playerCards == false) && (peek_playerCard12 == false)) {
+
                 }
             }
-
         });
 
         playerCard2.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (available_playerCards12) {
+                if ((swap_playerCards == true) && (peek_playerCard12 == true)) {
                     // TODO Auto-generated method stub
-                    Toast.makeText(MainActivity.this, "you click long press", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
+                }else if ((swap_playerCards == true) && (peek_playerCard12 == false)){
+                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == false", Toast.LENGTH_SHORT).show();
                 }
+
                 return true;
             }
 
         });
+        ////////////////////////     Player Card No.3     //////////////////////
 
-
-        playerCard3 = (ImageButton) findViewById(R.id.playerCard3);
         playerCard3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//          clicking on the back of the card and card displays
-                if (available_playerCards34) {
-                    if (counter3 < 2) {
-                        if (p_cardIsPressed3) {                         //The card is exposed
-                            int imageId = getResources().getIdentifier(Player.playerCards[2].toString(), "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            playerCard3.setImageDrawable(myDrawable);
-                            // Toast.makeText(MainActivity.this,Game.playerCards[2].toString(),Toast.LENGTH_SHORT).show();
-                            counter3++;
-                            p_cardIsPressed3 = false;
-                        } else {                             // The card is hidden
-                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            playerCard3.setImageDrawable(myDrawable);
-                            counter3++;
-                            p_cardIsPressed3 = true;
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "you can't pick more than 2 cards", Toast.LENGTH_SHORT).show();
-                    }
+                if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
+                    if (counters[6] < 2) {
+                        p_cardIsPressed3 = shortPress(Player.playerCards[2].toString(), playerCard3, 6, p_cardIsPressed3);
+                    } else
+                        Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
+                } else if ((swap_playerCards == false) && (peek_playerCard34 == true)) {
+                    if (counters[6] < 2) {
+                        p_cardIsPressed3 = shortPress(Player.playerCards[2].toString(), playerCard3, 6, p_cardIsPressed3);
+                    } else
+                        Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
+                } else if ((swap_playerCards == true) && (peek_playerCard34 == false)) {
+
+                } else if ((swap_playerCards == false) && (peek_playerCard34 == false)) {
+
                 }
             }
         });
-
 
         playerCard3.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (available_playerCards34) {
+                if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
                     // TODO Auto-generated method stub
-                    Toast.makeText(MainActivity.this, "you click long press", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == true", Toast.LENGTH_SHORT).show();
+                }else if ((swap_playerCards == true) && (peek_playerCard34 == false)){
+                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == false", Toast.LENGTH_SHORT).show();
                 }
+
                 return true;
             }
 
         });
 
+        ////////////////////////     Player Card No.4     //////////////////////
 
-
-        playerCard4 = (ImageButton) findViewById(R.id.playerCard4);
         playerCard4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//          clicking on the back of the card and card displays
-                if (available_playerCards34) {
-                    if (counter4 < 2) {
-                        if (p_cardIsPressed4) {                          //The card is exposed
-                            int imageId = getResources().getIdentifier(Player.playerCards[3].toString(), "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            playerCard4.setImageDrawable(myDrawable);
-                            Toast.makeText(MainActivity.this, Player.playerCards[3].toString(), Toast.LENGTH_SHORT).show();
-                            counter4++;
-                            p_cardIsPressed4 = false;
-                        } else {                                   // The card is hidden
-                            int imageId = getResources().getIdentifier("back", "drawable", getPackageName());
-                            Drawable myDrawable = getResources().getDrawable(imageId);
-                            playerCard4.setImageDrawable(myDrawable);
-                            counter4++;
-                            p_cardIsPressed4 = true;
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "you can't pick more than 2 cards", Toast.LENGTH_SHORT).show();
+                if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
+                    if (counters[6] < 2) {
+                        p_cardIsPressed4 = shortPress(Player.playerCards[3].toString(), playerCard4, 7, p_cardIsPressed4);
+                    } else
+                        Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
+                } else if ((swap_playerCards == false) && (peek_playerCard34 == true)) {
+                    if (counters[6] < 2) {
+                        p_cardIsPressed4 = shortPress(Player.playerCards[3].toString(), playerCard4, 7, p_cardIsPressed4);
+                    } else
+                        Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
+                } else if ((swap_playerCards == true) && (peek_playerCard34 == false)) {
 
-                    }
+                } else if ((swap_playerCards == false) && (peek_playerCard34 == false)) {
+
                 }
             }
         });
+
         playerCard4.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (available_playerCards34) {
+                if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
                     // TODO Auto-generated method stub
-                    Toast.makeText(MainActivity.this, "you click long press", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == true", Toast.LENGTH_SHORT).show();
+                }else if ((swap_playerCards == true) && (peek_playerCard34 == false)){
+                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
@@ -398,99 +348,116 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 //          clicking on the back of the card and card displays
                 if ((p_cardIsPressed1 == true) && (p_cardIsPressed2 == true)) {
-                    if ((counter1 == 0) && (counter2 == 0))
-                        Toast.makeText(MainActivity.this, "You didn't pick your cards", Toast.LENGTH_SHORT).show();
-                    else if ((counter1 == 0) && (counter2 == 2))
-                        Toast.makeText(MainActivity.this, "You pick only one card", Toast.LENGTH_SHORT).show();
-                    else if ((counter1 == 2) && (counter2 == 0))
-                        Toast.makeText(MainActivity.this, "You pick only one card", Toast.LENGTH_SHORT).show();
+                    if ((counters[4] == 0) && (counters[5] == 0))
+                        Toast.makeText(MainActivity.this, "You didn't peek your cards", Toast.LENGTH_SHORT).show();
+                    else if ((counters[4] == 0) && (counters[5] == 2))
+                        Toast.makeText(MainActivity.this, "You peek only one card", Toast.LENGTH_SHORT).show();
+                    else if ((counters[4] == 2) && (counters[5] == 0))
+                        Toast.makeText(MainActivity.this, "You peek only one card", Toast.LENGTH_SHORT).show();
                     else {
                         Game.theGame();
-//                        Toast.makeText(MainActivity.this,Game.garbage.peek().toString(), Toast.LENGTH_SHORT).show();
 
                     }
 
                 } else {
-                    if ((counter1 == 0) && (counter2 == 1))
+                    if ((counters[4] == 0) && (counters[5] == 1))
                         Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
-                    else if ((counter1 == 1) && (counter2 == 0))
+                    else if ((counters[4] == 1) && (counters[5] == 0))
                         Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
-                    else if ((counter1 == 1) && (counter2 == 1))
+                    else if ((counters[4] == 1) && (counters[5] == 1))
                         Toast.makeText(MainActivity.this, "Your cards are exposed", Toast.LENGTH_SHORT).show();
-                    else if ((counter1 == 1) && (counter2 == 2))
+                    else if ((counters[4] == 1) && (counters[5] == 2))
                         Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
-                    else if ((counter1 == 2) && (counter2 == 1))
+                    else if ((counters[4] == 2) && (counters[5] == 1))
                         Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-//        currentCard = (ImageView) findViewById(R.id.currentCard);
-//        currentCard.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return mContext.get();
     }
-    public static ImageView getmCurrent(){
+
+    public static ImageView getmCurrent() {
         return mCurrent.get();
     }
-    public static void playerTurn(){
+
+    public static void playerTurn() {
 
         Game.currentTurn = "player";
         int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
         Drawable myDrawable = getContext().getResources().getDrawable(imageId);
         getmCurrent().setImageDrawable(myDrawable);
 
-        counter1=0;
-        counter2=0;
-        counter3=0;
-        counter4=0;
+        Arrays.fill(counters,0,7,0); // player cards are available
 
-        if ((Game.currentCard.toString().endsWith("7")) || (Game.currentCard.toString().endsWith("8"))){
-            available_playerCards12= true;
-            available_playerCards34= true;
-            available_computerCards = false;
+        if ((Game.currentCard.toString().endsWith("7")) || (Game.currentCard.toString().endsWith("8"))) {
+            Arrays.fill(counters,4,7,0); // player cards are available
+            Arrays.fill(counters,0,3,2);// computer cards are unavailable
+            peek_playerCard12 = true;
+            peek_playerCard34 = true;
+            peek_computerCard = false;
+            swap_computerCards = false;
+            swap_playerCards = true;
         }
-
         else if ((Game.currentCard.toString().endsWith("9")) || (Game.currentCard.toString().endsWith("10"))) {
-            pick_computerCard = true;
-            available_computerCards = true;
-            available_playerCards12 = false;
-            available_playerCards34 = false;
-
+            Arrays.fill(counters,0,7,0); // all cards are available
+            peek_playerCard12 = false;
+            peek_playerCard34 = false;
+            peek_computerCard = true;
+            swap_computerCards = false;
+            swap_playerCards = true;
         }
         else if ((Game.currentCard.toString().endsWith("jack")) || (Game.currentCard.toString().endsWith("queen"))) {
-            counter1=2;
-            counter2=2;
-            counter3=2;
-            counter4=2;
-            pick_computerCard = false;
-            available_computerCards = true;
-            available_playerCards12= true;
-            available_playerCards34= true;
+            Arrays.fill(counters,0,7,0); // all cards are available
+            peek_playerCard12 = false;
+            peek_playerCard34 = false;
+            peek_computerCard = false;
+            swap_computerCards = true;
+            swap_playerCards = true;
         }
         else if ((Game.currentCard.toString().equals("spadesofking") || (Game.currentCard.toString().equals("clubsofking")))) {
-            pick_computerCard = true;
-            available_computerCards = true;
-            available_playerCards12= true;
-            available_playerCards34= true;
+            Arrays.fill(counters,0,7,0); // all cards are available
+            peek_playerCard12 = true;
+            peek_playerCard34 = true;
+            peek_computerCard = true;
+            swap_computerCards = true;
+            swap_playerCards = true;
         }
         else {
-            counter1=2;
-            counter2=2;
-            counter3=2;
-            counter4=2;
-            available_playerCards12 = true;
-            available_playerCards34 = true;
+            Arrays.fill(counters,4,7,0); // player cards are available
+            Arrays.fill(counters,0,3,2); // computer cards are unavailable
+            peek_playerCard12 = false;
+            peek_playerCard34 = false;
+            peek_computerCard = false;
+            swap_computerCards = false;
+            swap_playerCards = true;
         }
+        Computer.computerTurn();
+    }
 
+    public static boolean shortPress(String cardName, ImageButton button, int i, boolean cardIsPressed) {
+        if (cardIsPressed) {  //The card is exposed
+            int imageId = getContext().getResources().getIdentifier(cardName, "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            button.setImageDrawable(myDrawable);
+            System.out.println("counter " + i+": "+counters[i]);
+            counters[i]++;
+            System.out.println("counter " + i+": "+counters[i]);
 
+            return false;
+        } else {                 // The card is hidden
+            int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            button.setImageDrawable(myDrawable);
+            System.out.println("back counter " + i+": "+counters[i]);
+            counters[i]++;
+            System.out.println("back counter " + i+": "+counters[i]);
+
+            return true;
+        }
     }
 }
 

@@ -100,7 +100,12 @@ public class Game extends MainActivity{
 
 	public static void theGame() {
 		gameOn=true;
-		MainActivity.playerTurn();
+//		int i = 0;
+//		while (i < 3) {
+            MainActivity.playerTurn();
+            Computer.computerTurn();
+//            i++;
+//        }
 //		while (gameOn) {
 //
 //		}
@@ -110,8 +115,6 @@ public class Game extends MainActivity{
 //			//System.out.println("myCards: "+myCards[i]);
 //			System.out.println("computerCards: "+Computer.computerCards[i]);
 //		}
-		Computer.computerTurn();
-
 
 		//}
 
