@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         computerCard1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                    if ((peek_computerCard == true) && (swap_computerCards == true)) {// black king allows swaping
+                    if ((peek_computerCard == true) || (swap_computerCards == true)) {// black king allows swaping
                         Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                     }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                         // the player can't swap the computer cards
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         computerCard2.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                if ((peek_computerCard == true) || (swap_computerCards == true)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         computerCard3.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                if ((peek_computerCard == true) || (swap_computerCards == true)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         computerCard4.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                if ((peek_computerCard == true) || (swap_computerCards == true)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
