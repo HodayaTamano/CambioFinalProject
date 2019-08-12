@@ -102,6 +102,7 @@ public class Game extends MainActivity{
 		gameOn=true;
 //		int i = 0;
 //		while (i < 3) {
+
             MainActivity.playerTurn();
             Computer.computerTurn();
 //            i++;

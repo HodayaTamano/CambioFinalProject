@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private static boolean peek_playerCard34 = false;
     private static boolean swap_playerCards = false;
 
+    private static  boolean start = true;
+
     // In order to use non-static function in static function,
 // we saved the context to a static field named mContext and mCurrent,
 // and we created a static methods that returns this field getContext() and getmCurrent().
@@ -98,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                     if ((peek_computerCard == true) || (swap_computerCards == true)) {// black king allows swaping
+                        chooseYourCard(computerCard1);
                         Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
-                    }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                    }else if ((peek_computerCard == true) && (swap_computerCards == false )) {
                         // the player can't swap the computer cards
                         Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
                     }
@@ -128,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 if ((peek_computerCard == true) || (swap_computerCards == true)) {
+                    chooseYourCard(computerCard2);
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
@@ -157,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 if ((peek_computerCard == true) || (swap_computerCards == true)) {
+                    chooseYourCard(computerCard3);
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
@@ -186,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 if ((peek_computerCard == true) || (swap_computerCards == true)) {
+                    chooseYourCard(computerCard4);
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
@@ -224,8 +230,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard12 == true)) {// black king allows peeking and swaping
                     // TODO Auto-generated method stub
+                    chooseYourCard(playerCard1);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
                 }else if ((swap_playerCards == true) && (peek_playerCard12 == false)){// jack queen allows swaping
+                    chooseYourCard(playerCard1);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -260,8 +268,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard12 == true)) {
                     // TODO Auto-generated method stub
+                    chooseYourCard(playerCard2);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
                 }else if ((swap_playerCards == true) && (peek_playerCard12 == false)){
+                    chooseYourCard(playerCard2);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == false", Toast.LENGTH_SHORT).show();
                 }
 
@@ -296,8 +306,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
                     // TODO Auto-generated method stub
+                    chooseYourCard(playerCard3);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == true", Toast.LENGTH_SHORT).show();
                 }else if ((swap_playerCards == true) && (peek_playerCard34 == false)){
+                    chooseYourCard(playerCard3);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == false", Toast.LENGTH_SHORT).show();
                 }
 
@@ -333,8 +345,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
                     // TODO Auto-generated method stub
+                    chooseYourCard(playerCard4);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == true", Toast.LENGTH_SHORT).show();
                 }else if ((swap_playerCards == true) && (peek_playerCard34 == false)){
+                    chooseYourCard(playerCard4);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -347,31 +361,34 @@ public class MainActivity extends AppCompatActivity {
         cardDeck.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //          clicking on the back of the card and card displays
-                if ((p_cardIsPressed1 == true) && (p_cardIsPressed2 == true)) {
-                    if ((counters[4] == 0) && (counters[5] == 0))
-                        Toast.makeText(MainActivity.this, "You didn't peek your cards", Toast.LENGTH_SHORT).show();
-                    else if ((counters[4] == 0) && (counters[5] == 2))
-                        Toast.makeText(MainActivity.this, "You peek only one card", Toast.LENGTH_SHORT).show();
-                    else if ((counters[4] == 2) && (counters[5] == 0))
-                        Toast.makeText(MainActivity.this, "You peek only one card", Toast.LENGTH_SHORT).show();
-                    else {
-                        Game.theGame();
+                if (start) {
+                    if ((p_cardIsPressed1 == true) && (p_cardIsPressed2 == true)) {
+                        if ((counters[4] == 0) && (counters[5] == 0))
+                            Toast.makeText(MainActivity.this, "You didn't peek your cards", Toast.LENGTH_SHORT).show();
+                        else if ((counters[4] == 0) && (counters[5] == 2))
+                            Toast.makeText(MainActivity.this, "You peek only one card", Toast.LENGTH_SHORT).show();
+                        else if ((counters[4] == 2) && (counters[5] == 0))
+                            Toast.makeText(MainActivity.this, "You peek only one card", Toast.LENGTH_SHORT).show();
+                        else {
+                            Game.theGame();
+                            start = false;
+                        }
 
+                    } else {
+                        if ((counters[4] == 0) && (counters[5] == 1))
+                            Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
+                        else if ((counters[4] == 1) && (counters[5] == 0))
+                            Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
+                        else if ((counters[4] == 1) && (counters[5] == 1))
+                            Toast.makeText(MainActivity.this, "Your cards are exposed", Toast.LENGTH_SHORT).show();
+                        else if ((counters[4] == 1) && (counters[5] == 2))
+                            Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
+                        else if ((counters[4] == 2) && (counters[5] == 1))
+                            Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
                     }
-
-                } else {
-                    if ((counters[4] == 0) && (counters[5] == 1))
-                        Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
-                    else if ((counters[4] == 1) && (counters[5] == 0))
-                        Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
-                    else if ((counters[4] == 1) && (counters[5] == 1))
-                        Toast.makeText(MainActivity.this, "Your cards are exposed", Toast.LENGTH_SHORT).show();
-                    else if ((counters[4] == 1) && (counters[5] == 2))
-                        Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
-                    else if ((counters[4] == 2) && (counters[5] == 1))
-                        Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
-                }
+                }else Game.theGame();
             }
+
         });
 
     }
@@ -391,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
         Drawable myDrawable = getContext().getResources().getDrawable(imageId);
         getmCurrent().setImageDrawable(myDrawable);
 
-        Arrays.fill(counters,0,7,0); // player cards are available
+//        Arrays.fill(counters,0,7,0); // player cards are available
 
         if ((Game.currentCard.toString().endsWith("7")) || (Game.currentCard.toString().endsWith("8"))) {
             Arrays.fill(counters,4,7,0); // player cards are available
@@ -436,6 +453,12 @@ public class MainActivity extends AppCompatActivity {
             swap_playerCards = true;
         }
         Computer.computerTurn();
+    }
+
+    public static void chooseYourCard (ImageButton button){
+        int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
+        Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+        button.setImageDrawable(myDrawable);
     }
 
     public static boolean shortPress(String cardName, ImageButton button, int i, boolean cardIsPressed) {
