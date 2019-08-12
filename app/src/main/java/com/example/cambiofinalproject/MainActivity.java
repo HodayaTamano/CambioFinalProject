@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     static ImageView current;
 
-    static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
+    private static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
+    private static boolean [] flags = new boolean[8]; // array flags for computer (0-3) and player (4-7) cards.
 
     static boolean p_cardIsPressed1 = true;
     static boolean p_cardIsPressed2 = true;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private static boolean peek_playerCard34 = false;
     private static boolean swap_playerCards = false;
 
-    private static  boolean start = true;
+    private static boolean start = true;
+
 
     // In order to use non-static function in static function,
 // we saved the context to a static field named mContext and mCurrent,
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                     if ((peek_computerCard == true) || (swap_computerCards == true)) {// black king allows swaping
-                        chooseYourCard(computerCard1);
+                        chooseYourCard(0,computerCard1);
                         Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                     }else if ((peek_computerCard == true) && (swap_computerCards == false )) {
                         // the player can't swap the computer cards
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 if ((peek_computerCard == true) || (swap_computerCards == true)) {
-                    chooseYourCard(computerCard2);
+                    chooseYourCard(1,computerCard2);
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 if ((peek_computerCard == true) || (swap_computerCards == true)) {
-                    chooseYourCard(computerCard3);
+                    chooseYourCard(2,computerCard3);
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
@@ -191,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 if ((peek_computerCard == true) || (swap_computerCards == true)) {
-                    chooseYourCard(computerCard4);
+                    chooseYourCard(3,computerCard4);
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
                 }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
@@ -230,10 +232,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard12 == true)) {// black king allows peeking and swaping
                     // TODO Auto-generated method stub
-                    chooseYourCard(playerCard1);
+                    chooseYourCard(4,playerCard1);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
                 }else if ((swap_playerCards == true) && (peek_playerCard12 == false)){// jack queen allows swaping
-                    chooseYourCard(playerCard1);
+                    chooseYourCard(4,playerCard1);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -268,11 +270,9 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard12 == true)) {
                     // TODO Auto-generated method stub
-                    chooseYourCard(playerCard2);
-                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
+                    chooseYourCard(5,playerCard2);
                 }else if ((swap_playerCards == true) && (peek_playerCard12 == false)){
-                    chooseYourCard(playerCard2);
-                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == false", Toast.LENGTH_SHORT).show();
+                    chooseYourCard(5,playerCard2);
                 }
 
                 return true;
@@ -306,13 +306,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
                     // TODO Auto-generated method stub
-                    chooseYourCard(playerCard3);
-                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == true", Toast.LENGTH_SHORT).show();
+                    chooseYourCard(6,playerCard3);
                 }else if ((swap_playerCards == true) && (peek_playerCard34 == false)){
-                    chooseYourCard(playerCard3);
-                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == false", Toast.LENGTH_SHORT).show();
+                    chooseYourCard(6,playerCard3);
                 }
-
                 return true;
             }
 
@@ -345,10 +342,9 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
                     // TODO Auto-generated method stub
-                    chooseYourCard(playerCard4);
-                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == true", Toast.LENGTH_SHORT).show();
+                    chooseYourCard(7 ,playerCard4);
                 }else if ((swap_playerCards == true) && (peek_playerCard34 == false)){
-                    chooseYourCard(playerCard4);
+                    chooseYourCard(7,playerCard4);
                     Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -408,7 +404,8 @@ public class MainActivity extends AppCompatActivity {
         Drawable myDrawable = getContext().getResources().getDrawable(imageId);
         getmCurrent().setImageDrawable(myDrawable);
 
-//        Arrays.fill(counters,0,7,0); // player cards are available
+        Arrays.fill(counters,0,7,0); // player cards are available
+        Arrays.fill(flags,0,7,true); // flags for long press
 
         if ((Game.currentCard.toString().endsWith("7")) || (Game.currentCard.toString().endsWith("8"))) {
             Arrays.fill(counters,4,7,0); // player cards are available
@@ -455,10 +452,22 @@ public class MainActivity extends AppCompatActivity {
         Computer.computerTurn();
     }
 
-    public static void chooseYourCard (ImageButton button){
-        int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
-        Drawable myDrawable = getContext().getResources().getDrawable(imageId);
-        button.setImageDrawable(myDrawable);
+
+
+    public static void chooseYourCard (int i, ImageButton button){
+        if (flags[i]) {
+            int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            button.setImageDrawable(myDrawable);
+            // Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
+            flags[i] = false;
+        }else{
+            int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            button.setImageDrawable(myDrawable);
+            flags[i] = true;
+        }
+
     }
 
     public static boolean shortPress(String cardName, ImageButton button, int i, boolean cardIsPressed) {
