@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     static ImageView current;
 
     private static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
-    private static boolean [] flags = new boolean[8]; // array flags for computer (0-3) and player (4-7) cards.
+    private static boolean [] c_flags = new boolean[4]; // array flags for computer (0-3)cards.
+    private static boolean [] p_flags = new boolean[4]; // array flags for player (4-7) cards.
 
     static boolean p_cardIsPressed1 = true;
     static boolean p_cardIsPressed2 = true;
@@ -405,7 +406,8 @@ public class MainActivity extends AppCompatActivity {
         getmCurrent().setImageDrawable(myDrawable);
 
         Arrays.fill(counters,0,7,0); // player cards are available
-        Arrays.fill(flags,0,7,true); // flags for long press
+        Arrays.fill(c_flags,0,4,true); // flags for long press
+        Arrays.fill(p_flags,0,4,true); // flags for long press
 
         if ((Game.currentCard.toString().endsWith("7")) || (Game.currentCard.toString().endsWith("8"))) {
             Arrays.fill(counters,4,7,0); // player cards are available
@@ -452,21 +454,61 @@ public class MainActivity extends AppCompatActivity {
         Computer.computerTurn();
     }
 
+    public static boolean flagIsFalse(int myIndex){
+        boolean answer = true;
+        if(myIndex < 4)
+            for (int i = 0; i < c_flags.length; i++)
+                if (c_flags[i]) answer = false;
+                else return true; // false is exist
+        else
+            for (int i = 0; i < p_flags.length; i++)
+                if (p_flags[i]) answer = false;
+                else return true; // false is exist
+        return answer;
+    }
 
 
     public static void chooseYourCard (int i, ImageButton button){
-        if (flags[i]) {
-            int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
-            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
-            button.setImageDrawable(myDrawable);
-            // Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
-            flags[i] = false;
-        }else{
-            int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
-            button.setImageDrawable(myDrawable);
-            flags[i] = true;
+
+        if (i < 4){
+            if (c_flags[i] && !flagIsFalse(i)) {
+                int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
+                Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+                button.setImageDrawable(myDrawable);
+                // Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
+                c_flags[i] = false;
+            }else{
+                int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+                Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+                button.setImageDrawable(myDrawable);
+                c_flags[i] = true;
+            }
+        } else {
+            if (p_flags[i-4] && !flagIsFalse(i)) {
+                int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
+                Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+                button.setImageDrawable(myDrawable);
+                // Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
+                p_flags[i-4] = false;
+            }else{
+                int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+                Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+                button.setImageDrawable(myDrawable);
+                p_flags[i-4] = true;
+            }
         }
+//        if (flags[i]) {
+//            int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
+//            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+//            button.setImageDrawable(myDrawable);
+//            // Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
+//            flags[i] = false;
+//        }else{
+//            int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+//            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+//            button.setImageDrawable(myDrawable);
+//            flags[i] = true;
+//        }
 
     }
 
