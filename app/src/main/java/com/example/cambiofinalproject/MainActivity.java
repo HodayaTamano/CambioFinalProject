@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,13 +31,16 @@ public class MainActivity extends AppCompatActivity {
 
     static ImageButton cardDeck;
 
-    static ImageView current;
+    static ImageButton current;
+    static Button swap;
 
     private static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
     private static boolean [] c_shortFlags = new boolean[4]; // array flags for computer cards (0-3).
     private static boolean [] p_shortFlags = new boolean[4]; // array flags for player cards (4-7).
     private static boolean [] c_longFlags = new boolean[4]; // array flags for computer cards (0-3).
     private static boolean [] p_longFlags = new boolean[4]; // array flags for player cards (4-7).
+    private static boolean currentFlag = true;
+
 
 
     private static boolean peek_computerCard = false;   //short press on the computer cards.
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 // we saved the context to a static field named mContext and mCurrent,
 // and we created a static methods that returns this field getContext() and getmCurrent().
     private static WeakReference<Context> mContext;
-    private static WeakReference<ImageView> mCurrent;
+//    private static WeakReference<ImageButton> mCurrent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +64,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Game.start();
 
-        current = (ImageView) findViewById(R.id.currentCard);
-        mCurrent = new WeakReference<ImageView>(current);
+        swap= (Button) findViewById(R.id.swap);
+
+        current = (ImageButton) findViewById(R.id.currentCard);
+//        mCurrent = new WeakReference<ImageButton>(current);
         mContext = new WeakReference<Context>(this);
 
         computerCard1 = (ImageButton) findViewById(R.id.computerCard1);
@@ -384,14 +390,54 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        swap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int playerCardIndex = -1;
+                int computerCardIndex = -1;
+                for (int i = 0; i < p_longFlags.length; i++){
+                    if(p_longFlags[i] == false) playerCardIndex = i;
+                    else playerCardIndex = -1;
+                }
+                for (int i = 0; i < c_longFlags.length; i++){
+                    if(c_longFlags[i] == false) computerCardIndex = i;
+                    else computerCardIndex = -1;
+                }
+                if (computerCardIndex != -1 && playerCardIndex != -1){
+                    // swap between player card and computer card
+//                    swap()
+                }
+                else if (playerCardIndex != -1){
+                    // swap between player card and current card
+//                    swap()
+                }
+                else{
+                    // You didn't chose cards to swap
+                }
+            }
+        });
+
+        current.setOnLongClickListener(new View.OnLongClickListener() { //The player wants to swap between one of his card and the current card.
+            @Override
+            public boolean onLongClick(View v) {
+
+                if (currentFlag){
+                    chooseYourCard(8, current);
+                    currentFlag = false;
+                }
+                else{
+                    chooseYourCard(9, current);
+                    currentFlag = true;
+                }
+                return false;
+            }
+        });
+
     }
+
 
     public static Context getContext() {
         return mContext.get();
-    }
-
-    public static ImageView getmCurrent() {
-        return mCurrent.get();
     }
 
     public static void playerTurn() {
@@ -399,7 +445,7 @@ public class MainActivity extends AppCompatActivity {
         Game.currentTurn = "player";
         int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
         Drawable myDrawable = getContext().getResources().getDrawable(imageId);
-        getmCurrent().setImageDrawable(myDrawable);
+        current.setImageDrawable(myDrawable);
 
         Arrays.fill(counters,0,7,0); // player cards are available
 
@@ -473,34 +519,36 @@ public class MainActivity extends AppCompatActivity {
                     if (c_shortFlags[i]) answer = false;
                     else return true; // false is exist
             else
-                for (int i = 0; i < c_shortFlags.length; i++)
+                for (int i = 0; i < p_shortFlags.length; i++)
                     if (p_shortFlags[i]) answer = false;
                     else return true; // false is exist
         }
         return answer;
     }
 
+    public static void swap (int playerIndex,int computerIndex, ImageButton playerButton, ImageButton otherButton){
+
+    }
 
     public static void chooseYourCard (int i, ImageButton button){
-        if (i < 4){
+
+        if (i < 4){ // choosing one of the computer card
             if (c_longFlags[i] && !flagIsFalse(i ,"long")) {
                 int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                 button.setImageDrawable(myDrawable);
-                // Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
-                c_longFlags[i] = false; // I chose the card
+                c_longFlags[i] = false; // I choose the card
             }else{
                 int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                 button.setImageDrawable(myDrawable);
                 c_longFlags[i] = true;
             }
-        } else {
+        } else if (i < 8){ // choosing one of the player card
             if (p_longFlags[i-4] && !flagIsFalse(i,"long")) {
                 int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                 button.setImageDrawable(myDrawable);
-                // Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
                 p_longFlags[i-4] = false;
             }else{
                 int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
@@ -508,6 +556,15 @@ public class MainActivity extends AppCompatActivity {
                 button.setImageDrawable(myDrawable);
                 p_longFlags[i-4] = true;
             }
+        } else if (i == 8){ // choosing the current card
+            String chooseCurrent = "c"+Game.currentCard;
+            int imageId = getContext().getResources().getIdentifier(chooseCurrent, "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            current.setImageDrawable(myDrawable);
+        } else { // player regret - don't want to choose current
+            int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            current.setImageDrawable(myDrawable);
         }
     }
 

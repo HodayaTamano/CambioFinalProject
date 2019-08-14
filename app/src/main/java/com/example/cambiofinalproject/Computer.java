@@ -56,18 +56,20 @@ public class Computer {
 			// if ConfigurationValue of the current card is better
 			if (minCurrent <= ConfigurationValue.before()) {
 				// swap between the card from cardDeck and computerCards[minIndex].
-				swap(Game.currentCard, minIndex);
+//				swap(Game.currentCard, minIndex);
 			}	
 			else {
 				// throw the current card to the stack.
-				Game.garbage.add(Game.currentCard);
+				//*************************************************************//
+//				Game.garbage.add(Game.currentCard);
+				//*************************************************************//
 //				System.out.println("GARBAGE "+Game.garbage.peek());
 			}
 		}
 		else{
 			if (minGarbage <= ConfigurationValue.before()) {
 				// swap between the card from garbage and computerCards[minIndex].
-				swap(Game.garbage.peek(), minIndex);
+//				swap(Game.garbage.peek(), minIndex);
 			}else{
 				// take card from the cardDeck and check again with the current card.
 				// Define current card to be the first card of the deck,
@@ -84,11 +86,13 @@ public class Computer {
 				}
 				if (minCurrent <= ConfigurationValue.before()) {
 					// swap between the card from cardDeck and computerCards[minIndex].
-					swap(Game.currentCard, minIndex);
+//					swap(Game.currentCard, minIndex);
 				}	
 				else {
 					// throw the current card to the stack.
-					Game.garbage.add(Game.currentCard);
+					//*************************************************************//
+//				Game.garbage.add(Game.currentCard);
+					//*************************************************************//
 //					System.out.println("GARBAGE: " + Game.garbage.peek());
 				}
 				}
