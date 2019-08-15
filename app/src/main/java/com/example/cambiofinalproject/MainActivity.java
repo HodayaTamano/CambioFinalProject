@@ -2,6 +2,7 @@ package com.example.cambiofinalproject;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     static ImageButton current;
     static Button swap;
+    static ImageView garbage;
 
     private static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
     private static boolean [] c_shortFlags = new boolean[4]; // array flags for computer cards (0-3).
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Game.start();
+        garbage= (ImageView) findViewById(R.id.garbage);
 
         swap= (Button) findViewById(R.id.swap);
 
@@ -393,27 +396,97 @@ public class MainActivity extends AppCompatActivity {
         swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("swap is press");
                 int playerCardIndex = -1;
                 int computerCardIndex = -1;
-                for (int i = 0; i < p_longFlags.length; i++){
-                    if(p_longFlags[i] == false) playerCardIndex = i;
-                    else playerCardIndex = -1;
+
+//                for (int i = 0 ; i <p_longFlags.length ; i++) {
+//                    if (p_longFlags[i]) {
+//                        System.out.println("true , ");
+//                    }
+//                    else System.out.println("false , ");
+//                }
+
+                for (int i = 0; i < p_longFlags.length; i++) {
+                    if (p_longFlags[i] == false) {
+                        playerCardIndex = i;   // if one of the player card are chosen.
+                        System.out.println("playerCardIndex" + playerCardIndex);
+                        break;
+                    } else playerCardIndex = -1;
                 }
-                for (int i = 0; i < c_longFlags.length; i++){
-                    if(c_longFlags[i] == false) computerCardIndex = i;
-                    else computerCardIndex = -1;
+
+                for (int i = 0; i < c_longFlags.length; i++) {          // if one of the computer card are chosen.
+                    if (c_longFlags[i] == false) {
+                        computerCardIndex = i;
+                        break;
+                    } else computerCardIndex = -1;
                 }
-                if (computerCardIndex != -1 && playerCardIndex != -1){
+
+                for (int i = 0; i < 4; i++) {
+
+                    System.out.println("PLAYER: " + Player.playerCards[i]);
+                    System.out.println("COMPUTER: " + Computer.computerCards[i]);
+                }
+
+                System.out.println("playerCardIndex  " + playerCardIndex);
+                System.out.println("computerCardIndex  " + computerCardIndex);
+                if (computerCardIndex != -1 && playerCardIndex != -1) {
                     // swap between player card and computer card
-//                    swap()
-                }
-                else if (playerCardIndex != -1){
+                    if ((playerCardIndex == 0) && (computerCardIndex == 0)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard1, computerCard1);
+                    } else if ((playerCardIndex == 0) && (computerCardIndex == 1)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard1, computerCard2);
+                    } else if ((playerCardIndex == 0) && (computerCardIndex == 2)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard1, computerCard3);
+                    } else if ((playerCardIndex == 0) && (computerCardIndex == 3)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard1, computerCard4);
+                    } else if ((playerCardIndex == 1) && (computerCardIndex == 0)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard2, computerCard1);
+                    } else if ((playerCardIndex == 1) && (computerCardIndex == 1)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard2, computerCard2);
+                    } else if ((playerCardIndex == 1) && (computerCardIndex == 2)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard2, computerCard3);
+                    } else if ((playerCardIndex == 1) && (computerCardIndex == 3)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard1, computerCard4);
+                    } else if ((playerCardIndex == 2) && (computerCardIndex == 0)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard3, computerCard1);
+                    } else if ((playerCardIndex == 2) && (computerCardIndex == 1)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard3, computerCard2);
+                    } else if ((playerCardIndex == 2) && (computerCardIndex == 2)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard3, computerCard3);
+                    } else if ((playerCardIndex == 2) && (computerCardIndex == 3)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard3, computerCard4);
+                    } else if ((playerCardIndex == 3) && (computerCardIndex == 0)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard4, computerCard1);
+                    } else if ((playerCardIndex == 3) && (computerCardIndex == 1)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard4, computerCard2);
+                    } else if ((playerCardIndex == 3) && (computerCardIndex == 2)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard4, computerCard3);
+                    } else if ((playerCardIndex == 3) && (computerCardIndex == 3)) {
+                        swap(playerCardIndex, computerCardIndex, playerCard4, computerCard4);
+                    }
+                } else if (playerCardIndex != -1) {
                     // swap between player card and current card
-//                    swap()
-                }
-                else{
+                    if (playerCardIndex == 0) {
+                        swap(playerCardIndex, -1, playerCard1, current);
+                    }
+                    if (playerCardIndex == 1) {
+                        swap(playerCardIndex, -1, playerCard2, current);
+                    }
+                    if (playerCardIndex == 2) {
+                        swap(playerCardIndex, -1, playerCard3, current);
+                    }
+                    if (playerCardIndex == 3) {
+                        swap(playerCardIndex, -1, playerCard4, current);
+                    }
+                } else {
                     // You didn't chose cards to swap
                 }
+                for (int i = 0; i < 4; i++) {
+
+                    System.out.println("PLAYER: " + Player.playerCards[i]);
+                    System.out.println("COMPUTER: " + Computer.computerCards[i]);
+                    }
             }
         });
 
@@ -528,6 +601,55 @@ public class MainActivity extends AppCompatActivity {
 
     public static void swap (int playerIndex,int computerIndex, ImageButton playerButton, ImageButton otherButton){
 
+        System.out.println("playerCardIndex"+ playerIndex);
+        System.out.println("computerIndex " + computerIndex);
+        if(computerIndex != -1) { // swap between player card and computer card
+            System.out.println("swap with computer " + computerIndex);
+
+            int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            otherButton.setImageDrawable(myDrawable);
+            playerButton.setImageDrawable(myDrawable);
+
+            int c_imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+            Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
+            garbage.setImageDrawable(c_myDrawable);
+
+            current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
+
+            System.out.println("before the swap  player " +Player.playerCards[playerIndex] );
+
+            System.out.println("before the swap  computer " +Computer.computerCards[computerIndex] );
+
+//  the real swap
+            Card temp = Computer.computerCards[computerIndex];
+            Computer.computerCards[computerIndex] = Player.playerCards[playerIndex];
+            Player.playerCards[playerIndex] = temp;
+
+            System.out.println("after the swap  player " +Player.playerCards[playerIndex] );
+
+            System.out.println("after the swap  computer " +Computer.computerCards[computerIndex] );
+
+
+        }
+        else {    // swap between player card and current card
+
+
+            int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            playerButton.setImageDrawable(myDrawable);
+
+            int c_imageId = getContext().getResources().getIdentifier(Player.playerCards[playerIndex].toString(), "drawable", getContext().getPackageName());
+            Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
+            garbage.setImageDrawable(c_myDrawable);
+
+            current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
+//  the real swap
+            Card temp = Player.playerCards[playerIndex];
+            Player.playerCards[playerIndex] = Game.currentCard;
+            Game.currentCard = temp;
+
+        }
     }
 
     public static void chooseYourCard (int i, ImageButton button){
@@ -550,6 +672,15 @@ public class MainActivity extends AppCompatActivity {
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                 button.setImageDrawable(myDrawable);
                 p_longFlags[i-4] = false;
+//                System.out.println("i=  " + i);
+//                System.out.println("p_longFlags[i-4]  " + p_longFlags[i-4]);
+//                System.out.println("p_longFlags after chose  ");
+//                for (int j = 0 ; j <p_longFlags.length ; j++) {
+//                    if (p_longFlags[j]) {
+//                        System.out.println("true , ");
+//                    }
+//                    else System.out.println("false , ");
+//                }
             }else{
                 int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
