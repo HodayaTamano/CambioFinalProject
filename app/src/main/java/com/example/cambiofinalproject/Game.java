@@ -78,7 +78,7 @@ public class Game extends MainActivity{
 			Card.cardDeck.remove(0);
 		}
 		for (int i=0; i<Card.cardDeck.size(); i++) {
-//			System.out.println("DECK: " + Card.cardDeck.get(i));
+			System.out.println("DECK: " + Card.cardDeck.get(i));
 		}
 		// Define current card to be the first card of the deck,
 		// set it as known card and remove it from the deck.
@@ -100,26 +100,19 @@ public class Game extends MainActivity{
 
 	public static void theGame() {
 		gameOn=true;
-//		int i = 0;
-//		while (i < 3) {
+		System.out.println("theGame");
 
-            MainActivity.playerTurn();
-            Computer.computerTurn();
-//            i++;
-//        }
-//		while (gameOn) {
-//
-//		}
-//
-//        Toast.makeText(Game.this, Card.cardDeck.get(0).toString(), Toast.LENGTH_SHORT).show();
-//		for (int i=0; i<4; i++) { // Printing the cards in the arrays.
-//			//System.out.println("myCards: "+myCards[i]);
-//			System.out.println("computerCards: "+Computer.computerCards[i]);
-//		}
+		if(currentTurn == "computer"){
+//			currentCard = Card.cardDeck.get(0);
+//			System.out.println("CURRENT: " + currentCard);
+//			currentCard.setKnown(true);
+//			Card.cardDeck.remove(0);
+		 	Computer.computerTurn();
+		} else
+		 	MainActivity.playerTurn();
 
-		//}
 
-	}
+    }
 
 
 
