@@ -2,6 +2,7 @@ package com.example.cambiofinalproject;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -400,7 +401,10 @@ public class MainActivity extends AppCompatActivity {
                         else if ((counters[4] == 2) && (counters[5] == 1))
                             Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
                     }
-                }else Game.theGame();
+                }else {
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                }
             }
 
         });
@@ -525,13 +529,14 @@ public class MainActivity extends AppCompatActivity {
                     Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
                     garbage.setImageDrawable(c_myDrawable);
 
-                    System.out.println("Garbage: "+Game.garbage);
-                    System.out.println("Deck: "+Card.cardDeck.get(0));
-
                     current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
 
                     Game.garbage.push(Game.currentCard);
                     Game.currentTurn = "computer";
+
+                    System.out.println("Garbage: "+Game.garbage);
+                    System.out.println("Deck: "+Card.cardDeck.get(0));
+
                     Game.theGame();
                 }
             }
@@ -549,35 +554,18 @@ public class MainActivity extends AppCompatActivity {
     public static ImageView getGarbage() {
         return mGarbage.get();
     }
-//
-//    public static ImageButton getComputerCard(int i) {
-//        if (i == 0)
-//            return mComputerCard1.get();
-//        else if (i == 1)
-//            return mComputerCard2.get();
-//        else if (i == 2)
-//            return mComputerCard3.get();
-//        else
-//            return mComputerCard4.get();
-//    }
-//    public static ImageButton getPlayerCard(int i) {
-//        if (i == 0)
-//            return mPlayerCard1.get();
-//        else if (i == 1)
-//            return mPlayerCard2.get();
-//        else if (i == 2)
-//            return mPlayerCard3.get();
-//        else
-//            return mPlayerCard4.get();
-//    }
 
     public static void playerTurn() {
         System.out.println("playerTurn");
         Game.currentTurn = "player";
 
-        int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+
+        int imageId = getContext().getResources().getIdentifier(Card.cardDeck.get(0).toString(), "drawable", getContext().getPackageName());
         Drawable myDrawable = getContext().getResources().getDrawable(imageId);
         current.setImageDrawable(myDrawable);
+
+        Game.currentCard = Card.cardDeck.get(0);
+        Card.cardDeck.remove(0);
 
         Arrays.fill(counters,0,7,0); // player cards are available
 
@@ -630,7 +618,6 @@ public class MainActivity extends AppCompatActivity {
             swap_playerCards = true;
         }
 
-//        Computer.computerTurn();
     }
 
     public static boolean flagIsFalse(int myIndex ,String press){
@@ -741,23 +728,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean shortPress(String cardName, ImageButton button, int i) {
-        System.out.println("start=  " + start);
         if (i < 4){
             if (c_shortFlags[i] && !flagIsFalse(i ,"short")) {  //to expose the card
                 int imageId = getContext().getResources().getIdentifier(cardName, "drawable", getContext().getPackageName());
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                 button.setImageDrawable(myDrawable);
-                System.out.println("counter " + i+": "+counters[i]);
                 counters[i]++;
-                System.out.println("counter " + i+": "+counters[i]);
                 return false;
             } else {                 //to hide the card
                 int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                 button.setImageDrawable(myDrawable);
-                System.out.println("back counter " + i+": "+counters[i]);
                 counters[i]++;
-                System.out.println("back counter " + i+": "+counters[i]);
                 return true;
             }
         }
@@ -766,18 +748,13 @@ public class MainActivity extends AppCompatActivity {
                 int imageId = getContext().getResources().getIdentifier(cardName, "drawable", getContext().getPackageName());
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                 button.setImageDrawable(myDrawable);
-                System.out.println("counter " + i+": "+counters[i]);
                 counters[i]++;
-                System.out.println("counter " + i+": "+counters[i]);
                 return false;
             } else {                 // The card is hidden
                 int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
                 Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                 button.setImageDrawable(myDrawable);
-                System.out.println("back counter " + i+": "+counters[i]);
                 counters[i]++;
-                System.out.println("back counter " + i+": "+counters[i]);
-
                 return true;
             }
         }

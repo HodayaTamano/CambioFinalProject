@@ -37,7 +37,7 @@ public class ConfigurationValue {
 
 		int sum = 0;
 		for (int i = 0; i < Computer.computerCards.length; i++) {
-			if (i==index) sum += card.getValue();
+			if (i == index) sum += card.getValue();
 			else if(Computer.computerCards[i].getKnown()== false)  sum+= 6;
 			else sum += Computer.computerCards[i].getValue();
 		}

@@ -65,9 +65,9 @@ public class Game extends MainActivity{
 		for (int i=0; i<4; i++) {//Dividing 4 cards for the players and remove from the deck.
 
 			Player.playerCards[i] = Card.cardDeck.get(i);
-//			System.out.println("PLAYER: " + Player.playerCards[i]);
+			System.out.println("PLAYER: " + Player.playerCards[i]);
 			Computer.computerCards[i] = Card.cardDeck.get(i+4);
-//			System.out.println("COMPUTER: " + Computer.computerCards[i]);
+			System.out.println("COMPUTER: " + Computer.computerCards[i]);
 			if (i < 2) {// the computer peek two of his cards.
 				Computer.computerCards[i].setKnown(true);
 			}
@@ -85,9 +85,13 @@ public class Game extends MainActivity{
 
 		currentCard = Card.cardDeck.get(0);
 		System.out.println("CURRENT: " + currentCard);
-		currentCard.setKnown(true);
-		Card.cardDeck.remove(0);
+		//currentCard.setKnown(true);
+//		Card.cardDeck.remove(0);
 
+
+		System.out.println(" ");
+		System.out.println("SECOND CARD: " +Card.cardDeck.get(0));
+		System.out.println(" ");
 
 
 		// The computer adds his two cards which are close to him into the ArrayList.
@@ -103,10 +107,6 @@ public class Game extends MainActivity{
 		System.out.println("theGame");
 
 		if(currentTurn == "computer"){
-//			currentCard = Card.cardDeck.get(0);
-//			System.out.println("CURRENT: " + currentCard);
-//			currentCard.setKnown(true);
-//			Card.cardDeck.remove(0);
 		 	Computer.computerTurn();
 		} else
 		 	MainActivity.playerTurn();

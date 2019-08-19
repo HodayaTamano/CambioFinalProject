@@ -1,5 +1,6 @@
 package com.example.cambiofinalproject;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -35,34 +36,46 @@ public class Computer {
 		System.out.println("computerTurn");
 		Game.currentTurn = "computer";
 
+		final Handler handler = new Handler();
+		final int delay = 1500; //milliseconds
+
 		int minGarbage = 52;
-		int minIndex = -1;
+		int minPlayerSwap = 52;
+		int indexComputer = -1; // the index of the card that I want to replace.
+		int indexPlayer = -1;
+
+		int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+		Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+
 		if (Game.garbage.peek().getValue() < 5){
 			System.out.println("the value is < 5");
 			for (int i = 0; i < computerCards.length; i++){
 				if ((!Game.garbage.isEmpty()) && (ConfigurationValue.after(Game.garbage.peek(), i) <= minGarbage)){
 					minGarbage = ConfigurationValue.after(Game.garbage.peek(), i);
-					minIndex = i;
+					indexComputer = i;
 				}
 			}
 			// display swaping between garbage card and computer card
-			int imageId = getContext().getResources().getIdentifier(Computer.computerCards[minIndex].toString(), "drawable", getContext().getPackageName());
+			int imageId = getContext().getResources().getIdentifier(Computer.computerCards[indexComputer].toString(), "drawable", getContext().getPackageName());
 			Drawable myDrawable = getContext().getResources().getDrawable(imageId);
 			MainActivity.getGarbage().setImageDrawable(myDrawable);
 
 			// the real swaping
-			Card temp = Computer.computerCards[minIndex];
-			Computer.computerCards[minIndex] = Game.garbage.pop();
+			Card temp = Computer.computerCards[indexComputer];
+			Computer.computerCards[indexComputer] = Game.garbage.pop();
 			Game.garbage.push(temp);
 
 			computerMemory.add(new CardLocation(temp, -1 , "garbage"));
-			computerMemory.add(new CardLocation(Computer.computerCards[minIndex], minIndex, "computer"));
+			computerMemory.add(new CardLocation(Computer.computerCards[indexComputer], indexComputer, "computer"));
 		}
 		else {
 			System.out.println("the value is >= 5");
 			Game.currentCard = Card.cardDeck.get(0);
 			Game.currentCard.setKnown(true);
 			Card.cardDeck.remove(0);
+
+			current.setImageDrawable(myDrawableBack);
+
 			if (Game.currentCard.getValue() == 7 || Game.currentCard.getValue() == 8){
 				System.out.println("the value is: "+Game.currentCard.getValue());
 				for (int i = 0; i < computerCards.length; i++){
@@ -72,6 +85,7 @@ public class Computer {
 						computerCards[i].setKnown(true);
 						Game.garbage.push(Game.currentCard);
 
+						// Showing to the player which card was peeked
 						int pe_imageId = getContext().getResources().getIdentifier("peekcard", "drawable", getContext().getPackageName());
 						Drawable pe_myDrawable = getContext().getResources().getDrawable(pe_imageId);
 						if (i == 0)
@@ -83,6 +97,51 @@ public class Computer {
 						else if (i == 3)
 							computerCard4.setImageDrawable(pe_myDrawable);
 
+						// After 1.5 sec flip the card.
+						if (i == 0){
+							handler.postDelayed(new Runnable(){
+								public void run(){
+									int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+									computerCard1.setImageDrawable(myDrawableBack);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+						else if (i == 1){
+							handler.postDelayed(new Runnable(){
+								public void run(){
+									int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+									computerCard2.setImageDrawable(myDrawableBack);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+
+						else if (i == 2){
+							handler.postDelayed(new Runnable(){
+								public void run(){
+									int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+									computerCard3.setImageDrawable(myDrawableBack);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+						else if (i == 3) {
+							handler.postDelayed(new Runnable(){
+								public void run(){
+									int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+									computerCard4.setImageDrawable(myDrawableBack);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+
+						}
+
+						// Throw the card (7 or 8) to the garbage.
 						int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
 						Drawable myDrawable = getContext().getResources().getDrawable(imageId);
 						getGarbage().setImageDrawable(myDrawable);
@@ -111,39 +170,48 @@ public class Computer {
 						else if (i == 3)
 							playerCard4.setImageDrawable(pe_myDrawable);
 
-//						new Timer().schedule(new TimerTask() {
-//							@Override
-//							public void run() {
-//								// this code will be executed after 2 seconds
-//								int pe_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-//								Drawable pe_myDrawable = getContext().getResources().getDrawable(pe_imageId);
-//							}
-//						}, 2000);
+						if (i == 0){
+							handler.postDelayed(new Runnable(){
+								public void run(){
+									int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+									playerCard1.setImageDrawable(myDrawableBack);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+						else if (i == 1){
+							handler.postDelayed(new Runnable(){
+								public void run(){
+									int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+									playerCard2.setImageDrawable(myDrawableBack);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
 
+						else if (i == 2){
+							handler.postDelayed(new Runnable(){
+								public void run(){
+									int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+									playerCard3.setImageDrawable(myDrawableBack);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+						else if (i == 3) {
+							handler.postDelayed(new Runnable(){
+								public void run(){
+									int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
+									playerCard4.setImageDrawable(myDrawableBack);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
 
-
-//						if (i == 0){
-//							int i_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-//							Drawable i_myDrawable = getContext().getResources().getDrawable(pe_imageId);
-//							playerCard1.setImageDrawable(i_myDrawable);
-//						}
-//						else if (i == 1){
-//							int i_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-//							Drawable i_myDrawable = getContext().getResources().getDrawable(pe_imageId);
-//							playerCard2.setImageDrawable(i_myDrawable);
-//						}
-//
-//						else if (i == 2){
-//							int i_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-//							Drawable i_myDrawable = getContext().getResources().getDrawable(pe_imageId);
-//							playerCard3.setImageDrawable(i_myDrawable);
-//						}
-//						else if (i == 3) {
-//							int i_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-//							Drawable i_myDrawable = getContext().getResources().getDrawable(pe_imageId);
-//							playerCard4.setImageDrawable(i_myDrawable);
-//						}
-
+						}
 
 						int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
 						Drawable myDrawable = getContext().getResources().getDrawable(imageId);
@@ -153,103 +221,253 @@ public class Computer {
 					}
 				}
 			}
+			else if(Game.currentCard.getValue() == 11 || Game.currentCard.getValue() == 12) {
+				System.out.println("queen or jack");
+				for (int i = 0; i < Player.playerCards.length; i++) {
+					if (Player.playerCards[i].getKnown() == true) {
+						for (int j = 0; j < computerCards.length; j++) {
+							minPlayerSwap = ConfigurationValue.after(Player.playerCards[i], j);
+							indexPlayer = i;
+							indexComputer = j;
+						}
+					}
+					else {
+						System.out.println("don't recognized");
+						continue;
+					}
+				}
+
+				// display swapping between player card and computer card
+				int c_imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
+				Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+
+				if (indexPlayer == 0)
+					playerCard1.setImageDrawable(i_myDrawable);
+				else if (indexPlayer == 1)
+					playerCard2.setImageDrawable(i_myDrawable);
+				else if (indexPlayer == 2)
+					playerCard3.setImageDrawable(i_myDrawable);
+				else if (indexPlayer == 3)
+					playerCard4.setImageDrawable(i_myDrawable);
+
+				if (indexComputer == 0)
+					computerCard1.setImageDrawable(i_myDrawable);
+				else if (indexComputer == 1)
+					computerCard2.setImageDrawable(i_myDrawable);
+				else if (indexComputer == 2)
+					computerCard3.setImageDrawable(i_myDrawable);
+				else if (indexComputer == 3)
+					computerCard4.setImageDrawable(i_myDrawable);
+
+				if (indexPlayer == 0) {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+							Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+							playerCard1.setImageDrawable(i_myDrawable);
+							handler.postDelayed(this, delay);
+						}
+					}, delay);
+				} else if (indexPlayer == 1) {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+							Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+							playerCard2.setImageDrawable(i_myDrawable);
+							handler.postDelayed(this, delay);
+						}
+					}, delay);
+				} else if (indexPlayer == 2) {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+							Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+							playerCard3.setImageDrawable(i_myDrawable);
+							handler.postDelayed(this, delay);
+						}
+					}, delay);
+				} else if (indexPlayer == 3) {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+							Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+							playerCard4.setImageDrawable(i_myDrawable);
+							handler.postDelayed(this, delay);
+						}
+					}, delay);
+				}
+
+
+				if (indexComputer == 0) {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+							Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+							computerCard1.setImageDrawable(i_myDrawable);
+							handler.postDelayed(this, delay);
+						}
+					}, delay);
+				} else if (indexComputer == 1) {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+							Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+							computerCard2.setImageDrawable(i_myDrawable);
+							handler.postDelayed(this, delay);
+						}
+					}, delay);
+				} else if (indexComputer == 2) {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+							Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+							computerCard3.setImageDrawable(i_myDrawable);
+							handler.postDelayed(this, delay);
+						}
+					}, delay);
+				} else if (indexComputer == 3) {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+							Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+							computerCard4.setImageDrawable(i_myDrawable);
+							handler.postDelayed(this, delay);
+						}
+					}, delay);
+				}
+
+
+
+				computerMemory.remove(new CardLocation(Player.playerCards[indexPlayer], indexPlayer, "player"));
+				computerMemory.add(new CardLocation(Player.playerCards[indexPlayer], indexComputer, "computer"));
+
+				computerMemory.remove(new CardLocation(Computer.computerCards[indexComputer], indexComputer, "computer"));
+				computerMemory.add(new CardLocation(Computer.computerCards[indexComputer], indexPlayer, "player"));
+
+				// the real swaping
+				Card temp = Computer.computerCards[indexComputer];
+				Computer.computerCards[indexComputer] = Player.playerCards[indexPlayer];
+				Player.playerCards[indexPlayer] = temp;
+
+				System.out.println("minPlayerSwap: "+minPlayerSwap);
+				System.out.println("indexPlayer: "+indexPlayer);
+				System.out.println("indexComputer: "+indexComputer);
+
+				Game.garbage.push(Game.currentCard);
+
+				int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+				Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+				getGarbage().setImageDrawable(myDrawable);
+
+			} else if (Game.currentCard.getValue() == 13 && Game.currentCard.getColor().equals("black")){
+				Game.garbage.push(Game.currentCard);
+				System.out.println("black king");
+			} else{
+				for (int i=0; i<computerCards.length; i++){
+					if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() - Game.currentCard.getValue()) > 5){
+						System.out.println("if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() - Game.currentCard.getValue()) > 5){");
+
+						int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
+						Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+						current.setImageDrawable(myDrawable);
+
+						if(i == 0) {
+						computerCard1.setImageDrawable(myDrawable);
+						}
+						else if(i == 1) {
+							computerCard2.setImageDrawable(myDrawable);
+						}
+						else if(i == 2) {
+							computerCard3.setImageDrawable(myDrawable);
+						}
+						else if(i == 3) {
+							computerCard4.setImageDrawable(myDrawable);
+						}
+
+						if (i == 0) {
+							handler.postDelayed(new Runnable() {
+								public void run() {
+									int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+									computerCard1.setImageDrawable(i_myDrawable);
+									current.setImageDrawable(i_myDrawable);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+						else if (i == 1) {
+							handler.postDelayed(new Runnable() {
+								public void run() {
+									int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+									computerCard2.setImageDrawable(i_myDrawable);
+									current.setImageDrawable(i_myDrawable);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+						else if (i == 2) {
+							handler.postDelayed(new Runnable() {
+								public void run() {
+									int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+									computerCard3.setImageDrawable(i_myDrawable);
+									current.setImageDrawable(i_myDrawable);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+						else if (i == 3) {
+							handler.postDelayed(new Runnable() {
+								public void run() {
+									int c_imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+									Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+									computerCard4.setImageDrawable(i_myDrawable);
+									current.setImageDrawable(i_myDrawable);
+									handler.postDelayed(this, delay);
+								}
+							}, delay);
+						}
+
+						int c_imageId = getContext().getResources().getIdentifier(Computer.computerCards[i].toString(), "drawable", getContext().getPackageName());
+						Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+						getGarbage().setImageDrawable(i_myDrawable);
+
+						Card temp = Computer.computerCards[i];
+						Computer.computerCards[i] = Game.currentCard;
+						Game.garbage.push(temp);
+
+						current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
+
+						break;
+					}
+					else{
+
+						System.out.println("there are no significant card");
+
+					}
+
+				}
+				int c_imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+				Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+				getGarbage().setImageDrawable(i_myDrawable);
+
+				Game.garbage.push(Game.currentCard);
+				System.out.println("other cards");
+
+			}
 		}
+
 
 		System.out.println("Current: " + Game.currentCard);
-		System.out.println("Garbage: " + Game.garbage.peek());
+		System.out.println("Garbage: " + Game.garbage.toString());
 
-//	//	Game.currentTurn = "computer";
-//		int minCurrent = 52;
-//		int minGarbage = 52;
-//
-//		int minIndex = 0;
-//		//		System.out.println("The current card: " +Game.currentCard);
-//		for (int i = 0; i < computerCards.length; i++) {
-//			System.out.println("The current card: " +Game.currentCard);
-//			// if the garbage is empty - Checking the ConfigurationValue with the current card.
-//			if ((Game.garbage.isEmpty()) && (ConfigurationValue.after(Game.currentCard, i) <= minCurrent)) {
-//				minCurrent = ConfigurationValue.after(Game.currentCard, i);
-//				minIndex = i;
-//				System.out.println("the garbage is null! "+Game.garbage.toString());
-//			}
-//			// if the garbage is full - Checking the ConfigurationValue with the first in the garbage.
-//			else if ((!Game.garbage.isEmpty()) && (ConfigurationValue.after(Game.garbage.peek(), i) <= minGarbage)) {
-//				minGarbage = ConfigurationValue.after(Game.garbage.peek(), i);
-//				minIndex = i;
-//				System.out.println("the garbage is full! "+Game.garbage.toString());
-//			}
-//		}
-//
-//		// if the ConfigurationValue of the current card is
-//		// less than the ConfigurationValue of the first card on the garbage.
-//		if (minCurrent <= minGarbage){
-//			// if ConfigurationValue of the current card is better
-//			if (minCurrent <= ConfigurationValue.before()) {
-//				// swap between the card from cardDeck and computerCards[minIndex].
-////				swap(Game.currentCard, minIndex);
-//			}
-//			else {
-//				// throw the current card to the stack.
-//				//*************************************************************//
-////				Game.garbage.add(Game.currentCard);
-//				//*************************************************************//
-////				System.out.println("GARBAGE "+Game.garbage.peek());
-//			}
-//		}
-//		else{
-//			if (minGarbage <= ConfigurationValue.before()) {
-//				// swap between the card from garbage and computerCards[minIndex].
-////				swap(Game.garbage.peek(), minIndex);
-//			}else{
-//				// take card from the cardDeck and check again with the current card.
-//				// Define current card to be the first card of the deck,
-//				// set it as known card and remove it from the deck.
-//				Game.currentCard = Card.cardDeck.get(0);
-//				Game.currentCard.setKnown(true);
-//				Card.cardDeck.remove(0);
-//
-//				for (int i = 0; i < computerCards.length; i++) {
-//					if (ConfigurationValue.after(Game.currentCard, i) <= minCurrent) {
-//						minCurrent = ConfigurationValue.after(Game.currentCard, i);
-//						minIndex = i;
-//					}
-//				}
-//				if (minCurrent <= ConfigurationValue.before()) {
-//					// swap between the card from cardDeck and computerCards[minIndex].
-////					swap(Game.currentCard, minIndex);
-//				}
-//				else {
-//					// throw the current card to the stack.
-//					//*************************************************************//
-////				Game.garbage.add(Game.currentCard);
-//					//*************************************************************//
-////					System.out.println("GARBAGE: " + Game.garbage.peek());
-//				}
-//				}
+		for (int i = 0; i < Player.playerCards.length; i++) {
+			System.out.println("computer:  " + computerCards[i]);
+			System.out.println("player:  " + Player.playerCards[i]);
 		}
 
-//
-//
-//	public static void swap(Card card, int minIndex) {
-//
-//		// Throw the card to the garbage and set it as known.
-//		Game.garbage.add(computerCards[minIndex]);
-////		System.out.println("GARBAGE: "+Game.garbage.peek());
-//		Game.garbage.peek().setKnown(true);;
-//
-//		// Put the current card in the computer cards
-//		computerCards[minIndex] = card;
-//
-//		// Add the card of the computer to computerMemory.
-//		if (Game.currentTurn.equals("computer")) {
-//			computerMemory.add(new CardLocation(computerCards[minIndex],minIndex,"computer"));
-//		}
-//		// Add the card of the player to computerMemory.
-//		else if(Game.currentTurn.equals("player"))
-//			computerMemory.add(new CardLocation(computerCards[minIndex],minIndex,"player"));
-//
-//		// Add the currentCard in the garbage to the computerMemory.
-//		computerMemory.add(new CardLocation(card,minIndex,"garbage"));
-//	}
-
+			Game.currentTurn = "player";
+			Game.theGame();
+		}
 }

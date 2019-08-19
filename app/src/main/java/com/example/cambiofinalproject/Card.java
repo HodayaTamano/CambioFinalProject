@@ -15,7 +15,7 @@ public class Card {
 	private int type; //initialize the type (spades, hearts...)
 	private String color;//initialize the color (black and red)
 	private String use;
-	private Boolean known; // if the card is known - return true. else, false.
+	private Boolean known = false; // if the card is known - return true. else, false.
 	private ImageView image;
 
 	public Card(){
