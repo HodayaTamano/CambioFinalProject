@@ -65,9 +65,9 @@ public class Game extends MainActivity{
 		for (int i=0; i<4; i++) {//Dividing 4 cards for the players and remove from the deck.
 
 			Player.playerCards[i] = Card.cardDeck.get(i);
-//			System.out.println("PLAYER: " + Player.playerCards[i]);
+			System.out.println("PLAYER: " + Player.playerCards[i]);
 			Computer.computerCards[i] = Card.cardDeck.get(i+4);
-//			System.out.println("COMPUTER: " + Computer.computerCards[i]);
+			System.out.println("COMPUTER: " + Computer.computerCards[i]);
 			if (i < 2) {// the computer peek two of his cards.
 				Computer.computerCards[i].setKnown(true);
 			}
