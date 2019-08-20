@@ -122,7 +122,7 @@ public class Card {
 			case 13:
 				displayCard.append("king");
 				break;
-			case 14:
+			case 1:
 				displayCard.append("ace");
 				break;
 			default:

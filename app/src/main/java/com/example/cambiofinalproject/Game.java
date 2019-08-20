@@ -2,6 +2,7 @@ package com.example.cambiofinalproject;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -55,7 +56,7 @@ public class Game extends MainActivity{
 	public static String start() {
 
 		for(int x=0; x<4; x++){          //0-3 for type (4 types)
-			for(int y=2; y<15; y++){     //2-14 for value (13 values)
+			for(int y=1; y<14; y++){     //2-14 for value (13 values)
 				Card.cardDeck.add(new Card(x,y)); //create new card and add into the deck
 			} //end value for
 		}//end type for
@@ -68,10 +69,12 @@ public class Game extends MainActivity{
 			System.out.println("PLAYER: " + Player.playerCards[i]);
 			Computer.computerCards[i] = Card.cardDeck.get(i+4);
 			System.out.println("COMPUTER: " + Computer.computerCards[i]);
-			if (i < 2) {// the computer peek two of his cards.
-				Computer.computerCards[i].setKnown(true);
-			}
 		}
+
+		// the computer peek two of his cards at the begining of the game.
+		Computer.computerCards[0].setKnown(true);
+		Computer.computerCards[1].setKnown(true);
+
 //		System.out.println("Card.cardDeck.get(0) before " +Card.cardDeck.get(0));
 
 		for (int i=0; i<8; i++) { // Removing the cards from the Deck.
@@ -93,6 +96,10 @@ public class Game extends MainActivity{
 		System.out.println("SECOND CARD: " +Card.cardDeck.get(0));
 		System.out.println(" ");
 
+//		MainActivity.garbage.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
+
+
+
 
 		// The computer adds his two cards which are close to him into the ArrayList.
 		Computer.computerMemory.add(new CardLocation(Computer.computerCards[0],0,"computer"));
@@ -106,8 +113,18 @@ public class Game extends MainActivity{
 		gameOn=true;
 		System.out.println("theGame");
 
+		final Handler handler = new Handler();
+		final int delay = 1500; //milliseconds
+
 		if(currentTurn == "computer"){
-		 	Computer.computerTurn();
+			Computer.computerTurn();
+			handler.postDelayed(new Runnable(){
+				public void run(){
+
+					handler.postDelayed(this, delay);
+				}
+			}, delay);
+
 		} else
 		 	MainActivity.playerTurn();
 
