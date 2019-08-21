@@ -113,17 +113,8 @@ public class Game extends MainActivity{
 		gameOn=true;
 		System.out.println("theGame");
 
-		final Handler handler = new Handler();
-		final int delay = 1500; //milliseconds
-
 		if(currentTurn == "computer"){
 			Computer.computerTurn();
-			handler.postDelayed(new Runnable(){
-				public void run(){
-
-					handler.postDelayed(this, delay);
-				}
-			}, delay);
 
 		} else
 		 	MainActivity.playerTurn();

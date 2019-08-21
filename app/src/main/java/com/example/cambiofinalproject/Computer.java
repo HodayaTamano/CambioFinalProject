@@ -50,6 +50,7 @@ public class Computer {
 		int imageIdCurrent = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
 		Drawable myDrawableCurrent = getContext().getResources().getDrawable(imageIdCurrent);
 
+		System.out.println("First element in the garbage is "+Game.garbage.peek());
 		if (Game.garbage.peek().getValue() < 5){
 			System.out.println("The computer see that the value in the garbage is < 5");
 			for (int i = 0; i < computerCards.length; i++){
@@ -64,18 +65,18 @@ public class Computer {
 				System.out.print(computerCards[i] + " ");
 			}
 			System.out.print("]");
-
 			// display swaping between garbage card and computer card
 			System.out.println("swaping between garbage card and computer card");
 			int imageId = getContext().getResources().getIdentifier(Computer.computerCards[indexComputer].toString(), "drawable", getContext().getPackageName());
 			Drawable myDrawable = getContext().getResources().getDrawable(imageId);
 			getGarbage().setImageDrawable(myDrawable);
 
-
 			// the real swaping
 			Card temp = Computer.computerCards[indexComputer];
 			Computer.computerCards[indexComputer] = Game.garbage.pop();
 			Game.garbage.push(temp);
+			Game.currentCard = Game.garbage.peek();
+
 
 			System.out.print("The computer cards are: [");
 			for (int i = 0; i < computerCards.length; i++) {
@@ -99,11 +100,10 @@ public class Computer {
 					if (computerCards[i].getKnown() == false){
 //						System.out.println("if (computerCards[i].getKnown() == false){");
 
-						getGarbage().setImageDrawable(myDrawableCurrent);
+//						getGarbage().setImageDrawable(myDrawableCurrent);
 
 						Computer.computerMemory.add(new CardLocation(computerCards[i] , i,"computer"));
 						computerCards[i].setKnown(true);
-						Game.garbage.push(Game.currentCard);
 
 						// Showing to the player which card was peeked
 						int pe_imageId = getContext().getResources().getIdentifier("peekcard", "drawable", getContext().getPackageName());
@@ -165,10 +165,15 @@ public class Computer {
 
 						System.out.print("The computer throws the card "+Game.currentCard.toString()+" to the garbage");
 
+
 						// Throw the card (7 or 8) to the garbage.
 						int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
 						Drawable myDrawable = getContext().getResources().getDrawable(imageId);
 						getGarbage().setImageDrawable(myDrawable);
+
+						Game.garbage.push(Game.currentCard);
+						Game.currentCard = Game.garbage.peek();
+
 
 
 						break;
@@ -181,11 +186,11 @@ public class Computer {
 					if (Player.playerCards[i].getKnown() == false){
 //						System.out.println("if (Player.playerCards[i].getKnown() == false){");
 
-						getGarbage().setImageDrawable(myDrawableCurrent);
+//						getGarbage().setImageDrawable(myDrawableCurrent);
 
 						Computer.computerMemory.add(new CardLocation(Player.playerCards[i] , i,"player"));
 						Player.playerCards[i].setKnown(true);
-						Game.garbage.push(Game.currentCard);
+
 
 						int pe_imageId = getContext().getResources().getIdentifier("peekcard", "drawable", getContext().getPackageName());
 						Drawable pe_myDrawable = getContext().getResources().getDrawable(pe_imageId);
@@ -246,6 +251,9 @@ public class Computer {
 						int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
 						Drawable myDrawable = getContext().getResources().getDrawable(imageId);
 						getGarbage().setImageDrawable(myDrawable);
+
+						Game.garbage.push(Game.currentCard);
+						Game.currentCard = Game.garbage.peek();
 
 						break;
 					}
@@ -385,45 +393,58 @@ public class Computer {
 				for (int i = 0; i < computerCards.length; i++) {
 					System.out.print(computerCards[i] + " ");
 				}
-				System.out.print("]");
+				System.out.println("]");
+				System.out.println("");
+
 
 				System.out.print("The player cards are: [");
 				for (int i = 0; i < Player.playerCards.length; i++) {
 					System.out.print(Player.playerCards[i] + " ");
 				}
-				System.out.print("]");
+				System.out.println("]");
+				System.out.println("");
 
+// SWAP - PROBLEM!!!!!!!!!!
 				// the real swaping
 				Card temp = Computer.computerCards[indexComputer];
 				Computer.computerCards[indexComputer] = Player.playerCards[indexPlayer];
 				Player.playerCards[indexPlayer] = temp;
+
+
 				System.out.println("10 - after swap");
 				System.out.print("The computer cards are: [");
 				for (int i = 0; i < computerCards.length; i++) {
 					System.out.print(computerCards[i] + " ");
 				}
-				System.out.print("]");
+				System.out.println("]");
+				System.out.println("");
+
 
 				System.out.print("The player cards are: [");
 				for (int i = 0; i < Player.playerCards.length; i++) {
 					System.out.print(Player.playerCards[i] + " ");
 				}
-				System.out.print("]");
+				System.out.println("]");
+				System.out.println("");
 
 				System.out.println("minPlayerSwap: "+minPlayerSwap);
 				System.out.println("indexPlayer: "+indexPlayer);
 				System.out.println("indexComputer: "+indexComputer);
 
 				Game.garbage.push(Game.currentCard);
+				Game.currentCard = Game.garbage.peek();
+
 				System.out.println("11 - after pushing to garbage");
 				int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
 				Drawable myDrawable = getContext().getResources().getDrawable(imageId);
-				getGarbage().setImageDrawable(myDrawable);
+//				getGarbage().setImageDrawable(myDrawable);
 				System.out.println("12");
 
 			} else if (Game.currentCard.getValue() == 13 && Game.currentCard.getColor().equals("black")){
 				System.out.println("the value in the current is black king");
 				Game.garbage.push(Game.currentCard);
+				Game.currentCard = Game.garbage.peek();
+
 			} else{
 				System.out.println("Other card - the value in the current 1-6");
 				for (int i=0; i<computerCards.length; i++){
@@ -431,17 +452,14 @@ public class Computer {
                     System.out.println("the card is "+computerCards[i]);
                     System.out.println("computerCards[i].getKnown() = "+computerCards[i].getKnown()+" && (computerCards[i].getValue() - Game.currentCard.getValue()) = "+(computerCards[i].getValue() - Game.currentCard.getValue()));
 
-                    if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() - Game.currentCard.getValue()) > 5){
-						System.out.println("if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() - Game.currentCard.getValue()) > 5){");
+                    if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() > Game.currentCard.getValue())){
+						System.out.println("if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() > Game.currentCard.getValue())");
 
 						int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
 						Drawable myDrawable = getContext().getResources().getDrawable(imageId);
 
 						int imageIdCDeck = getContext().getResources().getIdentifier("cbackdeck", "drawable", getContext().getPackageName());
 						Drawable myDrawableCDeck = getContext().getResources().getDrawable(imageIdCDeck);
-
-
-
 						cardDeck.setImageDrawable(myDrawableCDeck);
 
 						if(i == 0) {
@@ -519,16 +537,17 @@ public class Computer {
 						}
 						System.out.println("the i is: "+ i);
 
-						int c_imageId = getContext().getResources().getIdentifier(Computer.computerCards[i].toString(), "drawable", getContext().getPackageName());
-						Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
-						getGarbage().setImageDrawable(i_myDrawable);
+						int cimageId = getContext().getResources().getIdentifier(Computer.computerCards[i].toString(), "drawable", getContext().getPackageName());
+						Drawable cmyDrawable = getContext().getResources().getDrawable(cimageId);
+						getGarbage().setImageDrawable(cmyDrawable);
 
 						System.out.println("current card before swap: "+Game.currentCard);
 						System.out.println("computer card before swap: "+Computer.computerCards[i]);
 						Card temp = Computer.computerCards[i];
 						Computer.computerCards[i] = Game.currentCard;
-						Game.currentCard = temp;
 						Game.garbage.push(temp);
+						Game.currentCard = Game.garbage.peek();
+
 						System.out.println("current card after swap: "+Game.currentCard);
 						System.out.println("computer card after swap: "+Computer.computerCards[i]);
 
@@ -547,7 +566,12 @@ public class Computer {
 				Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
 				getGarbage().setImageDrawable(i_myDrawable);
 
+
 				Game.garbage.push(Game.currentCard);
+				Game.currentCard = Game.garbage.peek();
+
+				current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
+
 
 			}
 		}

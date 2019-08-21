@@ -42,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private static boolean [] p_longFlags = new boolean[4]; // array flags for player cards (4-7).
     private static boolean currentFlag = true;
     private static boolean garbageFlag = true;
+    private static boolean cardDeckFlag = true;
 
-    private static boolean peek_computerCard = false;   //short press on the computer cards.
-    private static boolean swap_computerCards = false;
     private static boolean peek_playerCard12 = true;
     private static boolean peek_playerCard34 = false;
     private static boolean swap_playerCards = false;
+    private static boolean peek_computerCard = false;   //short press on the computer cards.
+    private static boolean swap_computerCards = false;
 
     private static boolean start = true;
 
@@ -375,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
         cardDeck.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //          clicking on the back of the card and card displays
+                cardDeckFlag = false;
                 if (start) {
                     if ((p_shortFlags[0] == true) && (p_shortFlags[1] == true)) {
                         if ((counters[4] == 0) && (counters[5] == 0))
@@ -402,13 +404,22 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
                     }
                 }else {
+                    Game.currentTurn = "player";
+//                    Game.theGame();
+
+//                    System.out.println("The first in the deck: "+Card.cardDeck.get(0).toString());
+//                    System.out.println("The current cardd: "+Game.currentCard);
+
                     int imageId = getContext().getResources().getIdentifier(Card.cardDeck.get(0).toString(), "drawable", getContext().getPackageName());
                     Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                     current.setImageDrawable(myDrawable);
 
-                    Game.currentTurn = "player";
-                    Game.theGame();
+                    Game.currentCard = Card.cardDeck.get(0);
+                    Card.cardDeck.remove(0);
+//                    System.out.println("The first in the deck: "+Card.cardDeck.get(0).toString());
+//                    System.out.println("The current cardd: "+Game.currentCard);
                 }
+                cardDeckFlag = true;
             }
 
         });
@@ -432,12 +443,19 @@ public class MainActivity extends AppCompatActivity {
                     if (c_longFlags[i] == false) {
                         computerCardIndex = i;
                         break;
-                    } else computerCardIndex = -1;
-//                    else if (garbageFlag) computerCardIndex = -2;
+                    } else if (!currentFlag){
+                        computerCardIndex = -1;
+                        System.out.println("computerCardIndex: "+computerCardIndex);
+                    }
+                    else if (!garbageFlag){
+                        computerCardIndex = -2;
+                        System.out.println("computerCardIndex: "+computerCardIndex);
+                    }
                 }
 
-                if (computerCardIndex != -1 && playerCardIndex != -1) {
+                if (computerCardIndex > -1 && playerCardIndex > -1) {
                     // swap between player card and computer card
+                    System.out.println("swap between player card "+Player.playerCards[playerCardIndex]+" and computer card "+Computer.computerCards[computerCardIndex]);
                     if ((playerCardIndex == 0) && (computerCardIndex == 0)) {
                         swap(playerCardIndex, computerCardIndex, playerCard1, computerCard1);
                     } else if ((playerCardIndex == 0) && (computerCardIndex == 1)) {
@@ -471,8 +489,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if ((playerCardIndex == 3) && (computerCardIndex == 3)) {
                         swap(playerCardIndex, computerCardIndex, playerCard4, computerCard4);
                     }
-                } else if (playerCardIndex != -1 && computerCardIndex == -1 ) { // Problem
+                } else if (playerCardIndex != -1 && computerCardIndex == -1) { // Problem
                     // swap between player card and current card
+                    System.out.println("swap between player card "+Player.playerCards[playerCardIndex]+" and current card "+Game.currentCard);
                     if (playerCardIndex == 0) {
                         swap(playerCardIndex, -1, playerCard1, current);
                     }
@@ -485,8 +504,9 @@ public class MainActivity extends AppCompatActivity {
                     if (playerCardIndex == 3) {
                         swap(playerCardIndex, -1, playerCard4, current);
                     }
-                } else {
+                } else if (playerCardIndex != -1 && computerCardIndex == -2){
                     // swap between player card and garbage card
+                    System.out.println("swap between player card "+Player.playerCards[playerCardIndex]+" and garbage card "+Game.garbage.peek());
                     if (playerCardIndex == 0) {
                         swap(playerCardIndex, -2, playerCard1, garbage);
                     }
@@ -501,6 +521,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+                garbageFlag = true;
+                currentFlag = true;
 
             }
         });
@@ -512,10 +534,13 @@ public class MainActivity extends AppCompatActivity {
                 if (currentFlag){
                     chooseYourCard(8, current);
                     currentFlag = false; //if the player choose the current card - change his flag to false
+                    System.out.println("currentFlag = "+currentFlag);
+
                 }
                 else{
                     chooseYourCard(9, current);
                     currentFlag = true;
+                    System.out.println("currentFlag = "+currentFlag);
                 }
                 return false;
             }
@@ -525,12 +550,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-                if (garbageFlag) {
+                if (garbageFlag && Game.currentCard == Game.garbage.peek()) {
                     chooseYourCard(10, garbage);
                     garbageFlag = false;
+                    System.out.println("garbageFlag = "+garbageFlag);
                 } else {
                     chooseYourCard(11, garbage);
                     garbageFlag = true;
+                    System.out.println("garbageFlag = "+garbageFlag);
                 }
                 return false;
             }
@@ -560,17 +587,19 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(check == 16){
                     // Throw the current card into the garbage.
-                    int c_imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
-                    Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
-                    garbage.setImageDrawable(c_myDrawable);
+//                    if (!currentFlag) {
+                        int c_imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+                        Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
+                        garbage.setImageDrawable(c_myDrawable);
+//                    }
 
                     current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
 
                     Game.garbage.push(Game.currentCard);
+                    Game.currentCard = Game.garbage.peek();
                     Game.currentTurn = "computer";
 
                     System.out.println("Garbage: "+Game.garbage);
-                    System.out.println("Deck: "+Card.cardDeck.get(0));
 
                     final Handler handler = new Handler();
                     final int delay = 1500; //milliseconds
@@ -600,17 +629,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void playerTurn() {
+
         System.out.println("playerTurn");
         Game.currentTurn = "player";
 
-        if(start){
+        if(start || !cardDeckFlag){
             int imageId = getContext().getResources().getIdentifier(Card.cardDeck.get(0).toString(), "drawable", getContext().getPackageName());
             Drawable myDrawable = getContext().getResources().getDrawable(imageId);
             current.setImageDrawable(myDrawable);
-        }
+            Game.currentCard = Card.cardDeck.get(0);
+            Card.cardDeck.remove(0);
 
-        Game.currentCard = Card.cardDeck.get(0);
-        Card.cardDeck.remove(0);
+        }else{
+
+            Game.currentCard = Game.garbage.peek();
+        }
 
         Arrays.fill(counters,0,7,0); // player cards are available
 
@@ -662,7 +695,6 @@ public class MainActivity extends AppCompatActivity {
             swap_computerCards = false;
             swap_playerCards = true;
         }
-
     }
 
     public static boolean flagIsFalse(int myIndex ,String press){
@@ -695,8 +727,8 @@ public class MainActivity extends AppCompatActivity {
     public static void swap (int playerIndex,int computerIndex, ImageButton playerButton, ImageButton otherButton) {
 
 
-        if (computerIndex != -1 && playerIndex != -1) { // swap between player card and computer card
-            System.out.println("swap between player card and computer card");
+        if (computerIndex > -1 && playerIndex > -1) { // swap between player card and computer card
+            System.out.println("swap function: swap between player card and computer card");
             int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
             Drawable myDrawable = getContext().getResources().getDrawable(imageId);
             otherButton.setImageDrawable(myDrawable);
@@ -712,7 +744,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else if (playerIndex != -1 && computerIndex == -1) {    // swap between player card and current card
-            System.out.println("swap between player card and current card");
+            System.out.println("swap function: swap between player card and current card");
             System.out.println("playerIndex = "+ playerIndex);
             System.out.println("computerIndex = "+ computerIndex);
 
@@ -745,6 +777,24 @@ public class MainActivity extends AppCompatActivity {
             p_longFlags[playerIndex] = true;
         }
         else if (playerIndex != -1 && computerIndex == -2){
+            System.out.println("swap function: swap between player card and garbage card");
+            int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+            playerButton.setImageDrawable(myDrawable);
+
+            int c_imageId = getContext().getResources().getIdentifier(Player.playerCards[playerIndex].toString(), "drawable", getContext().getPackageName());
+            Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
+            getGarbage().setImageDrawable(c_myDrawable);
+
+//  the real swap
+
+            Card temp = Player.playerCards[playerIndex];
+            Player.playerCards[playerIndex] = Game.garbage.pop();
+            Game.garbage.push(temp);
+            Game.currentCard = Game.garbage.peek();
+
+            p_longFlags[playerIndex] = true;
+        }else if (playerIndex != -1 && computerIndex == -2){
             System.out.println("player and garbage");
             int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
             Drawable myDrawable = getContext().getResources().getDrawable(imageId);
@@ -758,6 +808,7 @@ public class MainActivity extends AppCompatActivity {
             Card temp = Player.playerCards[playerIndex];
             Player.playerCards[playerIndex] = Game.garbage.pop();
             Game.garbage.push(temp);
+            Game.currentCard = Game.garbage.peek();
 
             p_longFlags[playerIndex] = true;
         }
