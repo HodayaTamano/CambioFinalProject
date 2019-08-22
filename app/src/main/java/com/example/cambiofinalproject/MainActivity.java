@@ -201,9 +201,11 @@ public class MainActivity extends AppCompatActivity {
                 } else if ((peek_computerCard == true) && (swap_computerCards == false)) {
                     c_shortFlags[3] = shortPress(Computer.computerCards[3].toString(), computerCard4, 3);
                 } else if ((peek_computerCard == false) && (swap_computerCards == true)) {
-
+                    Toast.makeText(MainActivity.this, "(peek_computerCard == false) && (swap_computerCards == true)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(peek_computerCard == false) && (swap_computerCards == true)");
                 } else if ((peek_computerCard == false) && (swap_computerCards == false)) {
-
+                    Toast.makeText(MainActivity.this, "(peek_computerCard == false) && (swap_computerCards == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(peek_computerCard == false) && (swap_computerCards == false)");
                 }
             }
         });
@@ -239,9 +241,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == true) && (peek_playerCard12 == false)) {// jack queen allows swaping
                     // the player can't peek his cards
+                    Toast.makeText(MainActivity.this, "(swap_playerCards == true) && (peek_playerCard12 == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(swap_playerCards == true) && (peek_playerCard12 == false)");
 
                 } else if ((swap_playerCards == false) && (peek_playerCard12 == false)) {
                     // the player can't peek and swap his cards
+                    Toast.makeText(MainActivity.this, "(swap_playerCards == false) && (peek_playerCard12 == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(swap_playerCards == false) && (peek_playerCard12 == false)");
                 }
             }
         });
@@ -277,9 +283,12 @@ public class MainActivity extends AppCompatActivity {
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == true) && (peek_playerCard12 == false)) {
+                    Toast.makeText(MainActivity.this, "(swap_playerCards == true) && (peek_playerCard12 == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(swap_playerCards == true) && (peek_playerCard12 == false)");
 
                 } else if ((swap_playerCards == false) && (peek_playerCard12 == false)) {
-
+                    Toast.makeText(MainActivity.this, "(swap_playerCards == false) && (peek_playerCard12 == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(swap_playerCards == false) && (peek_playerCard12 == false)");
                 }
             }
         });
@@ -313,8 +322,12 @@ public class MainActivity extends AppCompatActivity {
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == true) && (peek_playerCard34 == false)) {
+                    Toast.makeText(MainActivity.this, "(swap_playerCards == true) && (peek_playerCard34 == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(swap_playerCards == true) && (peek_playerCard34 == false)");
 
                 } else if ((swap_playerCards == false) && (peek_playerCard34 == false)) {
+                    Toast.makeText(MainActivity.this, "(swap_playerCards == false) && (peek_playerCard34 == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(swap_playerCards == false) && (peek_playerCard34 == false)");
 
                 }
             }
@@ -349,8 +362,12 @@ public class MainActivity extends AppCompatActivity {
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == true) && (peek_playerCard34 == false)) {
+                    Toast.makeText(MainActivity.this, "(swap_playerCards == true) && (peek_playerCard34 == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(swap_playerCards == true) && (peek_playerCard34 == false)");
 
                 } else if ((swap_playerCards == false) && (peek_playerCard34 == false)) {
+                    Toast.makeText(MainActivity.this, "(swap_playerCards == false) && (peek_playerCard34 == false)", Toast.LENGTH_SHORT).show();
+                    System.out.println("(swap_playerCards == false) && (peek_playerCard34 == false)");
 
                 }
             }
@@ -453,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (computerCardIndex > -1 && playerCardIndex > -1) {
+                if (computerCardIndex > -1 && playerCardIndex > -1 && !start) {
                     // swap between player card and computer card
                     System.out.println("swap between player card "+Player.playerCards[playerCardIndex]+" and computer card "+Computer.computerCards[computerCardIndex]);
                     if ((playerCardIndex == 0) && (computerCardIndex == 0)) {
@@ -520,10 +537,12 @@ public class MainActivity extends AppCompatActivity {
                         swap(playerCardIndex, -2, playerCard4, garbage);
                     }
 
-                }
+                }else if (start) Toast.makeText(MainActivity.this, "You can't swap cards now - press on the deck", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(MainActivity.this, "You didn't choose the cards you want to swap", Toast.LENGTH_SHORT).show();
+
+
                 garbageFlag = true;
                 currentFlag = true;
-
             }
         });
 

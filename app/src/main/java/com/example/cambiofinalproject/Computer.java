@@ -53,6 +53,9 @@ public class Computer {
 		int imageIdChosen = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
 		Drawable myDrawableChosen = getContext().getResources().getDrawable(imageIdChosen);
 
+        int imageIdCDeck = getContext().getResources().getIdentifier("cbackdeck", "drawable", getContext().getPackageName());
+        Drawable myDrawableCDeck = getContext().getResources().getDrawable(imageIdCDeck);
+
 
 		System.out.println("First element in the garbage is "+Game.garbage.peek());
 		if (Game.garbage.peek().getValue() < 5){
@@ -103,7 +106,7 @@ public class Computer {
 					int imageId = getContext().getResources().getIdentifier(Game.garbage.peek().toString(), "drawable", getContext().getPackageName());
 					Drawable myDrawable = getContext().getResources().getDrawable(imageId);
 					getGarbage().setImageDrawable(myDrawable);
-					
+
 					handler.postDelayed(this, delay);
 				}
 			}, delay);
@@ -190,6 +193,7 @@ public class Computer {
 							computerCard3.setImageDrawable(pe_myDrawable);
 						else if (i == 3)
 							computerCard4.setImageDrawable(pe_myDrawable);
+
 						System.out.println("3");
 
 						// After 1.5 sec flip the card.
@@ -531,8 +535,7 @@ public class Computer {
 						int imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
 						Drawable myDrawable = getContext().getResources().getDrawable(imageId);
 
-						int imageIdCDeck = getContext().getResources().getIdentifier("cbackdeck", "drawable", getContext().getPackageName());
-						Drawable myDrawableCDeck = getContext().getResources().getDrawable(imageIdCDeck);
+
 						cardDeck.setImageDrawable(myDrawableCDeck);
 
 						if(i == 0) {
@@ -618,7 +621,7 @@ public class Computer {
 						System.out.println("computer card before swap: "+Computer.computerCards[i]);
 						Card temp = Computer.computerCards[i];
 						Computer.computerCards[i] = Game.currentCard;
-						Game.garbage.push(temp);
+//						Game.garbage.push(temp);
 						Game.currentCard = Game.garbage.peek();
 
 						System.out.println("current card after swap: "+Game.currentCard);
@@ -629,12 +632,21 @@ public class Computer {
 						break;
 					}
 					else{
-
 						System.out.println("there are no significant card");
+                        cardDeck.setImageDrawable(myDrawableCDeck);
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
 
+                                int imageIdDeck = getContext().getResources().getIdentifier("backdeck", "drawable", getContext().getPackageName());
+                                Drawable myDrawableDeck = getContext().getResources().getDrawable(imageIdDeck);
+                                cardDeck.setImageDrawable(myDrawableDeck);
+
+                                handler.postDelayed(this, delay);
+                            }
+                        }, delay);
 					}
-
 				}
+
 				int c_imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
 				Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
 				getGarbage().setImageDrawable(i_myDrawable);
