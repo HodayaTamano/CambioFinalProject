@@ -41,8 +41,8 @@ public class Computer {
 
 		int minGarbage = 52;
 		int minPlayerSwap = 52;
-		int indexComputer = -1; // the index of the card that I want to replace.
-		int indexPlayer = -1;
+		int indexComputer = 0; // the index of the card that I want to replace.
+		int indexPlayer = 0;
 
 		int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
 		Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
@@ -338,24 +338,21 @@ public class Computer {
 			}
 			else if(Game.currentCard.getValue() == 11 || Game.currentCard.getValue() == 12) {
 				System.out.println("the value in the current queen or jack");
-				System.out.println("1");
 				for (int i = 0; i < Player.playerCards.length; i++) {
 					if (Player.playerCards[i].getKnown() == true) {
-						System.out.println("2 - if");
 						for (int j = 0; j < computerCards.length; j++) {
-							System.out.println("3");
-							minPlayerSwap = ConfigurationValue.after(Player.playerCards[i], j);
-							indexPlayer = i;
-							indexComputer = j;
+							if (ConfigurationValue.after(Player.playerCards[i], j) < minPlayerSwap) {
+								minPlayerSwap = ConfigurationValue.after(Player.playerCards[i], j);
+								indexPlayer = i;
+								indexComputer = j;
+							}
 						}
 					}
 					else {
-						System.out.println("2 - else");
 						System.out.println("don't recognized");
 						continue;
 					}
 				}
-				System.out.println("4");
 				// display swapping between player card and computer card
 				System.out.println("swapping between player card and computer card");
 //				int c_imageId = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
@@ -481,11 +478,11 @@ public class Computer {
 				System.out.println("]");
 				System.out.println("");
 
-// SWAP - PROBLEM!!!!!!!!!!
 				// the real swaping
 				Card temp = Computer.computerCards[indexComputer];
 				Computer.computerCards[indexComputer] = Player.playerCards[indexPlayer];
 				Player.playerCards[indexPlayer] = temp;
+
 
 
 				System.out.println("10 - after swap");
@@ -508,13 +505,15 @@ public class Computer {
 				System.out.println("indexPlayer: "+indexPlayer);
 				System.out.println("indexComputer: "+indexComputer);
 
+
+
 				Game.garbage.push(Game.currentCard);
 				Game.currentCard = Game.garbage.peek();
 
 				System.out.println("11 - after pushing to garbage");
 				int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
 				Drawable myDrawable = getContext().getResources().getDrawable(imageId);
-//				getGarbage().setImageDrawable(myDrawable);
+				getGarbage().setImageDrawable(myDrawable);
 				System.out.println("12");
 
 			} else if (Game.currentCard.getValue() == 13 && Game.currentCard.getColor().equals("black")){

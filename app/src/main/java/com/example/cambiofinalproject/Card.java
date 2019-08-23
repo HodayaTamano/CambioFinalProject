@@ -21,6 +21,8 @@ public class Card {
 	public Card(){
 
 	}
+
+
 	public Boolean getKnown() {
 		return known;
 	}
