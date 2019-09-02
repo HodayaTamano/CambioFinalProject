@@ -938,6 +938,7 @@ public class Computer {
                                     Computer.computerMemory.add(new CardLocation(Computer.computerCards[j], j, "computer"));
                                     break;
 
+                                    
                                 }else{
                                     System.out.println("else - the difference < 4");
                                     computerKnownCard++;
