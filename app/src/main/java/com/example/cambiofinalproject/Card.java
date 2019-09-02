@@ -45,6 +45,10 @@ public class Card {
 
 	//Getters
 	public String getColor() {
+		if (this.type == 0 || this.type == 2)
+			color = "black";
+		else if (this.type == 1 || this.type == 3)
+			color = "red";
 		return color;
 	}
 
