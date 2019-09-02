@@ -816,6 +816,9 @@ public class MainActivity extends AppCompatActivity {
             current.setImageDrawable(c_myDrawable);
 
             System.out.print("The computer cards before the swapping are: [");
+
+
+
             for (int i = 0; i < Computer.computerCards.length; i++) {
                 System.out.print(Computer.computerCards[i] + " ");
             }
