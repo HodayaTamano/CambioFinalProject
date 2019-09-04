@@ -63,6 +63,10 @@ public class Computer {
         int imageIdCDeck = getContext().getResources().getIdentifier("cbackdeck", "drawable", getContext().getPackageName());
         Drawable myDrawableCDeck = getContext().getResources().getDrawable(imageIdCDeck);
 
+        for(int i = 0; i< computerMemory.size(); i++){
+            System.out.println(computerMemory.get(i));
+        }
+
 
         System.out.println("First element in the garbage is " + Game.garbage.peek());
         if (Game.garbage.peek().getValue() < 5) {
@@ -87,11 +91,20 @@ public class Computer {
             Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
             getGarbage().setImageDrawable(c_myDrawable);
 
+            computerMemory.remove(new CardLocation(Game.garbage.peek(), -1, "garbage"));
+            computerMemory.add(new CardLocation(Game.garbage.peek(), indexComputer, "computer"));
+
+            computerMemory.remove(new CardLocation(Computer.computerCards[indexComputer], indexComputer, "computer"));
+            computerMemory.add(new CardLocation(Computer.computerCards[indexComputer], -1, "garbage"));
+
+
             // the real swaping
             Card temp = Computer.computerCards[indexComputer];
             Computer.computerCards[indexComputer] = Game.garbage.pop();
             Game.garbage.push(temp);
             Game.currentCard = Game.garbage.peek();
+           // Computer.computerMemory.add(new CardLocation(Game.garbage.peek(),-1, "garbage"));
+
 
             if (indexComputer == 0)
                 computerCard1.setImageDrawable(myDrawableChosen);
@@ -166,7 +179,9 @@ public class Computer {
 
             //adding the cards to computer memory
             computerMemory.add(new CardLocation(temp, -1, "garbage"));
+          //  System.out.println(computerMemory.get(computerMemory.size()-1));
             computerMemory.add(new CardLocation(Computer.computerCards[indexComputer], indexComputer, "computer"));
+          //  System.out.println(computerMemory.get(computerMemory.size()-1));
         } else {
             System.out.println("The computer see that the value in the garbage is >= 5");
             Game.currentCard = Card.cardDeck.get(0);
@@ -204,6 +219,7 @@ public class Computer {
 
                         Game.garbage.push(Game.currentCard);
                         Game.currentCard = Game.garbage.peek();
+                        Computer.computerMemory.add(new CardLocation(Game.garbage.peek(),-1, "garbage"));
 
 
                         break;
@@ -231,6 +247,7 @@ public class Computer {
 
                         Game.garbage.push(Game.currentCard);
                         Game.currentCard = Game.garbage.peek();
+                        Computer.computerMemory.add(new CardLocation(Game.garbage.peek(),-1, "garbage"));
 
                         break;
                     }
@@ -321,6 +338,8 @@ public class Computer {
 
                 Game.garbage.push(Game.currentCard);
                 Game.currentCard = Game.garbage.peek();
+                Computer.computerMemory.add(new CardLocation(Game.garbage.peek(),-1, "garbage"));
+
 
                 System.out.println("11 - after pushing to garbage");
                 int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
@@ -841,7 +860,7 @@ public class Computer {
                                 my_Handler("computer", indexComputer, "chosencard", 1500);
                                 my_Handler("player", indexPlayer, "back", 3000);
                                 my_Handler("computer", indexComputer, "back", 3000);
-                                
+
                                 // the real swap
                                 Card temp = Computer.computerCards[indexComputer];
                                 Computer.computerCards[indexComputer] = Player.playerCards[indexPlayer];
@@ -863,6 +882,8 @@ public class Computer {
 
                 Game.garbage.push(Game.currentCard);
                 Game.currentCard = Game.garbage.peek();
+                Computer.computerMemory.add(new CardLocation(Game.garbage.peek(),-1, "garbage"));
+
 
             } else {
                 System.out.println("Other card - the value in the current 1-6");
@@ -892,6 +913,8 @@ public class Computer {
                         Game.garbage.push(temp);
                         Game.currentCard = Game.garbage.peek();
 
+                        Computer.computerMemory.add(new CardLocation(Game.garbage.peek(),-1, "garbage"));
+
                         System.out.println("current card after swap: " + Game.currentCard);
                         System.out.println("computer card after swap: " + Computer.computerCards[i]);
 
@@ -912,6 +935,8 @@ public class Computer {
                 if (!Game.garbage.peek().equals(Game.currentCard)) {
                     Game.garbage.push(Game.currentCard);
                     Game.currentCard = Game.garbage.peek();
+                    Computer.computerMemory.add(new CardLocation(Game.garbage.peek(),-1, "garbage"));
+
                 }
                 current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
             }

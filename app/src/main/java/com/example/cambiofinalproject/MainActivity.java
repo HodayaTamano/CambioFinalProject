@@ -658,6 +658,7 @@ public class MainActivity extends AppCompatActivity {
                     Game.currentCard = Game.garbage.peek();
                     Game.currentTurn = "computer";
 
+                    Computer.computerMemory.add(new CardLocation(Game.garbage.peek(), -1, "garbage"));
                     System.out.println("Garbage: "+Game.garbage);
 
                     final Handler handler = new Handler();
@@ -793,6 +794,23 @@ public class MainActivity extends AppCompatActivity {
             otherButton.setImageDrawable(myDrawable);
             playerButton.setImageDrawable(myDrawable);
 
+            if(Computer.computerCards[computerIndex].getKnown() == true && Player.playerCards[playerIndex].getKnown() == true){//
+                Computer.computerMemory.remove(new CardLocation(Player.playerCards[playerIndex], playerIndex, "player"));
+                Computer.computerMemory.add(new CardLocation(Player.playerCards[playerIndex], computerIndex, "computer"));
+
+                Computer.computerMemory.remove(new CardLocation(Computer.computerCards[computerIndex], computerIndex, "computer"));
+                Computer.computerMemory.add(new CardLocation(Computer.computerCards[computerIndex], playerIndex, "player"));
+            }
+           else if(Computer.computerCards[computerIndex].getKnown() == true && Player.playerCards[playerIndex].getKnown() == false) {//
+                Computer.computerMemory.remove(new CardLocation(Player.playerCards[playerIndex], playerIndex, "player"));
+                Computer.computerMemory.add(new CardLocation(Player.playerCards[playerIndex], computerIndex, "computer"));
+            }
+            else if(Computer.computerCards[computerIndex].getKnown() == false && Player.playerCards[playerIndex].getKnown() == true) {//
+                Computer.computerMemory.remove(new CardLocation(Computer.computerCards[computerIndex], computerIndex, "computer"));
+                Computer.computerMemory.add(new CardLocation(Computer.computerCards[computerIndex], playerIndex, "player"));
+            }
+
+
 //  the real swap
             Card temp = Computer.computerCards[computerIndex];
             Computer.computerCards[computerIndex] = Player.playerCards[playerIndex];
@@ -817,8 +835,6 @@ public class MainActivity extends AppCompatActivity {
 
             System.out.print("The computer cards before the swapping are: [");
 
-
-
             for (int i = 0; i < Computer.computerCards.length; i++) {
                 System.out.print(Computer.computerCards[i] + " ");
             }
@@ -829,16 +845,21 @@ public class MainActivity extends AppCompatActivity {
             }
             System.out.print("]");
 
+            if(Player.playerCards[playerIndex].getKnown() == true) {//
+                Computer.computerMemory.remove(new CardLocation(Player.playerCards[playerIndex], playerIndex, "player"));
+                Player.playerCards[playerIndex].setKnown(false);
+            }
 
 //  the real swap
             Card temp = Player.playerCards[playerIndex];
             Player.playerCards[playerIndex] = Game.currentCard;
             Game.currentCard = temp;
 
+            Player.playerCards[playerIndex].setKnown(false);//the computer doesn't know this card (the player took the card from the deck)
 
             p_longFlags[playerIndex] = true;
         }
-        else if (playerIndex != -1 && computerIndex == -2){
+        else if (playerIndex != -1 && computerIndex == -2){// swap between player card and garbage
             System.out.println("swap function: swap between player card and garbage card");
             int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
             Drawable myDrawable = getContext().getResources().getDrawable(imageId);
@@ -848,25 +869,24 @@ public class MainActivity extends AppCompatActivity {
             Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
             getGarbage().setImageDrawable(c_myDrawable);
 
-//  the real swap
+            if(Player.playerCards[playerIndex].getKnown() == true) {//
+                Computer.computerMemory.remove(new CardLocation(Player.playerCards[playerIndex], playerIndex, "player"));
+                Computer.computerMemory.add(new CardLocation(Player.playerCards[playerIndex], -1, "garbage"));
+                Computer.computerMemory.remove(new CardLocation(Game.garbage.peek(), -1, "garbage"));
+                Computer.computerMemory.add(new CardLocation(Game.garbage.peek(), playerIndex, "player"));
 
-            Card temp = Player.playerCards[playerIndex];
-            Player.playerCards[playerIndex] = Game.garbage.pop();
-            Game.garbage.push(temp);
-            Game.currentCard = Game.garbage.peek();
+                Player.playerCards[playerIndex].setKnown(true);
+            }
+            else if (Player.playerCards[playerIndex].getKnown() == false) {//
+                Computer.computerMemory.add(new CardLocation(Player.playerCards[playerIndex], -1, "garbage"));
+                Computer.computerMemory.remove(new CardLocation(Game.garbage.peek(), -1, "garbage"));
+                Computer.computerMemory.add(new CardLocation(Game.garbage.peek(), playerIndex, "player"));
+                Player.playerCards[playerIndex].setKnown(true);
+            }
 
-            p_longFlags[playerIndex] = true;
-        }else if (playerIndex != -1 && computerIndex == -2){
-            System.out.println("player and garbage");
-            int imageId = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-            Drawable myDrawable = getContext().getResources().getDrawable(imageId);
-            playerButton.setImageDrawable(myDrawable);
-
-            int c_imageId = getContext().getResources().getIdentifier(Player.playerCards[playerIndex].toString(), "drawable", getContext().getPackageName());
-            Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
-            getGarbage().setImageDrawable(c_myDrawable);
 
 //  the real swap
+
             Card temp = Player.playerCards[playerIndex];
             Player.playerCards[playerIndex] = Game.garbage.pop();
             Game.garbage.push(temp);
