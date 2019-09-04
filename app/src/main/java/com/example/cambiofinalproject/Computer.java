@@ -335,15 +335,13 @@ public class Computer {
                     //He peek at playercard3. If there is a good card (1,2, -1) he replaces it with his unknown card.
 
                     Player.playerCards[2].setKnown(true);
-
-
                     my_Handler("player", 2, "peekcard", 0);
 
                     //case 1:
                     if (Player.playerCards[2].getValue() == 1 || Player.playerCards[2].getValue() == 2 || Player.playerCards[2].getValue() == 3
                             || Player.playerCards[2].getValue() == 13 && Player.playerCards[2].getColor().equals("red")) {
                         //It's a good card
-
+                        System.out.println("case 1");
                         for (int j = 0; j < Computer.computerCards.length; j++) {
                             if (Computer.computerCards[j].getKnown() == false) {
 
@@ -401,6 +399,7 @@ public class Computer {
                                 //the computer cards are Better than the player's card. I dont want to swap
                                 //I will show to the player that I peek my first card
                                 my_Handler("computer", indexComputer, "peekcard", 0);
+                                Computer.computerCards[indexComputer].setKnown(true);
 
                                 my_Handler("player", 2, "back", 1500);
                                 my_Handler("computer", indexComputer, "back", 1500);
@@ -409,6 +408,7 @@ public class Computer {
                                 //swap
 
                                 my_Handler("computer", indexComputer, "peekcard", 0);
+                                Computer.computerCards[indexComputer].setKnown(true);
 
                                 my_Handler("player", 2, "chosencard", 1500);
                                 my_Handler("computer", indexComputer, "chosencard", 1500);
@@ -427,37 +427,39 @@ public class Computer {
                         }
                     } else {// the card of the player are not very good
                         // case 2:
+                        System.out.println("case 2");
                         for (int j = 0; j < Computer.computerCards.length; j++) {
                             if (Computer.computerCards[j].getKnown() == true) {
                                 computerKnownCard++;
-                                if (Computer.computerCards[j].getValue() - Player.playerCards[2].getValue() >= 4) {//I want to chek if I want this card
-                                    // peek and swap
-                                    my_Handler("computer", j, "peekcard", 0);
-
-                                    my_Handler("player", 2, "chosencard", 1500);
-                                    my_Handler("computer", j, "chosencard", 1500);
-
-                                    my_Handler("player", 2, "back", 3000);
-                                    my_Handler("computer", j, "back", 3000);
-
-                                    // the real swap
-                                    Card temp = Computer.computerCards[j];
-                                    Computer.computerCards[j] = Player.playerCards[2];
-                                    Player.playerCards[2] = temp;
-
-                                    replaced = true;
-                                    Computer.computerMemory.add(new CardLocation(Player.playerCards[2], 2, "player"));
-                                    Computer.computerMemory.add(new CardLocation(Computer.computerCards[j], j, "computer"));
-                                    break;
-
-
-                                } else {
-                                    System.out.println("else - the difference < 4");
+                                if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[3].getValue()) {
+                                    highValue = Computer.computerCards[j].getValue();
+                                    indexComputer = j;
                                 }
                             }
                         }
 
-                        if (replaced == false && computerKnownCard != 4) {// I not replaced and thre are at least one unknown card
+                        if (highValue - Player.playerCards[2].getValue() >= 4) {//I want to chek if I want this card
+                            // peek and swap
+                            my_Handler("computer", indexComputer, "peekcard", 0);
+                            Computer.computerCards[indexComputer].setKnown(true);
+
+                            my_Handler("player", 2, "chosencard", 1500);
+                            my_Handler("computer", indexComputer, "chosencard", 1500);
+
+                            my_Handler("player", 2, "back", 3000);
+                            my_Handler("computer", indexComputer, "back", 3000);
+
+                            // the real swap
+                            Card temp = Computer.computerCards[indexComputer];
+                            Computer.computerCards[indexComputer] = Player.playerCards[2];
+                            Player.playerCards[2] = temp;
+
+                            replaced = true;
+                            Computer.computerMemory.add(new CardLocation(Player.playerCards[2], 2, "player"));
+                            Computer.computerMemory.add(new CardLocation(Computer.computerCards[indexComputer], indexComputer, "computer"));
+
+
+                        } else if (replaced == false && computerKnownCard != 4) {// I not replaced and thre are at least one unknown card
 
                             for (int j = 0; j < Computer.computerCards.length; j++) {
                                 if (Computer.computerCards[j].getKnown() == false) {
@@ -485,24 +487,21 @@ public class Computer {
                                     } else {// I dont want to swap
                                         my_Handler("player", 2, "back", 1500);
                                         my_Handler("computer", j, "back", 1500);
+                                        Computer.computerMemory.add(new CardLocation(Player.playerCards[2], 2, "player"));
+                                        Computer.computerMemory.add(new CardLocation(Computer.computerCards[j], j, "computer"));
+                                        break;
                                     }
+
                                 } else
                                     System.out.println("you already check this card- this is known card");
                             }
                         } else if (computerKnownCard == 4) {
                             // All computer cards are known. I will swap with the highest card.
-                            for (int j = 0; j < computerCards.length; j++) {
-                                if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[2].getValue()) {
-                                    highValue = Computer.computerCards[j].getValue();
-                                    indexComputer = j;
-                                }
-                            }
-                            //swap
-//
+
                             if (highValue == 0) {
                                 //the computer cards are Better than the player's card. I dont want to swap
-
                                 my_Handler("computer", indexComputer, "peekcard", 1500);
+                                Computer.computerCards[indexComputer].setKnown(true);
                                 my_Handler("player", 2, "back", 3000);
                                 my_Handler("computer", indexComputer, "back", 3000);
                             } else {
@@ -541,6 +540,7 @@ public class Computer {
                     Player.playerCards[indexPlayer].setKnown(true);
                     //case 3:
                     if (minValue == -1 || minValue == 1 || minValue == 2 || minValue == 3) { //the card is good. I want to take
+                        System.out.println("case 3");
                         for (int j = 0; j < computerCards.length; j++) {
                             if (Computer.computerCards[j].getKnown() == false) {
                                 //swap
@@ -566,7 +566,7 @@ public class Computer {
                         //case 4:
                         if (Computer.computerCards[0].getKnown() == true && Computer.computerCards[1].getKnown() == true
                                 && Computer.computerCards[2].getKnown() == true && Computer.computerCards[3].getKnown() == true) {
-
+                            System.out.println("case 4");
                             for (int j = 0; j < computerCards.length; j++) {
                                 if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > minValue) {
                                     highValue = Computer.computerCards[j].getValue();
@@ -577,6 +577,7 @@ public class Computer {
                                 //the computer cards are Better than the player's card. I dont want to swap
                                 //I will show to the player that I peek my first card
                                 my_Handler("computer", indexComputer, "peekcard", 0);
+                                Computer.computerCards[indexComputer].setKnown(true);
 
                                 my_Handler("player", indexPlayer, "back", 1500);
                                 my_Handler("computer", indexComputer, "back", 1500);
@@ -585,6 +586,7 @@ public class Computer {
                                 //swap
 
                                 my_Handler("computer", indexComputer, "peekcard", 0);
+                                Computer.computerCards[indexComputer].setKnown(true);
 
                                 my_Handler("player", indexPlayer, "chosencard", 1500);
                                 my_Handler("computer", indexComputer, "chosencard", 1500);
@@ -608,6 +610,7 @@ public class Computer {
                                     if (Computer.computerCards[j].getValue() - Player.playerCards[indexPlayer].getValue() >= 4) {//I want to chek if I want this card
                                         // peek and swap
                                         my_Handler("computer", j, "peekcard", 0);
+                                        Computer.computerCards[indexComputer].setKnown(true);
 
                                         my_Handler("player", indexPlayer, "chosencard", 1500);
                                         my_Handler("computer", j, "chosencard", 1500);
@@ -660,6 +663,7 @@ public class Computer {
                                         } else {// I dont want to swap
                                             my_Handler("player", indexPlayer, "back", 1500);
                                             my_Handler("computer", j, "back", 1500);
+                                            break;
                                         }
                                     } else
                                         System.out.println("you already check this card- this is known card");
@@ -678,6 +682,7 @@ public class Computer {
                                     //the computer cards are Better than the player's card. I dont want to swap
 
                                     my_Handler("computer", indexComputer, "peekcard", 1500);
+                                    Computer.computerCards[indexComputer].setKnown(true);
                                     my_Handler("player", indexPlayer, "back", 3000);
                                     my_Handler("computer", indexComputer, "back", 3000);
                                 } else {
@@ -703,214 +708,230 @@ public class Computer {
                     }
 
 
-//                } else {// I dont know all the player card
-//                    for (int i = 0; i < Player.playerCards.length; i++) {
-//                        if(Player.playerCards[i].getKnown() == true) {
-//                            if (Player.playerCards[i].getValue() == 13 && Player.playerCards[i].getColor().equals("red")) {
-//                                minValue = -1;
-//                                indexPlayer = i;
-//                                break;
-//                            } else if (Player.playerCards[i].getValue() < minValue) {
-//                                minValue = Player.playerCards[i].getValue();
-//                                indexPlayer = i;
-//                            }
-//                        }
-//                    }
-//                    my_Handler("player", indexPlayer, "peekcard", 0);
-//                    Player.playerCards[indexPlayer].setKnown(true);
-//                    //case 5:
-//                    if (minValue == -1 || minValue == 1 || minValue == 2 || minValue == 3) { //the card is good. I want to take
-//                        for (int j = 0; j < computerCards.length; j++) {
-//                            if (Computer.computerCards[j].getKnown() == false) {
-//                                //swap
-//                                my_Handler("computer", j, "peekcard", 0);
-//                                Computer.computerCards[j].setKnown(true);
-//                                my_Handler("player", indexPlayer, "chosencard", 1500);
-//                                my_Handler("computer", j, "chosencard", 1500);
-//                                my_Handler("player", indexPlayer, "back", 3000);
-//                                my_Handler("computer", j, "back", 3000);
-//
-//
-//                                // the real swap
-//                                Card temp = Computer.computerCards[j];
-//                                Computer.computerCards[j] = Player.playerCards[indexPlayer];
-//                                Player.playerCards[indexPlayer] = temp;
-//
-//                                Computer.computerMemory.add(new CardLocation(Player.playerCards[indexPlayer], indexPlayer, "player"));
-//                                Computer.computerMemory.add(new CardLocation(Computer.computerCards[j], j, "computer"));
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-
-
-                    System.out.println("the value in the current is black king");
-
-
-                    //throw the black king to the garbage
-                    int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
-                    Drawable myDrawable = getContext().getResources().getDrawable(imageId);
-                    getGarbage().setImageDrawable(myDrawable);
-
-                    Game.garbage.push(Game.currentCard);
-                    Game.currentCard = Game.garbage.peek();
-
-                } else {
-                    System.out.println("Other card - the value in the current 1-6");
-                    for (int i = 0; i < computerCards.length; i++) {
-
-                        System.out.println("the card is " + computerCards[i]);
-                        System.out.println("computerCards[i].getKnown() = " + computerCards[i].getKnown() + " && (computerCards[i].getValue() - Game.currentCard.getValue()) = " + (computerCards[i].getValue() - Game.currentCard.getValue()));
-
-                        if ((computerCards[i].getKnown() == true) && (computerCards[i].getValue() > Game.currentCard.getValue())) {
-                            System.out.println("if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() > Game.currentCard.getValue())");
-
-
-                            cardDeck.setImageDrawable(myDrawableCDeck);
-                            my_Handler("computer", i, "chosencard", 0);
-                            my_Handler("computer", i, "back", 1500);
-                            my_Handler("deck", 0, "backdeck", 1500);
-
-                            System.out.println("the i is: " + i);
-
-                            int cimageId = getContext().getResources().getIdentifier(Computer.computerCards[i].toString(), "drawable", getContext().getPackageName());
-                            Drawable cmyDrawable = getContext().getResources().getDrawable(cimageId);
-                            getGarbage().setImageDrawable(cmyDrawable);
-
-                            System.out.println("current card before swap: " + Game.currentCard);
-                            System.out.println("computer card before swap: " + Computer.computerCards[i]);
-                            Card temp = Computer.computerCards[i];
-                            Computer.computerCards[i] = Game.currentCard;
-                            Game.garbage.push(temp);
-                            Game.currentCard = Game.garbage.peek();
-
-                            System.out.println("current card after swap: " + Game.currentCard);
-                            System.out.println("computer card after swap: " + Computer.computerCards[i]);
-
-                            current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
-
-                            break;
-                        } else {
-                            System.out.println("there are no significant card");
-                            cardDeck.setImageDrawable(myDrawableCDeck);
-                            my_Handler("deck", 0, "backdeck", 1500);
-
+                } else {// I dont know all the player card
+                    for (int i = 0; i < Player.playerCards.length; i++) {
+                        if (Player.playerCards[i].getKnown() == true) {
+                            if (Player.playerCards[i].getValue() == 13 && Player.playerCards[i].getColor().equals("red")) {
+                                minValue = -1;
+                                indexPlayer = i;
+                                break;
+                            } else if (Player.playerCards[i].getValue() < minValue) {
+                                minValue = Player.playerCards[i].getValue();
+                                indexPlayer = i;
+                            }
                         }
                     }
+//
+                    //case 5:
+                    if (minValue == -1 || minValue == 1 || minValue == 2 || minValue == 3) { //the card is good. I want to take
+                        System.out.println("case 5");
+                        my_Handler("player", indexPlayer, "peekcard", 0);
+                        Player.playerCards[indexPlayer].setKnown(true);
+                        for (int j = 0; j < computerCards.length; j++) {
+                            if (Computer.computerCards[j].getKnown() == false) {
+                                //swap
+                                my_Handler("computer", j, "peekcard", 0);
+                                Computer.computerCards[j].setKnown(true);
+                                my_Handler("player", indexPlayer, "chosencard", 1500);
+                                my_Handler("computer", j, "chosencard", 1500);
+                                my_Handler("player", indexPlayer, "back", 3000);
+                                my_Handler("computer", j, "back", 3000);
 
-                    int c_imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
-                    Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
-                    getGarbage().setImageDrawable(i_myDrawable);
 
-                    if (!Game.garbage.peek().equals(Game.currentCard)) {
-                        Game.garbage.push(Game.currentCard);
-                        Game.currentCard = Game.garbage.peek();
+                                // the real swap
+                                Card temp = Computer.computerCards[j];
+                                Computer.computerCards[j] = Player.playerCards[indexPlayer];
+                                Player.playerCards[indexPlayer] = temp;
+
+                                Computer.computerMemory.add(new CardLocation(Player.playerCards[indexPlayer], indexPlayer, "player"));
+                                Computer.computerMemory.add(new CardLocation(Computer.computerCards[j], j, "computer"));
+                                break;
+                            }
+                        }
+                    } else {// case 6: rest of the card (not very good cards)
+                        System.out.println("case 6");
+                        for (int j = 0; j < Computer.computerCards.length; j++) {
+                            if (Computer.computerCards[j].getKnown() == true) {
+                                computerKnownCard++;
+                                if (Computer.computerCards[j].getValue() - Player.playerCards[indexPlayer].getValue() >= 4) {//I want to chek if I want this card
+                                    // peek and swap
+                                    my_Handler("player", indexPlayer, "peekcard", 0);
+                                    Player.playerCards[indexPlayer].setKnown(true);
+                                    my_Handler("computer", j, "peekcard", 0);
+                                    Computer.computerCards[j].setKnown(true);
+
+                                    my_Handler("player", indexPlayer, "chosencard", 1500);
+                                    my_Handler("computer", j, "chosencard", 1500);
+
+                                    my_Handler("player", indexPlayer, "back", 3000);
+                                    my_Handler("computer", j, "back", 3000);
+
+                                    // the real swap
+                                    Card temp = Computer.computerCards[j];
+                                    Computer.computerCards[j] = Player.playerCards[indexPlayer];
+                                    Player.playerCards[indexPlayer] = temp;
+
+                                    replaced = true;
+                                    Computer.computerMemory.add(new CardLocation(Player.playerCards[indexPlayer], indexPlayer, "player"));
+                                    Computer.computerMemory.add(new CardLocation(Computer.computerCards[j], j, "computer"));
+                                    break;
+
+
+                                } else {
+                                    System.out.println("else - the difference < 4");
+                                }
+                            }
+                        }
+
+                        if (replaced == false && computerKnownCard != 4) {// I not replaced and thre are at least one unknown card
+
+                            for (int j = 0; j < Computer.computerCards.length; j++) {
+                                if (Computer.computerCards[j].getKnown() == false) {
+                                    //peek and check if you want to swap
+                                    my_Handler("player", indexPlayer, "peekcard", 0);
+                                    Player.playerCards[indexPlayer].setKnown(true);
+                                    Computer.computerCards[j].setKnown(true);
+                                    my_Handler("computer", j, "peekcard", 0);
+
+                                    if (Computer.computerCards[j].getValue() - Player.playerCards[indexPlayer].getValue() > 0) {
+                                        //want to swap
+
+                                        my_Handler("player", indexPlayer, "chosencard", 1500);
+                                        my_Handler("computer", j, "chosencard", 1500);// computer/player, index, which card, which delay
+                                        my_Handler("player", indexPlayer, "back", 3000);
+                                        my_Handler("computer", j, "back", 3000);
+
+                                        //the real swap
+                                        Card temp = Computer.computerCards[j];
+                                        Computer.computerCards[j] = Player.playerCards[indexPlayer];
+                                        Player.playerCards[indexPlayer] = temp;
+
+                                        replaced = true;
+                                        Computer.computerMemory.add(new CardLocation(Player.playerCards[indexPlayer], indexPlayer, "player"));
+                                        Computer.computerMemory.add(new CardLocation(Computer.computerCards[j], j, "computer"));
+                                        break;
+                                    } else {// I dont want to swap
+                                        my_Handler("player", indexPlayer, "back", 1500);
+                                        my_Handler("computer", j, "back", 1500);
+                                        break;
+                                    }
+                                } else
+                                    System.out.println("you already check this card- this is known card");
+                            }
+                        } else if (computerKnownCard == 4) {
+                            // All computer cards are known. I will swap with the highest card.
+                            for (int j = 0; j < computerCards.length; j++) {
+                                if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[2].getValue()) {
+                                    highValue = Computer.computerCards[j].getValue();
+                                    indexComputer = j;
+                                }
+                            }
+                            //swap
+//
+                            if (highValue == 0) {
+                                //the computer cards are Better than the player's card. I dont want to swap
+                                my_Handler("player", indexPlayer, "peekcard", 0);
+                                Player.playerCards[indexPlayer].setKnown(true);
+                                my_Handler("computer", indexComputer, "peekcard", 1500);
+                                Computer.computerCards[indexComputer].setKnown(true);
+                                my_Handler("player", indexPlayer, "back", 3000);
+                                my_Handler("computer", indexComputer, "back", 3000);
+                            } else {
+                                my_Handler("player", indexPlayer, "chosencard", 1500);
+                                my_Handler("computer", indexComputer, "chosencard", 1500);
+                                my_Handler("player", indexPlayer, "back", 3000);
+                                my_Handler("computer", indexComputer, "back", 3000);
+                                
+                                // the real swap
+                                Card temp = Computer.computerCards[indexComputer];
+                                Computer.computerCards[indexComputer] = Player.playerCards[indexPlayer];
+                                Player.playerCards[indexPlayer] = temp;
+
+                                Computer.computerMemory.add(new CardLocation(Player.playerCards[indexPlayer], indexPlayer, "player"));
+                                Computer.computerMemory.add(new CardLocation(Computer.computerCards[indexComputer], indexComputer, "computer"));
+                            }
+                        }
                     }
-
-                    current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
-
-
                 }
+
+                System.out.println("the value in the current is black king");
+
+                //throw the black king to the garbage
+                int imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+                Drawable myDrawable = getContext().getResources().getDrawable(imageId);
+                getGarbage().setImageDrawable(myDrawable);
+
+                Game.garbage.push(Game.currentCard);
+                Game.currentCard = Game.garbage.peek();
+
+            } else {
+                System.out.println("Other card - the value in the current 1-6");
+                for (int i = 0; i < computerCards.length; i++) {
+
+                    System.out.println("the card is " + computerCards[i]);
+                    System.out.println("computerCards[i].getKnown() = " + computerCards[i].getKnown() + " && (computerCards[i].getValue() - Game.currentCard.getValue()) = " + (computerCards[i].getValue() - Game.currentCard.getValue()));
+
+                    if ((computerCards[i].getKnown() == true) && (computerCards[i].getValue() > Game.currentCard.getValue())) {
+                        System.out.println("if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() > Game.currentCard.getValue())");
+
+                        cardDeck.setImageDrawable(myDrawableCDeck);
+                        my_Handler("computer", i, "chosencard", 0);
+                        my_Handler("computer", i, "back", 1500);
+                        my_Handler("deck", 0, "backdeck", 1500);
+
+                        System.out.println("the i is: " + i);
+
+                        int cimageId = getContext().getResources().getIdentifier(Computer.computerCards[i].toString(), "drawable", getContext().getPackageName());
+                        Drawable cmyDrawable = getContext().getResources().getDrawable(cimageId);
+                        getGarbage().setImageDrawable(cmyDrawable);
+
+                        System.out.println("current card before swap: " + Game.currentCard);
+                        System.out.println("computer card before swap: " + Computer.computerCards[i]);
+                        Card temp = Computer.computerCards[i];
+                        Computer.computerCards[i] = Game.currentCard;
+                        Game.garbage.push(temp);
+                        Game.currentCard = Game.garbage.peek();
+
+                        System.out.println("current card after swap: " + Game.currentCard);
+                        System.out.println("computer card after swap: " + Computer.computerCards[i]);
+
+                        current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
+                        break;
+
+                    } else {
+                        System.out.println("there are no significant card");
+                        cardDeck.setImageDrawable(myDrawableCDeck);
+                        my_Handler("deck", 0, "backdeck", 1500);
+                    }
+                }
+
+                int c_imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+                Drawable i_myDrawable = getContext().getResources().getDrawable(c_imageId);
+                getGarbage().setImageDrawable(i_myDrawable);
+
+                if (!Game.garbage.peek().equals(Game.currentCard)) {
+                    Game.garbage.push(Game.currentCard);
+                    Game.currentCard = Game.garbage.peek();
+                }
+                current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
             }
-
-
-            System.out.println("Current: " + Game.currentCard);
-            System.out.println("Garbage: " + Game.garbage.toString());
-
-            for (int i = 0; i < Player.playerCards.length; i++) {
-                System.out.println("computer:  " + computerCards[i]);
-                System.out.println("player:  " + Player.playerCards[i]);
-            }
-
-            Game.currentTurn = "player";
-            Game.theGame();
-
         }
-//    public static void case1(int indexPlayer, int minValue ){
-//        int indexComputer = 0;
-//        int computerKnownCard = 0;
-//        for (int i = 0; i < Player.playerCards.length; i++) {
-//            if(Player.playerCards[i].getKnown() == true) {
-//                if (Player.playerCards[i].getValue() == 13 && Player.playerCards[i].getColor().equals("red")) {
-//                    minValue = -1;
-//                    indexPlayer = i;
-//                    break;
-//                } else if (Player.playerCards[i].getValue() < minValue) {
-//                    minValue = Player.playerCards[i].getValue();
-//                    indexPlayer = i;
-//                }
-//            }
-//        }
-//        my_Handler("player", indexPlayer, "peekcard", 0);
-//        Player.playerCards[indexPlayer].setKnown(true);
-//
-//        if (minValue == -1 || minValue == 1 || minValue == 2 || minValue == 3) { //the card is good. I want to take
-//            for (int j = 0; j < computerCards.length; j++) {
-//                if (Computer.computerCards[j].getKnown() == false) {
-//                    //swap
-//                    my_Handler("computer", j, "peekcard", 0);
-//                    Computer.computerCards[j].setKnown(true);
-//                    my_Handler("player", indexPlayer, "chosencard", 1500);
-//                    my_Handler("computer", j, "chosencard", 1500);
-//                    my_Handler("player", indexPlayer, "back", 3000);
-//                    my_Handler("computer", j, "back", 3000);
-//
-//
-//                    // the real swap
-//                    Card temp = Computer.computerCards[j];
-//                    Computer.computerCards[j] = Player.playerCards[indexPlayer];
-//                    Player.playerCards[indexPlayer] = temp;
-//
-//                    Computer.computerMemory.add(new CardLocation(Player.playerCards[indexPlayer], indexPlayer, "player"));
-//                    Computer.computerMemory.add(new CardLocation(Computer.computerCards[j], j, "computer"));
-//                    break;
-//                }
-//                else
-//                    computerKnownCard++;
-//            }
-//            if (computerKnownCard == 4) { // if I peek to the player good card and I know all my cards. I will swap with my high card/
-//                for (int j = 0; j < computerCards.length; j++) {
-//                    if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[3].getValue()) {
-//                        highValue = Computer.computerCards[j].getValue();
-//                        indexComputer = j;
-//                    }
-//                }
-//                if (highValue == 0) {
-//                    //the computer cards are Better than the player's card. I dont want to swap
-//                    //I will show to the player that I peek my first card
-//                    my_Handler("computer", indexComputer, "peekcard", 0);
-//
-//                    my_Handler("player", 2, "back", 1500);
-//                    my_Handler("computer", indexComputer, "back", 1500);
-//
-//                } else {
-//                    //swap
-//
-//                    my_Handler("computer", indexComputer, "peekcard", 0);
-//
-//                    my_Handler("player", 2, "chosencard", 1500);
-//                    my_Handler("computer", indexComputer, "chosencard", 1500);
-//
-//                    my_Handler("player", 2, "back", 3000);
-//                    my_Handler("computer", indexComputer, "back", 3000);
-//
-//                    // the real swap
-//                    Card temp = Computer.computerCards[indexComputer];
-//                    Computer.computerCards[indexComputer] = Player.playerCards[2];
-//                    Player.playerCards[2] = temp;
-//
-//                    Computer.computerMemory.add(new CardLocation(Player.playerCards[2], 2, "player"));
-//                    Computer.computerMemory.add(new CardLocation(Computer.computerCards[indexComputer], indexComputer, "computer"));
-//                }
-//            }
-//        }
-//    }
-//    public static void case2(int indexPlayer, int indexComputer){
 
-        // }
+
+        System.out.println("Current: " + Game.currentCard);
+        System.out.println("Garbage: " + Game.garbage.toString());
+
+        for (int i = 0; i < Player.playerCards.length; i++) {
+            System.out.println("computer:  " + computerCards[i]);
+            System.out.println("player:  " + Player.playerCards[i]);
+        }
+
+        Game.currentTurn = "player";
+        Game.theGame();
 
     }
+
+
     public static void my_Handler(String owner, int index, final String cardName, final int mydelay) {
         System.out.println("in the handler function");
         final Handler handler = new Handler();
@@ -1000,8 +1021,8 @@ public class Computer {
             }, mydelay);
 
         }
-
     }
 }
+
 
 

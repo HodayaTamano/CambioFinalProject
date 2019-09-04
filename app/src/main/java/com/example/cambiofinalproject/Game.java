@@ -55,6 +55,8 @@ public class Game extends MainActivity{
 
 	public static String start() {
 
+
+
 		for(int x=0; x<4; x++){          //0-3 for type (4 types)
 			for(int y=1; y<14; y++){     //2-14 for value (13 values)
 				Card.cardDeck.add(new Card(x,y)); //create new card and add into the deck
