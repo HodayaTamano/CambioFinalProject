@@ -67,6 +67,7 @@ public class Game extends MainActivity{
 			} //end value for
 		}//end type for
 
+		
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
 //        Card.cardDeck.set(8, (new Card (0,1)));
