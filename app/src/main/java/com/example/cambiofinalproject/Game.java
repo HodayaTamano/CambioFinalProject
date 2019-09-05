@@ -65,6 +65,9 @@ public class Game extends MainActivity{
 
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
+        Card.cardDeck.set(8, (new Card (0,11)));
+		Card.cardDeck.set(10, (new Card (0,7)));
+
 		for (int i=0; i<4; i++) {//Dividing 4 cards for the players and remove from the deck.
 
 			Player.playerCards[i] = Card.cardDeck.get(i);

@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private static boolean currentFlag = true;
     private static boolean garbageFlag = true;
     private static boolean cardDeckFlag = true;
-    private static boolean firstPress = true;
-    private static boolean useTheCard = true;
+//    private static boolean firstPress = true;
+//    private static boolean useTheCard = true;
 
 
     private static boolean peek_playerCard12 = true;
@@ -123,13 +123,19 @@ public class MainActivity extends AppCompatActivity {
         computerCard1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                    if ((peek_computerCard == true) || (swap_computerCards == true)) {// black king allows swaping
-                        chooseYourCard(0,computerCard1);
-//                        Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
-                    }else if ((peek_computerCard == true) && (swap_computerCards == false )) {
-                        // the player can't swap the computer cards
-//                        Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
-                    }
+
+                if ((peek_computerCard == true) && (swap_computerCards == true)) { // black king
+                    chooseYourCard(0,computerCard1);
+                    Toast.makeText(MainActivity.this, "you click long press, (peek_computerCard == true) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == false) && (swap_computerCards == true)){ // queen and jack
+                    chooseYourCard(0,computerCard1);
+                    Toast.makeText(MainActivity.this, "you click long press,(peek_computerCard == false) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == true) && (swap_computerCards == false)) { // 9 and 10
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == true && swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == false) && (swap_computerCards == false)) { // other card (including 7 and 8)
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == false && swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                }
+
                     return true;
                 }
         });
@@ -154,12 +160,19 @@ public class MainActivity extends AppCompatActivity {
         computerCard2.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((peek_computerCard == true) || (swap_computerCards == true)) {
+
+                if ((peek_computerCard == true) && (swap_computerCards == true)) { // black king
                     chooseYourCard(1,computerCard2);
-                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
-                }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
-                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "you click long press, (peek_computerCard == true) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == false) && (swap_computerCards == true)){ // queen and jack
+                    chooseYourCard(1,computerCard2);
+                    Toast.makeText(MainActivity.this, "you click long press,(peek_computerCard == false) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == true) && (swap_computerCards == false)) { // 9 and 10
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == true && swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == false) && (swap_computerCards == false)) { // other card (including 7 and 8)
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == false && swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
+
                 return true;
             }
         });
@@ -184,12 +197,19 @@ public class MainActivity extends AppCompatActivity {
         computerCard3.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((peek_computerCard == true) || (swap_computerCards == true)) {
+
+                if ((peek_computerCard == true) && (swap_computerCards == true)) { // black king
                     chooseYourCard(2,computerCard3);
-                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == true", Toast.LENGTH_SHORT).show();
-                }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
-                    Toast.makeText(MainActivity.this, "you click long press, swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "you click long press, (peek_computerCard == true) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == false) && (swap_computerCards == true)){ // queen and jack
+                    chooseYourCard(2,computerCard3);
+                    Toast.makeText(MainActivity.this, "you click long press,(peek_computerCard == false) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == true) && (swap_computerCards == false)) { // 9 and 10
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == true && swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                }else if ((peek_computerCard == false) && (swap_computerCards == false)) { // other card (including 7 and 8)
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == false && swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
+
                 return true;
             }
         });
@@ -216,15 +236,16 @@ public class MainActivity extends AppCompatActivity {
         computerCard4.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((peek_computerCard == true) && (swap_computerCards == true)) {
+                System.out.println("peek_computerCard = "+peek_computerCard+"swap_computerCards = "+swap_computerCards);
+                if ((peek_computerCard == true) && (swap_computerCards == true)) { // black king
                     chooseYourCard(3,computerCard4);
                     Toast.makeText(MainActivity.this, "you click long press, (peek_computerCard == true) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
-                }else if ((peek_computerCard == false) && (swap_computerCards == true)){
+                }else if ((peek_computerCard == false) && (swap_computerCards == true)){ // queen and jack
                     chooseYourCard(3,computerCard4);
                     Toast.makeText(MainActivity.this, "you click long press,(peek_computerCard == false) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
-                }else if ((peek_computerCard == true) && (swap_computerCards == false)) {
+                }else if ((peek_computerCard == true) && (swap_computerCards == false)) { // 9 and 10
                     Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == true && swap_computerCards == false", Toast.LENGTH_SHORT).show();
-                }else if ((peek_computerCard == false) && (swap_computerCards == false)) {
+                }else if ((peek_computerCard == false) && (swap_computerCards == false)) { // other card (including 7 and 8)
                     Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == false && swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -263,14 +284,19 @@ public class MainActivity extends AppCompatActivity {
         playerCard1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((swap_playerCards == true) && (peek_playerCard12 == true)) {// black king allows peeking and swaping
-                    // TODO Auto-generated method stub
+
+                if ((peek_playerCard12 == true) && (swap_playerCards == true)) { // black king
                     chooseYourCard(4,playerCard1);
-                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == true", Toast.LENGTH_SHORT).show();
-                }else if ((swap_playerCards == true) && (peek_playerCard12 == false)){// jack queen allows swaping
+                    Toast.makeText(MainActivity.this, "you click long press, (peek_computerCard == true) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard12 == false) && (swap_playerCards == true)){ // queen and jack
                     chooseYourCard(4,playerCard1);
-                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard12 == false", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "you click long press,(peek_computerCard == false) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard12 == true) && (swap_playerCards == false)) { // 7 and 8
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == true && swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard12 == false) && (swap_playerCards == false)) { // other card (including 9 and 10)
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == false && swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
+
                 return true;
             }
 
@@ -304,12 +330,19 @@ public class MainActivity extends AppCompatActivity {
         playerCard2.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((swap_playerCards == true) && (peek_playerCard12 == true)) {
-                    // TODO Auto-generated method stub
+
+                if ((peek_playerCard12 == true) && (swap_playerCards == true)) { // black king
                     chooseYourCard(5,playerCard2);
-                }else if ((swap_playerCards == true) && (peek_playerCard12 == false)){
+                    Toast.makeText(MainActivity.this, "you click long press, (peek_computerCard == true) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard12 == false) && (swap_playerCards == true)){ // queen and jack
                     chooseYourCard(5,playerCard2);
+                    Toast.makeText(MainActivity.this, "you click long press,(peek_computerCard == false) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard12 == true) && (swap_playerCards == false)) { // 7 and 8
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == true && swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard12 == false) && (swap_playerCards == false)) { // other card (including 9 and 10)
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == false && swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
+
 
                 return true;
             }
@@ -344,12 +377,19 @@ public class MainActivity extends AppCompatActivity {
         playerCard3.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
-                    // TODO Auto-generated method stub
+
+                if ((peek_playerCard34 == true) && (swap_playerCards == true)) { // black king
                     chooseYourCard(6,playerCard3);
-                }else if ((swap_playerCards == true) && (peek_playerCard34 == false)){
+                    Toast.makeText(MainActivity.this, "you click long press, (peek_computerCard == true) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard34 == false) && (swap_playerCards == true)){ // queen and jack
                     chooseYourCard(6,playerCard3);
+                    Toast.makeText(MainActivity.this, "you click long press,(peek_computerCard == false) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard34 == true) && (swap_playerCards == false)) { // 7 and 8
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == true && swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard34 == false) && (swap_playerCards == false)) { // other card (including 9 and 10)
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == false && swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
+
                 return true;
             }
 
@@ -384,13 +424,19 @@ public class MainActivity extends AppCompatActivity {
         playerCard4.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
-                    // TODO Auto-generated method stub
+
+                if ((peek_playerCard34 == true) && (swap_playerCards == true)) { // black king
                     chooseYourCard(7 ,playerCard4);
-                }else if ((swap_playerCards == true) && (peek_playerCard34 == false)){
-                    chooseYourCard(7,playerCard4);
-                    Toast.makeText(MainActivity.this, "you click long press, peek_playerCard34 == false", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "you click long press, (peek_computerCard == true) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard34 == false) && (swap_playerCards == true)){ // queen and jack
+                    chooseYourCard(7 ,playerCard4);
+                    Toast.makeText(MainActivity.this, "you click long press,(peek_computerCard == false) && swap_computerCards == true", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard34 == true) && (swap_playerCards == false)) { // 7 and 8
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == true && swap_computerCards == false", Toast.LENGTH_SHORT).show();
+                }else if ((peek_playerCard34 == false) && (swap_playerCards == false)) { // other card (including 9 and 10)
+                    Toast.makeText(MainActivity.this, "you click long press, peek_computerCard == false && swap_computerCards == false", Toast.LENGTH_SHORT).show();
                 }
+
                 return true;
             }
 
@@ -430,6 +476,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }else {
                     Game.currentTurn = "player";
+
 //                    Game.theGame();
 
 //                    System.out.println("The first in the deck: "+Card.cardDeck.get(0).toString());
@@ -443,8 +490,8 @@ public class MainActivity extends AppCompatActivity {
                     Card.cardDeck.remove(0);
 //                    System.out.println("The first in the deck: "+Card.cardDeck.get(0).toString());
 //                    System.out.println("The current cardd: "+Game.currentCard);
+                    playerTurn();
                 }
-                cardDeckFlag = true;
             }
 
         });
@@ -479,7 +526,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (computerCardIndex > -1 && playerCardIndex > -1 && !start && firstPress) {
+                if (computerCardIndex > -1 && playerCardIndex > -1 && !start) {
                     // swap between player card and computer card
                     System.out.println("swap between player card "+Player.playerCards[playerCardIndex]+" and computer card "+Computer.computerCards[computerCardIndex]);
                     if ((playerCardIndex == 0) && (computerCardIndex == 0)) {
@@ -515,9 +562,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if ((playerCardIndex == 3) && (computerCardIndex == 3)) {
                         swap(playerCardIndex, computerCardIndex, playerCard4, computerCard4);
                     }
-                    firstPress = false;
+//                    firstPress = false;
                 }
-                else if (playerCardIndex != -1 && computerCardIndex == -1 && firstPress) {
+                else if (playerCardIndex != -1 && computerCardIndex == -1) {
                     // swap between player card and current card
                     System.out.println("swap between player card "+Player.playerCards[playerCardIndex]+" and current card "+Game.currentCard);
                     if (playerCardIndex == 0) {
@@ -532,9 +579,9 @@ public class MainActivity extends AppCompatActivity {
                     if (playerCardIndex == 3) {
                         swap(playerCardIndex, -1, playerCard4, current);
                     }
-                    firstPress = false;
+//                    firstPress = false;
                 }
-                else if (playerCardIndex != -1 && computerCardIndex == -2 && firstPress){
+                else if (playerCardIndex != -1 && computerCardIndex == -2){
                     // swap between player card and garbage card
                     System.out.println("swap between player card "+Player.playerCards[playerCardIndex]+" and garbage card "+Game.garbage.peek());
                     if (playerCardIndex == 0) {
@@ -549,36 +596,36 @@ public class MainActivity extends AppCompatActivity {
                     if (playerCardIndex == 3) {
                         swap(playerCardIndex, -2, playerCard4, garbage);
                     }
-                    firstPress = false;
+//                    firstPress = false;
                 }
                 else if (start) Toast.makeText(MainActivity.this, "You can't swap cards now - press on the deck", Toast.LENGTH_SHORT).show();
-                else if (firstPress == false && start){
-
-                    int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-                    Drawable myDrawable = getContext().getResources().getDrawable(imageIdBack);
-
-                    if (playerCardIndex == 0) {
-                        playerCard1.setImageDrawable(myDrawable);
-
-                    }
-                    if (playerCardIndex == 1) {
-                        playerCard2.setImageDrawable(myDrawable);
-                    }
-                    if (playerCardIndex == 2) {
-                        playerCard3.setImageDrawable(myDrawable);
-                    }
-                    if (playerCardIndex == 3) {
-                        playerCard4.setImageDrawable(myDrawable);
-                    }
-
-                    int imageIdCurrent = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
-                    Drawable myDrawableCurrent = getContext().getResources().getDrawable(imageIdCurrent);
-                    current.setImageDrawable(myDrawableCurrent);
-
-                    Arrays.fill(p_longFlags,0,4,true);
-
-                    Toast.makeText(MainActivity.this, "You've already swapped between your cards, you can't swap again", Toast.LENGTH_SHORT).show();
-                }
+//                else if (firstPress == false && start){
+//
+//                    int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
+//                    Drawable myDrawable = getContext().getResources().getDrawable(imageIdBack);
+//
+//                    if (playerCardIndex == 0) {
+//                        playerCard1.setImageDrawable(myDrawable);
+//
+//                    }
+//                    if (playerCardIndex == 1) {
+//                        playerCard2.setImageDrawable(myDrawable);
+//                    }
+//                    if (playerCardIndex == 2) {
+//                        playerCard3.setImageDrawable(myDrawable);
+//                    }
+//                    if (playerCardIndex == 3) {
+//                        playerCard4.setImageDrawable(myDrawable);
+//                    }
+//
+//                    int imageIdCurrent = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
+//                    Drawable myDrawableCurrent = getContext().getResources().getDrawable(imageIdCurrent);
+//                    current.setImageDrawable(myDrawableCurrent);
+//
+//                    Arrays.fill(p_longFlags,0,4,true);
+//
+//                    Toast.makeText(MainActivity.this, "You've already swapped between your cards, you can't swap again", Toast.LENGTH_SHORT).show();
+//                }
                 else  Toast.makeText(MainActivity.this, "You didn't choose the cards you want to swap", Toast.LENGTH_SHORT).show();
 
                 garbageFlag = true;
@@ -690,10 +737,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static void playerTurn() {
 
+
         System.out.println("playerTurn");
         Game.currentTurn = "player";
-
+        System.out.println("cardDeckFlag = "+cardDeckFlag);
         if(start || !cardDeckFlag){
+            System.out.println("cardDeck");
             int imageId = getContext().getResources().getIdentifier(Card.cardDeck.get(0).toString(), "drawable", getContext().getPackageName());
             Drawable myDrawable = getContext().getResources().getDrawable(imageId);
             current.setImageDrawable(myDrawable);
@@ -701,7 +750,7 @@ public class MainActivity extends AppCompatActivity {
             Card.cardDeck.remove(0);
 
         }else{
-
+            System.out.println("garbage");
             Game.currentCard = Game.garbage.peek();
         }
 
@@ -713,48 +762,52 @@ public class MainActivity extends AppCompatActivity {
         Arrays.fill(c_shortFlags,0,4,true); // computer flags for short press
         Arrays.fill(p_shortFlags,0,4,true); // player flags for short press
 
-        if ((Game.currentCard.toString().endsWith("7")) || (Game.currentCard.toString().endsWith("8"))) {
-            Arrays.fill(counters,4,7,0); // player cards are available
-            Arrays.fill(counters,0,3,2);// computer cards are unavailable
-            peek_playerCard12 = true;
-            peek_playerCard34 = true;
-            peek_computerCard = false;
-            swap_computerCards = false;
-            swap_playerCards = true;
+        if(!cardDeckFlag) {
+            if ((Game.currentCard.toString().endsWith("7")) || (Game.currentCard.toString().endsWith("8"))) {
+                System.out.println("playerTurn: card 7 or 8");
+                Arrays.fill(counters, 4, 7, 0); // player cards are available
+                Arrays.fill(counters, 0, 3, 2);// computer cards are unavailable
+                peek_playerCard12 = true;
+                peek_playerCard34 = true;
+                peek_computerCard = false;
+                swap_computerCards = false;
+                swap_playerCards = true;
+            } else if ((Game.currentCard.toString().endsWith("9")) || (Game.currentCard.toString().endsWith("10"))) {
+                System.out.println("playerTurn: card 9 or 10");
+                Arrays.fill(counters, 0, 7, 0); // all cards are available
+                peek_playerCard12 = false;
+                peek_playerCard34 = false;
+                peek_computerCard = true;
+                swap_computerCards = false;
+                swap_playerCards = true;
+            } else if ((Game.currentCard.toString().endsWith("jack")) || (Game.currentCard.toString().endsWith("queen"))) {
+                System.out.println("playerTurn: card jack or queen");
+                Arrays.fill(counters, 0, 7, 0); // all cards are available
+                peek_playerCard12 = false;
+                peek_playerCard34 = false;
+                peek_computerCard = false;
+                swap_computerCards = true;
+                swap_playerCards = true;
+            } else if ((Game.currentCard.toString().equals("spadesofking") || (Game.currentCard.toString().equals("clubsofking")))) {
+                System.out.println("playerTurn: card black king");
+                Arrays.fill(counters, 0, 7, 0); // all cards are available
+                peek_playerCard12 = true;
+                peek_playerCard34 = true;
+                peek_computerCard = true;
+                swap_computerCards = true;
+                swap_playerCards = true;
+            } else {
+                System.out.println("playerTurn: other card");
+                Arrays.fill(counters, 4, 7, 0); // player cards are available
+                Arrays.fill(counters, 0, 3, 2); // computer cards are unavailable
+                peek_playerCard12 = false;
+                peek_playerCard34 = false;
+                peek_computerCard = false;
+                swap_computerCards = false;
+                swap_playerCards = true;
+            }
         }
-        else if ((Game.currentCard.toString().endsWith("9")) || (Game.currentCard.toString().endsWith("10"))) {
-            Arrays.fill(counters,0,7,0); // all cards are available
-            peek_playerCard12 = false;
-            peek_playerCard34 = false;
-            peek_computerCard = true;
-            swap_computerCards = false;
-            swap_playerCards = true;
-        }
-        else if ((Game.currentCard.toString().endsWith("jack")) || (Game.currentCard.toString().endsWith("queen"))) {
-            Arrays.fill(counters,0,7,0); // all cards are available
-            peek_playerCard12 = false;
-            peek_playerCard34 = false;
-            peek_computerCard = false;
-            swap_computerCards = true;
-            swap_playerCards = true;
-        }
-        else if ((Game.currentCard.toString().equals("spadesofking") || (Game.currentCard.toString().equals("clubsofking")))) {
-            Arrays.fill(counters,0,7,0); // all cards are available
-            peek_playerCard12 = true;
-            peek_playerCard34 = true;
-            peek_computerCard = true;
-            swap_computerCards = true;
-            swap_playerCards = true;
-        }
-        else {
-            Arrays.fill(counters,4,7,0); // player cards are available
-            Arrays.fill(counters,0,3,2); // computer cards are unavailable
-            peek_playerCard12 = false;
-            peek_playerCard34 = false;
-            peek_computerCard = false;
-            swap_computerCards = false;
-            swap_playerCards = true;
-        }
+        cardDeckFlag = true;
     }
 
     public static boolean flagIsFalse(int myIndex ,String press){
