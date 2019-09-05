@@ -51,11 +51,6 @@ public class Computer {
         boolean replaced = false;
         int minValue = 13;
 
-        int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-        Drawable myDrawableBack = getContext().getResources().getDrawable(imageIdBack);
-
-        int imageIdCurrent = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
-        Drawable myDrawableCurrent = getContext().getResources().getDrawable(imageIdCurrent);
 
         int imageIdChosen = getContext().getResources().getIdentifier("chosencard", "drawable", getContext().getPackageName());
         Drawable myDrawableChosen = getContext().getResources().getDrawable(imageIdChosen);
@@ -66,6 +61,79 @@ public class Computer {
         for(int i = 0; i< computerMemory.size(); i++){
             System.out.println(computerMemory.get(i));
         }
+        for(int i = 0; i< 4; i++){
+            if(computerCards[i].getKnown() == true)
+                Game.computer_sum = Game.computer_sum + computerCards[i].getValue();
+                Game.player_sum = Game.player_sum + Player.playerCards[i].getValue();
+        }
+
+        if(Game.computer_sum <=4){
+            Game.cambio_computer = true;
+            System.out.println("the comuter press cambio");
+            Game.currentTurn = "player";
+            Game.theGame();
+            return;
+        }
+
+
+        if(computerCards[0].getKnown() == true
+                && computerCards[1].getKnown() == true
+                && computerCards[2].getKnown() == true
+                && computerCards[3].getKnown() == true
+                && Player.playerCards[0].getKnown() == true
+                && Player.playerCards[1].getKnown() == true
+                && Player.playerCards[2].getKnown() == true
+                && Player.playerCards[3].getKnown() == true
+                && Game.computer_sum < Game.player_sum){
+            Game.cambio_computer = true;
+            System.out.println("the comuter press cambio");
+            Game.currentTurn = "player";
+            Game.theGame();
+            return;
+        }
+        if(computerCards[0].getKnown() == true
+                && computerCards[1].getKnown() == true
+                && computerCards[2].getKnown() == true
+                && computerCards[3].getKnown() == true) {
+            if (Player.playerCards[0].getKnown() == true) {
+                if ((Player.playerCards[0].getValue() > Game.computer_sum)) {
+                    Game.cambio_computer = true;
+                    System.out.println("the comuter press cambio");
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                    return;
+                }
+            } else if (Player.playerCards[1].getKnown() == true) {
+                if ((Player.playerCards[1].getValue() > Game.computer_sum)) {
+                    Game.cambio_computer = true;
+                    System.out.println("the comuter press cambio");
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                    return;
+                }
+            } else if (Player.playerCards[2].getKnown() == true) {
+                if ((Player.playerCards[2].getValue() > Game.computer_sum)) {
+                    Game.cambio_computer = true;
+                    System.out.println("the comuter press cambio");
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                    return;
+                }
+            } else if (Player.playerCards[3].getKnown() == true) {
+                if ((Player.playerCards[3].getValue() > Game.computer_sum)) {
+                    Game.cambio_computer = true;
+                    System.out.println("the comuter press cambio");
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                    return;
+                }
+            }
+        }
+
+
+
+
+
 
 
         System.out.println("First element in the garbage is " + Game.garbage.peek());
@@ -951,8 +1019,32 @@ public class Computer {
             System.out.println("player:  " + Player.playerCards[i]);
         }
 
-        Game.currentTurn = "player";
-        Game.theGame();
+        if(Game.cambio_player == true){ //the last turn of the game
+
+
+//            for (int i = 0; i < computerCards.length; i++) {
+//                Game.computer_sum = Game.computer_sum+computerCards[i].getValue();
+//            }
+//            for (int i = 0; i < Player.playerCards.length; i++) {
+//                Game.player_sum = Game.player_sum+Player.playerCards[i].getValue();
+//            }
+//            if(Game.computer_sum < Game.player_sum){ //the computer win
+//                Game.winner = "computer";
+//            }
+//            else{
+//                Game.winner = "player";
+//            }
+//            System.out.println("the winner is: "+ Game.winner);
+            Game.setGameOn(false);
+            Game.theGame();
+
+        }
+        else{ //continue the game
+            System.out.println("Game.cambio_player"+ Game.cambio_player);
+            Game.currentTurn = "player";
+            Game.theGame();
+        }
+
 
     }
 

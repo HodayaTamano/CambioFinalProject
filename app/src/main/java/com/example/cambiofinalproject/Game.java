@@ -23,6 +23,10 @@ public class Game extends MainActivity{
 	public static Card currentCard;
 	public static String currentTurn;
 	public static Stack<Card> garbage = new Stack<Card>();
+	public static boolean cambio_player = false;
+	public static boolean cambio_computer = false;
+	public static int computer_sum=0;
+	public static int player_sum=0;
 
 
 	public Game() {}
@@ -65,8 +69,11 @@ public class Game extends MainActivity{
 
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
-        Card.cardDeck.set(8, (new Card (0,11)));
-		Card.cardDeck.set(10, (new Card (0,7)));
+//        Card.cardDeck.set(8, (new Card (0,1)));
+//		Card.cardDeck.set(10, (new Card (1,13)));
+//		Card.cardDeck.set(12, (new Card (1,2)));
+//		Card.cardDeck.set(14, (new Card (1,1)));
+
 
 		for (int i=0; i<4; i++) {//Dividing 4 cards for the players and remove from the deck.
 
@@ -115,15 +122,32 @@ public class Game extends MainActivity{
 	}
 
 	public static void theGame() {
-		gameOn=true;
-		System.out.println("theGame");
+		if(gameOn == true) {
+			System.out.println("theGame");
 
-		if(currentTurn == "computer"){
-			Computer.computerTurn();
+			if (currentTurn == "computer") {
+				Computer.computerTurn();
 
-		} else
-		 	MainActivity.playerTurn();
+			} else
+				MainActivity.playerTurn();
+		}
+		else{ //game over
+			for (int i = 0; i < Computer.computerCards.length; i++) {
+				Game.computer_sum = computer_sum+ Computer.computerCards[i].getValue();
+			}
+			for (int i = 0; i < Player.playerCards.length; i++) {
+				Game.player_sum = player_sum+Player.playerCards[i].getValue();
+			}
+			if(computer_sum < player_sum){ //the computer win
+				Game.winner = "computer";
+			}
+			else{
+				winner = "player";
+			}
+			System.out.println("the winner is: "+ Game.winner);
+			Game.gameOn = false;
 
+		}
 
     }
 

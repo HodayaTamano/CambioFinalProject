@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     static Button swap;
     static Button endTurn;
+    static Button cambio;
 
     private static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
     private static boolean [] c_shortFlags = new boolean[4]; // array flags for computer cards (0-3).
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         swap = (Button) findViewById(R.id.swap);
         endTurn = (Button) findViewById(R.id.endTurn);
+        cambio = (Button) findViewById(R.id.cambio);
 
         current = (ImageButton) findViewById(R.id.currentCard);
         garbage = (ImageButton) findViewById(R.id.garbage);
@@ -119,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         computerCard1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -458,6 +461,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "You peek only one card", Toast.LENGTH_SHORT).show();
                         else {
                             System.out.println("cardDeck before theGame");
+                            Game.setGameOn(true);
                             Game.theGame();
                             start = false;
                         }
@@ -474,7 +478,10 @@ public class MainActivity extends AppCompatActivity {
                         else if ((counters[4] == 2) && (counters[5] == 1))
                             Toast.makeText(MainActivity.this, "Your card is exposed", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                }else if(Game.gameOn == false){
+                    Toast.makeText(MainActivity.this, "gameon = false", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     Game.currentTurn = "player";
 
 //                    Game.theGame();
@@ -710,18 +717,47 @@ public class MainActivity extends AppCompatActivity {
 
                     final Handler handler = new Handler();
                     final int delay = 1500; //milliseconds
-                    handler.postDelayed(new Runnable(){
-                        public void run(){
-                            Game.theGame();
 
-                          //  handler.postDelayed(this, delay);
-                        }
-                    }, delay);
+                    if(Game.cambio_computer == true){ // the last turn of the game
+                        System.out.println("cambio_computer: "+ Game.cambio_computer);
+//                        for (int i = 0; i < Computer.computerCards.length; i++) {
+//                            Game.computer_sum = Game.computer_sum+ Computer.computerCards[i].getValue();
+//                        }
+//                        for (int i = 0; i < Player.playerCards.length; i++) {
+//                            Game.player_sum = Game.player_sum+Player.playerCards[i].getValue();
+//                        }
+//                        if(Game.computer_sum < Game.player_sum){ //the computer win
+//                            Game.winner = "computer";
+//                        }
+//                        else{
+//                            Game.winner = "player";
+//                        }
+//                        System.out.println("the winner is: "+ Game.winner);
+                        Game.setGameOn(false);
+                    }
+                    else {
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                Game.theGame();
 
+                                //  handler.postDelayed(this, delay);
+                            }
+                        }, delay);
+                    }
                 }
             }
         });
 
+        cambio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            if(cardDeckFlag == true && garbageFlag == true && Game.currentTurn.equals("player")){
+                Game.cambio_player = true;
+                System.out.println("cambio_player button: "+ Game.cambio_player);
+
+            }
+            }
+        });
     }
 
 
@@ -808,6 +844,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         cardDeckFlag = true;
+
     }
 
     public static boolean flagIsFalse(int myIndex ,String press){
@@ -1028,6 +1065,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }
 
 
