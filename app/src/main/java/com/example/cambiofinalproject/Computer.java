@@ -258,6 +258,7 @@ public class Computer {
                     my_Handler("computer", 1, "peekcard", 0);
 
                     my_Handler("computer", 1, "back", 1500);
+                    my_Handler("garbage", -1, Game.currentCard.toString(), 1500);
 //
                 }
             } else if (Game.currentCard.getValue() == 9 || Game.currentCard.getValue() == 10) {
@@ -928,6 +929,8 @@ public class Computer {
                             my_Handler("computer", i, "back", 1500);
                             my_Handler("deck", 0, "backdeck", 1500);
 
+                            System.out.println("good other card");
+
                             my_Handler("garbage", -1, Computer.computerCards[i].toString(), 1500);
 
                             Card temp = Computer.computerCards[i];
@@ -955,7 +958,14 @@ public class Computer {
                         my_Handler("computer", indexComputer, "back", 1500);
                         my_Handler("deck", 0, "backdeck", 1500);
 
-                        my_Handler("garbage", -1, Computer.computerCards[indexComputer].toString(), 1500);
+
+
+                        System.out.println(" good other card and the computer known all his cards");
+
+                        int cimageId = getContext().getResources().getIdentifier(Computer.computerCards[indexComputer].toString(), "drawable", getContext().getPackageName());
+                        Drawable cmyDrawable = getContext().getResources().getDrawable(cimageId);
+                        getGarbage().setImageDrawable(cmyDrawable);
+                      // my_Handler("garbage", -1, Computer.computerCards[indexComputer].toString(), 0);
 
                         Card temp = Computer.computerCards[indexComputer];
                         Computer.computerCards[indexComputer] = Game.currentCard;
@@ -978,6 +988,7 @@ public class Computer {
                             my_Handler("deck", -1, "cbackdeck", 0);
                             my_Handler("computer", i, "chosencard", 0);
                             my_Handler("computer", i, "back", 1500);
+                            System.out.println("4,5,6");
                             my_Handler("deck", 0, "backdeck", 1500);
 
                             System.out.println("the i is: " + i);
