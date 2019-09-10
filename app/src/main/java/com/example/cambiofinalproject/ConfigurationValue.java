@@ -26,6 +26,9 @@ public class ConfigurationValue {
 		int sum= 0;
 		for (int i = 0; i < Computer.computerCards.length; i++) {
 			if (Computer.computerCards[i].getKnown()== false)  sum+= 6;
+			else if(Computer.computerCards[i].getValue() == 13 && Computer.computerCards[i].getColor() == "red") {
+				sum = sum - 1;
+			}
 			else sum += Computer.computerCards[i].getValue();
 		}
 
@@ -37,8 +40,17 @@ public class ConfigurationValue {
 
 		int sum = 0;
 		for (int i = 0; i < Computer.computerCards.length; i++) {
-			if (i == index) sum += card.getValue();
+			if (i == index) {
+				if(card.getValue() == 13 && card.getColor() == "red"){
+					sum = sum - 1;
+				}
+				else
+				sum += card.getValue();
+			}
 			else if(Computer.computerCards[i].getKnown()== false)  sum+= 6;
+			else if(Computer.computerCards[i].getValue() == 13 && Computer.computerCards[i].getColor() == "red"){
+				sum = sum - 1;
+			}
 			else sum += Computer.computerCards[i].getValue();
 		}
 

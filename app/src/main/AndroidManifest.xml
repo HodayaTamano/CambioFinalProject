@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Instruction"></activity>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".Menu" >
-        <!--<activity android:name=".Main_Activity" />-->
+        <activity android:name=".Instruction" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Menu">
+
+            <!-- <activity android:name=".Main_Activity" /> -->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".popup"></activity>
     </application>
 
 </manifest>

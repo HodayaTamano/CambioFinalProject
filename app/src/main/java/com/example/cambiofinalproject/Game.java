@@ -1,5 +1,6 @@
 package com.example.cambiofinalproject;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -70,7 +71,7 @@ public class Game extends MainActivity{
 		
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
-//        Card.cardDeck.set(8, (new Card (0,1)));
+
 //		Card.cardDeck.set(10, (new Card (1,13)));
 //		Card.cardDeck.set(12, (new Card (1,2)));
 //		Card.cardDeck.set(14, (new Card (1,1)));
@@ -133,25 +134,42 @@ public class Game extends MainActivity{
 				MainActivity.playerTurn();
 		}
 		else{ //game over
+
+			Game.computer_sum = 0;
+			Game.player_sum = 0;
+
 			for (int i = 0; i < Computer.computerCards.length; i++) {
-				Game.computer_sum = computer_sum+ Computer.computerCards[i].getValue();
+				if(Computer.computerCards[i].getValue() == 13 && Computer.computerCards[i].getColor().equals("black")){
+					computer_sum = computer_sum -1;
+				}
+				else
+				computer_sum = computer_sum+ Computer.computerCards[i].getValue();
 			}
 			for (int i = 0; i < Player.playerCards.length; i++) {
-				Game.player_sum = player_sum+Player.playerCards[i].getValue();
+				if(Player.playerCards[i].getValue() == 13 && Player.playerCards[i].getColor().equals("black")){
+					player_sum = player_sum -1;
+				}
+				else
+					player_sum = player_sum + Player.playerCards[i].getValue();
 			}
-			if(computer_sum < player_sum){ //the computer win
+			if(computer_sum == player_sum){ //the computer win
+				System.out.println("No one won");
+			}
+			else if(computer_sum < player_sum)
 				Game.winner = "computer";
-			}
 			else{
 				winner = "player";
 			}
-			System.out.println("the winner is: "+ Game.winner);
+			System.out.println("sum of the computer card:  "+ Game.computer_sum);
+			System.out.println("sum of the player card: "+ player_sum);
+			System.out.println("the winner is: "+ winner);
 			Game.gameOn = false;
 
 		}
-
     }
-
+//	public static void showToastMethod(Context context) {
+//		Toast.makeText(context, "the winner is the computer ", Toast.LENGTH_SHORT).show();
+//	}
 
 
 }
