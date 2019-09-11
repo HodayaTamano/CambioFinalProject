@@ -71,7 +71,7 @@ public class Game extends MainActivity{
 		
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
-		
+
 //		Card.cardDeck.set(10, (new Card (1,13)));
 //		Card.cardDeck.set(12, (new Card (1,2)));
 //		Card.cardDeck.set(14, (new Card (1,1)));
@@ -152,10 +152,10 @@ public class Game extends MainActivity{
 				else
 					player_sum = player_sum + Player.playerCards[i].getValue();
 			}
-			if(computer_sum == player_sum){ //the computer win
+			if(computer_sum == player_sum){ //tie
 				System.out.println("No one won");
 			}
-			else if(computer_sum < player_sum)
+			else if(computer_sum < player_sum) //the computer win
 				Game.winner = "computer";
 			else{
 				winner = "player";
