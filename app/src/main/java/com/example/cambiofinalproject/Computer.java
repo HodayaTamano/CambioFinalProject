@@ -108,6 +108,7 @@ public class Computer {
                 && computerCards[2].getKnown() == true
                 && computerCards[3].getKnown() == true) {
             if (Player.playerCards[0].getKnown() == true) {
+
                 if ((Player.playerCards[0].getValue() > Game.computer_sum)) {
                     Game.cambio_computer = true;
                     System.out.println("case 3 cambio");
@@ -444,6 +445,9 @@ public class Computer {
                             for (int j = 0; j < computerCards.length; j++) {
                                 if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[3].getValue()) {
                                     highValue = Computer.computerCards[j].getValue();
+                                    if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                        highValue = -1;
+                                    }
                                     indexComputer = j;
                                 }
                             }
@@ -485,6 +489,9 @@ public class Computer {
                                 computerKnownCard++;
                                 if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[3].getValue()) {
                                     highValue = Computer.computerCards[j].getValue();
+                                    if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                        highValue = -1;
+                                    }
                                     indexComputer = j;
                                 }
                             }
@@ -622,6 +629,9 @@ public class Computer {
                             for (int j = 0; j < computerCards.length; j++) {
                                 if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > minValue) {
                                     highValue = Computer.computerCards[j].getValue();
+                                    if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                        highValue = -1;
+                                    }
                                     indexComputer = j;
                                 }
                             }
@@ -659,6 +669,12 @@ public class Computer {
                             for (int j = 0; j < Computer.computerCards.length; j++) {
                                 if (Computer.computerCards[j].getKnown() == true) {
                                     computerKnownCard++;
+                                    if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                        Computer.computerCards[j].setValue(-1);
+                                    }
+                                    if (Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")){
+                                        Player.playerCards[indexPlayer].setValue(-1);
+                                    }
                                     if (Computer.computerCards[j].getValue() - Player.playerCards[indexPlayer].getValue() >= 4) {//I want to chek if I want this card
                                         // peek and swap
                                         my_Handler("computer", j, "peekcard", 0);
@@ -694,7 +710,12 @@ public class Computer {
                                         //peek and check if you want to swap
                                         Computer.computerCards[j].setKnown(true);
                                         my_Handler("computer", j, "peekcard", 0);
-
+                                        if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                            Computer.computerCards[j].setValue(-1);
+                                        }
+                                        if (Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")){
+                                            Player.playerCards[indexPlayer].setValue(-1);
+                                        }
                                         if (Computer.computerCards[j].getValue() - Player.playerCards[indexPlayer].getValue() > 0) {
                                             //want to swap
 
@@ -723,8 +744,17 @@ public class Computer {
                             } else if (computerKnownCard == 4) {
                                 // All computer cards are known. I will swap with the highest card.
                                 for (int j = 0; j < computerCards.length; j++) {
+                                    if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                        Computer.computerCards[j].setValue(-1);
+                                    }
+                                    if (Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")){
+                                        Player.playerCards[indexPlayer].setValue(-1);
+                                    }
                                     if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[indexPlayer].getValue()) {
                                         highValue = Computer.computerCards[j].getValue();
+                                        if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                            highValue = -1;
+                                        }
                                         indexComputer = j;
                                     }
                                 }
@@ -805,6 +835,12 @@ public class Computer {
                         for (int j = 0; j < Computer.computerCards.length; j++) {
                             if (Computer.computerCards[j].getKnown() == true) {
                                 computerKnownCard++;
+                                if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                    Computer.computerCards[j].setValue(-1);
+                                }
+                                if (Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")){
+                                    Player.playerCards[indexPlayer].setValue(-1);
+                                }
                                 if (Computer.computerCards[j].getValue() - Player.playerCards[indexPlayer].getValue() >= 4) {//I want to chek if I want this card
                                     // peek and swap
                                     my_Handler("player", indexPlayer, "peekcard", 0);
@@ -844,7 +880,12 @@ public class Computer {
                                     Player.playerCards[indexPlayer].setKnown(true);
                                     Computer.computerCards[j].setKnown(true);
                                     my_Handler("computer", j, "peekcard", 0);
-
+                                    if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                        Computer.computerCards[j].setValue(-1);
+                                    }
+                                    if (Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")){
+                                        Player.playerCards[indexPlayer].setValue(-1);
+                                    }
                                     if (Computer.computerCards[j].getValue() - Player.playerCards[indexPlayer].getValue() > 0) {
                                         //want to swap
 
@@ -873,8 +914,17 @@ public class Computer {
                         } else if (computerKnownCard == 4) {
                             // All computer cards are known. I will swap with the highest card.
                             for (int j = 0; j < computerCards.length; j++) {
+                                if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                    Computer.computerCards[j].setValue(-1);
+                                }
+                                if (Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")){
+                                    Player.playerCards[indexPlayer].setValue(-1);
+                                }
                                 if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[2].getValue()) {
                                     highValue = Computer.computerCards[j].getValue();
+                                    if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                        highValue = -1;
+                                    }
                                     indexComputer = j;
                                 }
                             }
@@ -918,6 +968,7 @@ public class Computer {
 
             } else {
                 System.out.println("Other card - the value in the current 1-6 and red king");
+
                 if (Game.currentCard.getValue() < 4 || Game.currentCard.getValue() == 13 && Game.currentCard.getColor() == "red") {
                     //the card is good I want to put him instead of unknown card
                     for (int i = 0; i < computerCards.length; i++) {
@@ -947,8 +998,17 @@ public class Computer {
                     }
                     if(computerKnownCard == 4){ //the computer known all his cards
                         for (int j = 0; j < computerCards.length; j++) {
+                            if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                Computer.computerCards[j].setValue(-1);
+                            }
+                            if (Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")){
+                                Player.playerCards[indexPlayer].setValue(-1);
+                            }
                             if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[3].getValue()) {
                                 highValue = Computer.computerCards[j].getValue();
+                                if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
+                                    highValue = -1;
+                                }
                                 indexComputer = j;
                             }
                         }
@@ -980,6 +1040,9 @@ public class Computer {
                     for (int i = 0; i < computerCards.length; i++) {
                         System.out.println("the card is " + computerCards[i]);
                         System.out.println("computerCards[i].getKnown() = " + computerCards[i].getKnown() + " && (computerCards[i].getValue() - Game.currentCard.getValue()) = " + (computerCards[i].getValue() - Game.currentCard.getValue()));
+                        if (Computer.computerCards[i].getValue() == 13 && Computer.computerCards[i].getColor().equals("red")){
+                            Computer.computerCards[i].setValue(-1);
+                        }
 
                         if ((computerCards[i].getKnown() == true) && (computerCards[i].getValue() > Game.currentCard.getValue())) {
                             System.out.println("if((computerCards[i].getKnown() == true ) && (computerCards[i].getValue() > Game.currentCard.getValue())");
@@ -1066,15 +1129,12 @@ public class Computer {
 //            System.out.println("the winner is: "+ Game.winner);
             Game.setGameOn(false);
             Game.theGame();
-
         }
         else{ //continue the game
             System.out.println("Game.cambio_player"+ Game.cambio_player);
             Game.currentTurn = "player";
             Game.theGame();
         }
-
-
     }
 
 

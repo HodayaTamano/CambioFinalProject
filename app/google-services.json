@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "473509485696",
+    "firebase_url": "https://cambiostatistic.firebaseio.com",
+    "project_id": "cambiostatistic",
+    "storage_bucket": "cambiostatistic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473509485696:android:5a1c6aaad11c7035d39a65",
+        "android_client_info": {
+          "package_name": "com.example.cambiofinalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473509485696-kbjpcl0q0vmbcgsjb6nft47m7eb6mgnk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cambiofinalproject",
+            "certificate_hash": "e3d9dabc2007ece3ec9270b03284d2792e6b3ca2"
+          }
+        },
+        {
+          "client_id": "473509485696-1s6aj3f45ei81vqq591ohdostvabpove.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlIZYkbrytXE-dN7R7c9_mCuEF0EJZkTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473509485696-1s6aj3f45ei81vqq591ohdostvabpove.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

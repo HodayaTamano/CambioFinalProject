@@ -4,11 +4,17 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 
+//import com.google.firebase.FirebaseApp;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
@@ -28,6 +34,8 @@ public class Game extends MainActivity{
 	public static boolean cambio_computer = false;
 	public static int computer_sum=0;
 	public static int player_sum=0;
+	private static int computerWins = 0;
+	private static int playerWins = 0;
 
 
 	public Game() {}
@@ -72,8 +80,8 @@ public class Game extends MainActivity{
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
 
-//		Card.cardDeck.set(10, (new Card (1,13)));
-//		Card.cardDeck.set(12, (new Card (1,2)));
+//		Card.cardDeck.set(9, (new Card (1,13)));
+//		Card.cardDeck.set(11, (new Card (1,13)));
 //		Card.cardDeck.set(14, (new Card (1,1)));
 
 
@@ -152,26 +160,54 @@ public class Game extends MainActivity{
 				else
 					player_sum = player_sum + Player.playerCards[i].getValue();
 			}
+
+//			DatabaseReference ref = FirebaseDatabase.getInstance()
+//					.getReference("https://cambiostatistic.firebaseio.com/")
+//					.child("The winner");
+
 			if(computer_sum == player_sum){ //tie
 				System.out.println("No one won");
 			}
-			else if(computer_sum < player_sum) //the computer win
-				Game.winner = "computer";
+			else if(computer_sum < player_sum) { //the computer win
+				winner = "computer";
+				computerWins++;
+//				ref.child("Computer").setValue(computerWins);
+			}
 			else{
 				winner = "player";
+				playerWins++;
+
+//				ref.child("Player").setValue(playerWins);
 			}
+			writeToFile("computer",computerWins,"player",playerWins,Game.getContext().getApplicationContext());
+
+//			ref.child("Computer Victory Statistics").setValue(computerWins/(computerWins+playerWins));
 
 
 			System.out.println("sum of the computer card:  "+ Game.computer_sum);
 			System.out.println("sum of the player card: "+ player_sum);
 			System.out.println("the winner is: "+ winner);
+			showToastMethod(Game.getContext().getApplicationContext());
 			Game.gameOn = false;
 
 		}
     }
-//	public static void showToastMethod(Context context) {
-//		Toast.makeText(context, "the winner is the computer ", Toast.LENGTH_SHORT).show();
-//	}
+	public static void showToastMethod(Context context) {
+		Toast.makeText(context, "the winner is the "+winner, Toast.LENGTH_SHORT).show();
+	}
+	private static void writeToFile(String winnerC,int numOfVictoriesC, String winnerP,int numOfVictoriesP,Context context) {
+		try {
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("statisticFile.txt", Context.MODE_PRIVATE));
+			outputStreamWriter.write("New Statistic: ");
+			outputStreamWriter.write("The computer won "+ numOfVictoriesC+" times");
+			outputStreamWriter.write("The player won "+ numOfVictoriesP+" times");
+			outputStreamWriter.write("Computer Victory Statistics is: "+numOfVictoriesC/(numOfVictoriesC+numOfVictoriesP));
+			outputStreamWriter.close();
+		}
+		catch (IOException e) {
+			Log.e("Exception", "File write failed: " + e.toString());
+		}
+	}
 
 
 }
