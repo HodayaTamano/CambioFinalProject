@@ -2,11 +2,9 @@ package com.example.cambiofinalproject;
 
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 
 import static com.example.cambiofinalproject.MainActivity.*;
 
@@ -80,6 +78,7 @@ public class Computer {
             System.out.println("case 1 cambio");
 
             Game.cambio_computer = true;
+            Toast.makeText(getContext(), "The computer press cambio ", Toast.LENGTH_SHORT).show();
             System.out.println("the comuter press cambio");
             Game.currentTurn = "player";
             Game.theGame();
@@ -189,7 +188,7 @@ public class Computer {
             Game.garbage.push(temp);
             Game.currentCard = Game.garbage.peek();
            // Computer.computerMemory.add(new CardLocation(Game.garbage.peek(),-1, "garbage"));
-
+            Computer.computerCards[indexComputer].setKnown(true);
 
             my_Handler("computer", indexComputer, "chosencard", 0);
 
@@ -259,7 +258,7 @@ public class Computer {
                     my_Handler("computer", 1, "peekcard", 0);
 
                     my_Handler("computer", 1, "back", 1500);
-                    my_Handler("garbage", -1, Game.currentCard.toString(), 1500);
+                    my_Handler("garbage", -1, Game.currentCard.toString(), 0);
 //
                 }
             } else if (Game.currentCard.getValue() == 9 || Game.currentCard.getValue() == 10) {
@@ -598,7 +597,7 @@ public class Computer {
                     my_Handler("player", indexPlayer, "peekcard", 0);
                     Player.playerCards[indexPlayer].setKnown(true);
                     //case 3:
-                    if (minValue == -1 || minValue == 1 || minValue == 2 || minValue == 3) { //the card is good. I want to take
+                    if (minValue == -1 || minValue == 1 || minValue == 2 || minValue == 3) { //the card of the player is good. I want to take
                         System.out.println("case 3");
                         for (int j = 0; j < computerCards.length; j++) {
                             if (Computer.computerCards[j].getKnown() == false) {
@@ -621,7 +620,7 @@ public class Computer {
                                 break;
                             }
                         }
-                    } else {// the value is 4-13(black)
+                    } else {// the value of the player card is 4-13(black)
                         //case 4:
                         if (Computer.computerCards[0].getKnown() == true && Computer.computerCards[1].getKnown() == true
                                 && Computer.computerCards[2].getKnown() == true && Computer.computerCards[3].getKnown() == true) {
@@ -967,7 +966,7 @@ public class Computer {
 
 
             } else {
-                System.out.println("Other card - the value in the current 1-6 and red king");
+                System.out.println("Other card - the value in the current 1-6 or red king");
 
                 if (Game.currentCard.getValue() < 4 || Game.currentCard.getValue() == 13 && Game.currentCard.getColor() == "red") {
                     //the card is good I want to put him instead of unknown card
@@ -1001,10 +1000,8 @@ public class Computer {
                             if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
                                 Computer.computerCards[j].setValue(-1);
                             }
-                            if (Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")){
-                                Player.playerCards[indexPlayer].setValue(-1);
-                            }
-                            if (Computer.computerCards[j].getValue() > highValue && Computer.computerCards[j].getValue() > Player.playerCards[3].getValue()) {
+                            
+                            if (Computer.computerCards[j].getValue() > highValue) {
                                 highValue = Computer.computerCards[j].getValue();
                                 if (Computer.computerCards[j].getValue() == 13 && Computer.computerCards[j].getColor().equals("red")){
                                     highValue = -1;
@@ -1114,19 +1111,6 @@ public class Computer {
         if(Game.cambio_player == true){ //the last turn of the game
 
 
-//            for (int i = 0; i < computerCards.length; i++) {
-//                Game.computer_sum = Game.computer_sum+computerCards[i].getValue();
-//            }
-//            for (int i = 0; i < Player.playerCards.length; i++) {
-//                Game.player_sum = Game.player_sum+Player.playerCards[i].getValue();
-//            }
-//            if(Game.computer_sum < Game.player_sum){ //the computer win
-//                Game.winner = "computer";
-//            }
-//            else{
-//                Game.winner = "player";
-//            }
-//            System.out.println("the winner is: "+ Game.winner);
             Game.setGameOn(false);
             Game.theGame();
         }

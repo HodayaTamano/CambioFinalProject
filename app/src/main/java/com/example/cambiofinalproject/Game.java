@@ -1,6 +1,7 @@
 package com.example.cambiofinalproject;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +14,17 @@ import android.widget.Toast;
 //import com.google.firebase.database.DatabaseReference;
 //import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
@@ -34,8 +43,8 @@ public class Game extends MainActivity{
 	public static boolean cambio_computer = false;
 	public static int computer_sum=0;
 	public static int player_sum=0;
-	private static int computerWins = 0;
-	private static int playerWins = 0;
+	public static int computerWins = 1;
+	public static int playerWins = 1;
 
 
 	public Game() {}
@@ -80,7 +89,8 @@ public class Game extends MainActivity{
 		Collections.shuffle(Card.cardDeck, new Random()); //shuffle the deck randomly
 
 
-//		Card.cardDeck.set(9, (new Card (1,13)));
+
+	//	Card.cardDeck.set(8, (new Card (2,8)));
 //		Card.cardDeck.set(11, (new Card (1,13)));
 //		Card.cardDeck.set(14, (new Card (1,1)));
 
@@ -143,6 +153,7 @@ public class Game extends MainActivity{
 		}
 		else{ //game over
 
+
 			Game.computer_sum = 0;
 			Game.player_sum = 0;
 
@@ -161,9 +172,6 @@ public class Game extends MainActivity{
 					player_sum = player_sum + Player.playerCards[i].getValue();
 			}
 
-//			DatabaseReference ref = FirebaseDatabase.getInstance()
-//					.getReference("https://cambiostatistic.firebaseio.com/")
-//					.child("The winner");
 
 			if(computer_sum == player_sum){ //tie
 				System.out.println("No one won");
@@ -171,18 +179,13 @@ public class Game extends MainActivity{
 			else if(computer_sum < player_sum) { //the computer win
 				winner = "computer";
 				computerWins++;
-//				ref.child("Computer").setValue(computerWins);
 			}
 			else{
 				winner = "player";
 				playerWins++;
 
-//				ref.child("Player").setValue(playerWins);
 			}
 			writeToFile("computer",computerWins,"player",playerWins,Game.getContext().getApplicationContext());
-
-//			ref.child("Computer Victory Statistics").setValue(computerWins/(computerWins+playerWins));
-
 
 			System.out.println("sum of the computer card:  "+ Game.computer_sum);
 			System.out.println("sum of the player card: "+ player_sum);
@@ -196,17 +199,42 @@ public class Game extends MainActivity{
 		Toast.makeText(context, "the winner is the "+winner, Toast.LENGTH_SHORT).show();
 	}
 	private static void writeToFile(String winnerC,int numOfVictoriesC, String winnerP,int numOfVictoriesP,Context context) {
+		if (numOfVictoriesC < 0) numOfVictoriesC--;
+		if (numOfVictoriesP < 0) numOfVictoriesP--;
 		try {
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("statisticFile.txt", Context.MODE_PRIVATE));
-			outputStreamWriter.write("New Statistic: ");
-			outputStreamWriter.write("The computer won "+ numOfVictoriesC+" times");
-			outputStreamWriter.write("The player won "+ numOfVictoriesP+" times");
-			outputStreamWriter.write("Computer Victory Statistics is: "+numOfVictoriesC/(numOfVictoriesC+numOfVictoriesP));
+			System.out.println(context.getFilesDir().getAbsolutePath()+"/statisticFile.txt");
+			outputStreamWriter.write(readLine(context.getFilesDir().getAbsolutePath()+"/statisticFile.txt"));
+			outputStreamWriter.write("New Statistic: \n");
+			outputStreamWriter.write("The computer won "+ numOfVictoriesC+" times\n");
+			outputStreamWriter.write("The player won "+ numOfVictoriesP+" times\n");
+			outputStreamWriter.write("Computer Victory Statistics is: "+numOfVictoriesC/(numOfVictoriesC+numOfVictoriesP)+"\n");
 			outputStreamWriter.close();
 		}
 		catch (IOException e) {
 			Log.e("Exception", "File write failed: " + e.toString());
 		}
+	}
+
+
+	private static String readLine(String path) {
+		String mLines = "";
+
+		AssetManager am = getContext().getAssets();
+
+		try {
+			InputStream is = am.open(path);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String line;
+
+			while ((line = reader.readLine()) != null)
+				mLines = mLines+ line + "\n";
+//				mLines.add(line);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+System.out.println(mLines);
+		return mLines;
 	}
 
 

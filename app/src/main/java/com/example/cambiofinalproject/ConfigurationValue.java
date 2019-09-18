@@ -1,4 +1,6 @@
 package com.example.cambiofinalproject;
+
+
 public class ConfigurationValue {
 
 	public static Card x0;

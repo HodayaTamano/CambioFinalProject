@@ -12,6 +12,7 @@
 
     <Button
         android:id="@+id/cambio"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -24,10 +25,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.027"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.676" />
+        app:layout_constraintVertical_bias="0.988"
+        tools:background="@android:color/background_light"
+        tools:textColor="@android:color/black" />
 
     <ImageButton
         android:id="@+id/computerCard1"
@@ -115,13 +118,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="playerCard1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
+        app:layout_constraintHorizontal_bias="0.304"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.938"
-        android:contentDescription="playerCard1"
+        app:layout_constraintVertical_bias="0.883"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -134,13 +137,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="playerCard2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.671"
+        app:layout_constraintHorizontal_bias="0.67"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.938"
-        android:contentDescription="playerCard2"
+        app:layout_constraintVertical_bias="0.883"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -153,13 +156,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="playerCard3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
+        app:layout_constraintHorizontal_bias="0.304"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.715"
-        android:contentDescription="playerCard3"
+        app:layout_constraintVertical_bias="0.669"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -172,13 +175,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="playerCard4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.671"
+        app:layout_constraintHorizontal_bias="0.67"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.715"
-        android:contentDescription="playerCard4"
+        app:layout_constraintVertical_bias="0.669"
         app:srcCompat="@drawable/back" />
 
     <ImageButton
@@ -191,14 +194,14 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="deck"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintHorizontal_bias="0.077"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.46"
-        android:contentDescription="deck"
+        app:layout_constraintVertical_bias="0.449"
         app:srcCompat="@drawable/backdeck" />
 
     <ImageButton
@@ -215,11 +218,11 @@
         android:contentDescription="garbage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.894"
+        app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.461"
+        app:layout_constraintVertical_bias="0.449"
         tools:srcCompat="@tools:sample/avatars" />
 
     <android.support.constraint.Group
@@ -239,12 +242,15 @@
         android:layout_marginBottom="8dp"
         android:text="swap"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.798" />
+        app:layout_constraintVertical_bias="0.988"
+        tools:background="@android:color/background_light"
+        tools:textColor="@android:color/black" />
 
     <ImageButton
         android:id="@+id/currentCard"
@@ -261,13 +267,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45999998"
+        app:layout_constraintVertical_bias="0.449"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/endTurn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="51dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -275,12 +281,15 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="End turn"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintHorizontal_bias="0.969"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.797" />
+        app:layout_constraintVertical_bias="0.987"
+        tools:background="@android:color/background_light"
+        tools:textColor="@android:color/black" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -23,7 +23,7 @@ public class Card {
 	}
 
 
-	public Boolean getKnown() {
+		public Boolean getKnown() {
 		return known;
 	}
 
