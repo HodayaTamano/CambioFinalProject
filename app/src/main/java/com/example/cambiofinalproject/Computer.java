@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.example.cambiofinalproject.MainActivity.*;
 
@@ -1115,6 +1116,333 @@ public class Computer {
             Game.theGame();
         }
         else{ //continue the game
+            System.out.println("Game.cambio_player"+ Game.cambio_player);
+            Game.currentTurn = "player";
+            Game.theGame();
+        }
+    }
+
+
+    public static void computerTurnRandom() {
+
+        Random r = new Random();
+        int indexComputer = -1;
+        int indexPlayer = -1;
+
+
+        Game.computer_sum = 0;
+        Game.player_sum = 0;
+        for(int i = 0; i< 4; i++){
+            if(computerCards[i].getKnown() == true)
+                if(computerCards[i].getValue() == 13 && computerCards[i].getColor() == "red"){
+                    Game.computer_sum = Game.computer_sum -1;
+                }
+                else
+                    Game.computer_sum = Game.computer_sum + computerCards[i].getValue();
+            if(Player.playerCards[i].getValue() == 13 && Player.playerCards[i].getColor() == "red"){
+                Game.player_sum = Game.player_sum -1;
+            }
+            else
+                Game.player_sum = Game.player_sum + Player.playerCards[i].getValue();
+        }
+
+        if(computerCards[0].getKnown() == true
+                && computerCards[1].getKnown() == true
+                && computerCards[2].getKnown() == true
+                && computerCards[3].getKnown() == true
+                && Game.computer_sum <=4){
+            System.out.println("case 1 cambio");
+
+            Game.cambio_computer = true;
+            Toast.makeText(getContext(), "The computer press cambio ", Toast.LENGTH_SHORT).show();
+            System.out.println("the comuter press cambio");
+            Game.currentTurn = "player";
+            Game.theGame();
+            return;
+        }
+
+
+        if(computerCards[0].getKnown() == true
+                && computerCards[1].getKnown() == true
+                && computerCards[2].getKnown() == true
+                && computerCards[3].getKnown() == true
+                && Player.playerCards[0].getKnown() == true
+                && Player.playerCards[1].getKnown() == true
+                && Player.playerCards[2].getKnown() == true
+                && Player.playerCards[3].getKnown() == true
+                && Game.computer_sum < Game.player_sum){
+            Game.cambio_computer = true;
+            System.out.println("case 2 cambio");
+            System.out.println("the comuter press cambio");
+            Game.currentTurn = "player";
+            Game.theGame();
+            return;
+        }
+        if(computerCards[0].getKnown() == true
+                && computerCards[1].getKnown() == true
+                && computerCards[2].getKnown() == true
+                && computerCards[3].getKnown() == true) {
+            if (Player.playerCards[0].getKnown() == true) {
+
+                if ((Player.playerCards[0].getValue() > Game.computer_sum)) {
+                    Game.cambio_computer = true;
+                    System.out.println("case 3 cambio");
+                    System.out.println("the comuter press cambio");
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                    return;
+                }
+            } else if (Player.playerCards[1].getKnown() == true) {
+                if ((Player.playerCards[1].getValue() > Game.computer_sum)) {
+                    Game.cambio_computer = true;
+                    System.out.println("case 4 cambio");
+                    System.out.println("the comuter press cambio");
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                    return;
+                }
+            } else if (Player.playerCards[2].getKnown() == true) {
+                if ((Player.playerCards[2].getValue() > Game.computer_sum)) {
+                    Game.cambio_computer = true;
+                    System.out.println("case 5 cambio");
+                    System.out.println("the comuter press cambio");
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                    return;
+                }
+            } else if (Player.playerCards[3].getKnown() == true) {
+                if ((Player.playerCards[3].getValue() > Game.computer_sum)) {
+                    Game.cambio_computer = true;
+                    System.out.println("case 6 cambio");
+                    System.out.println("the comuter press cambio");
+                    Game.currentTurn = "player";
+                    Game.theGame();
+                    return;
+                }
+            }
+        }
+
+
+
+
+        if (Game.garbage.peek().getValue() < 7 || Game.garbage.peek().getValue() == 13 && Game.garbage.peek().getColor() == "red") {
+            System.out.println("The computer see that the value in the garbage is < 7");
+
+
+            System.out.print("The computer cards are: [");
+            for (int i = 0; i < computerCards.length; i++) {
+                System.out.print(computerCards[i] + " ");
+            }
+            System.out.print("]");
+
+            System.out.println("swaping between garbage card and computer card");
+
+            indexComputer = r.nextInt(4 - 0) + 0;
+            System.out.println("random indexComputer: " + indexComputer);
+
+            // display swaping between garbage card and computer card
+            int c_imageId = getContext().getResources().getIdentifier("c" + Computer.computerCards[indexComputer].toString(), "drawable", getContext().getPackageName());
+            Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
+            getGarbage().setImageDrawable(c_myDrawable);
+
+
+            // the real swaping
+            Card temp = Computer.computerCards[indexComputer];
+            Computer.computerCards[indexComputer] = Game.garbage.pop();
+            Game.garbage.push(temp);
+            Game.currentCard = Game.garbage.peek();
+            Computer.computerCards[indexComputer].setKnown(true);
+
+
+            my_Handler("computer", indexComputer, "chosencard", 0);
+
+            my_Handler("computer", indexComputer, "back", 1500);
+            my_Handler("garbage", -1, Game.garbage.peek().toString(), 1500);
+
+
+            System.out.print("The computer cards are: [");
+            for (int i = 0; i < computerCards.length; i++) {
+                System.out.print(computerCards[i] + " ");
+            }
+            System.out.print("]");
+
+        } else {
+            System.out.println("The computer see that the value in the garbage is >= 7");
+            Game.currentCard = Card.cardDeck.get(0);
+            Card.cardDeck.remove(0);
+
+
+            if (Game.currentCard.getValue() == 7 || Game.currentCard.getValue() == 8) {
+                System.out.println("The computer see that the value in the current is: " + Game.currentCard.getValue());
+
+                indexComputer = r.nextInt(4 - 0) + 0;
+                System.out.println("random indexComputer: " + indexComputer);
+
+
+                my_Handler("computer", indexComputer, "peekcard", 0);
+                my_Handler("computer", indexComputer, "back", 1500);
+                computerCards[indexComputer].setKnown(true);
+                // Throw the card (7 or 8) to the garbage.
+                my_Handler("garbage", -1, Game.currentCard.toString(), 0);
+
+                Game.garbage.push(Game.currentCard);
+                Game.currentCard = Game.garbage.peek();
+            } else if (Game.currentCard.getValue() == 9 || Game.currentCard.getValue() == 10) {
+                System.out.println("The computer see that the value in the current is: " + Game.currentCard.getValue());
+
+                indexPlayer = r.nextInt(4 - 0) + 0;
+                System.out.println("random indexplayer: " + indexPlayer);
+
+
+                my_Handler("player", indexPlayer, "peekcard", 0);
+                my_Handler("player", indexPlayer, "back", 1500);
+                Player.playerCards[indexPlayer].setKnown(true);
+
+                // Throw the card (9 or 10) to the garbage.
+                my_Handler("garbage", -1, Game.currentCard.toString(), 0);
+
+                Game.garbage.push(Game.currentCard);
+                Game.currentCard = Game.garbage.peek();
+            } else if (Game.currentCard.getValue() == 11 || Game.currentCard.getValue() == 12) {
+                System.out.println("the value in the current queen or jack");
+                indexComputer = r.nextInt(4 - 0) + 0;
+                indexPlayer = r.nextInt(4 - 0) + 0;
+                System.out.println(" random indexPlayer: " + indexPlayer);
+                System.out.println("random indexComputer: " + indexComputer);
+
+
+                // display swapping between player card and computer card
+                System.out.println("swapping between player card and computer card");
+
+
+                my_Handler("player", indexPlayer, "chosencard", 0);
+                my_Handler("computer", indexComputer, "chosencard", 0);
+
+                my_Handler("player", indexPlayer, "back", 1500);
+                my_Handler("computer", indexComputer, "back", 1500);
+
+
+                System.out.print("The computer cards are: [");
+                for (int i = 0; i < computerCards.length; i++) {
+                    System.out.print(computerCards[i] + " ");
+                }
+                System.out.println("]");
+                System.out.println("");
+
+
+                System.out.print("The player cards are: [");
+                for (int i = 0; i < Player.playerCards.length; i++) {
+                    System.out.print(Player.playerCards[i] + " ");
+                }
+                System.out.println("]");
+                System.out.println("");
+
+                // the real swaping
+                Card temp = Computer.computerCards[indexComputer];
+                Computer.computerCards[indexComputer] = Player.playerCards[indexPlayer];
+                Player.playerCards[indexPlayer] = temp;
+
+
+                System.out.print("The computer cards are: [");
+                for (int i = 0; i < computerCards.length; i++) {
+                    System.out.print(computerCards[i] + " ");
+                }
+                System.out.println("]");
+                System.out.println("");
+
+
+                System.out.print("The player cards are: [");
+                for (int i = 0; i < Player.playerCards.length; i++) {
+                    System.out.print(Player.playerCards[i] + " ");
+                }
+                System.out.println("]");
+                System.out.println("");
+
+
+                Game.garbage.push(Game.currentCard);
+                Game.currentCard = Game.garbage.peek();
+                Computer.computerMemory.add(new CardLocation(Game.garbage.peek(), -1, "garbage"));
+
+
+                my_Handler("garbage", -1, Game.currentCard.toString(), 0);
+
+
+            } else if (Game.currentCard.getValue() == 13 && Game.currentCard.getColor().equals("black")) {
+                indexComputer = r.nextInt(4 - 0) + 0;
+                indexPlayer = r.nextInt(4 - 0) + 0;
+                System.out.println(" random indexPlayer: " + indexPlayer);
+                System.out.println("random indexComputer: " + indexComputer);
+
+                //peek
+                my_Handler("player", indexPlayer, "peekcard", 0);
+                my_Handler("computer", indexComputer, "peekcard", 0);
+
+                Player.playerCards[indexPlayer].setKnown(true);
+                computerCards[indexComputer].setKnown(true);
+
+
+                if (computerCards[indexComputer].getValue() > Player.playerCards[indexPlayer].getValue()
+                        || Player.playerCards[indexPlayer].getValue() == 13 && Player.playerCards[indexPlayer].getColor().equals("red")) {
+                    //I want to swap
+
+                    //swap
+                    my_Handler("player", indexPlayer, "chosencard", 1500);
+                    my_Handler("computer", indexComputer, "chosencard", 1500);
+
+                    my_Handler("player", indexPlayer, "back", 3000);
+                    my_Handler("computer", indexComputer, "back", 3000);
+
+                    //the real swap
+                    Card temp = Computer.computerCards[indexComputer];
+                    Computer.computerCards[indexComputer] = Player.playerCards[indexPlayer];
+                    Player.playerCards[indexPlayer] = temp;
+
+                } else {
+                    // dont make the swap
+
+                    my_Handler("player", indexPlayer, "back", 1500);
+                    my_Handler("computer", indexComputer, "back", 1500);
+
+                }
+
+                //throw the black king to the garbage
+                my_Handler("garbage", -1, Game.currentCard.toString(), 0);
+
+                Game.garbage.push(Game.currentCard);
+                Game.currentCard = Game.garbage.peek();
+
+            }
+            else {
+                System.out.println("Other card - the value in the current 1-6 or red king");
+
+                indexComputer = r.nextInt(4 - 0) + 0;
+                System.out.println("random indexComputer: " + indexComputer);
+
+                //swap
+                my_Handler("deck", -1, "cbackdeck", 0);
+
+                my_Handler("computer", indexComputer, "chosencard", 0);
+                my_Handler("computer", indexComputer, "back", 1500);
+                my_Handler("deck", 0, "backdeck", 1500);
+
+
+                //trow the computer card to the garbage
+                my_Handler("garbage", -1, Computer.computerCards[indexComputer].toString(), 1500);
+
+                Card temp = Computer.computerCards[indexComputer];
+                Computer.computerCards[indexComputer] = Game.currentCard;
+                Game.garbage.push(temp);
+                Game.currentCard = Game.garbage.peek();
+
+                current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
+
+            }
+        }
+
+        if(Game.cambio_player == true){ //the last turn of the game
+            Game.setGameOn(false);
+            Game.theGame();
+        } else{ //continue the game
             System.out.println("Game.cambio_player"+ Game.cambio_player);
             Game.currentTurn = "player";
             Game.theGame();

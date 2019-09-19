@@ -1,6 +1,7 @@
 package com.example.cambiofinalproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     static Button swap;
     static Button endTurn;
     static Button cambio;
+    static Button menu;
 
     private static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
     private static boolean [] c_shortFlags = new boolean[4]; // array flags for computer cards (0-3).
@@ -96,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
         Arrays.fill(c_shortFlags,0,4,true); // computer flags for short press
         Arrays.fill(p_shortFlags,0,4,true); // player flags for short press
+
+        menu = (Button) findViewById(R.id.button7);
 
 ///////////////////////////////////////////////// Computer Cards ////////////////////////////////////////////////////////////
 
@@ -743,11 +747,25 @@ public class MainActivity extends AppCompatActivity {
         cambio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            if (Game.currentTurn.equals("")){
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                Toast.makeText(MainActivity.this, "You can't press cambio in the beginning of the game", Toast.LENGTH_SHORT).show();
+            }
             if(cardDeckFlag == true && garbageFlag == true && Game.currentTurn.equals("player")){
                 Game.cambio_player = true;
                 System.out.println("cambio_player button: "+ Game.cambio_player);
 
+            }else{
+                System.out.println("else");
             }
+            }
+        });
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Menu.class));
             }
         });
     }

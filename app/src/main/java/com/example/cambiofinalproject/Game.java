@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,9 +37,9 @@ public class Game extends MainActivity{
 //    }
 
 	public static boolean gameOn = false;
-	public static String winner;
-	public static Card currentCard;
-	public static String currentTurn;
+	public static String winner = "";
+	public static Card currentCard = new Card();
+	public static String currentTurn = "";
 	public static Stack<Card> garbage = new Stack<Card>();
 	public static boolean cambio_player = false;
 	public static boolean cambio_computer = false;
@@ -45,6 +47,7 @@ public class Game extends MainActivity{
 	public static int player_sum=0;
 	public static int computerWins = 1;
 	public static int playerWins = 1;
+	public static int level;
 
 
 	public Game() {}
@@ -146,7 +149,11 @@ public class Game extends MainActivity{
 			System.out.println("theGame");
 
 			if (currentTurn == "computer") {
-				Computer.computerTurn();
+				if(level == 1) {
+					Computer.computerTurn();
+				}
+				else
+					Computer.computerTurnRandom();
 
 			} else
 				MainActivity.playerTurn();
@@ -187,7 +194,7 @@ public class Game extends MainActivity{
 			}
 			writeToFile("computer",computerWins,"player",playerWins,Game.getContext().getApplicationContext());
 
-			System.out.println("sum of the computer card:  "+ Game.computer_sum);
+			System.out.println("sum of the computer card:  "+ computer_sum);
 			System.out.println("sum of the player card: "+ player_sum);
 			System.out.println("the winner is: "+ winner);
 			showToastMethod(Game.getContext().getApplicationContext());
@@ -196,20 +203,31 @@ public class Game extends MainActivity{
 		}
     }
 	public static void showToastMethod(Context context) {
-		Toast.makeText(context, "the winner is the "+winner, Toast.LENGTH_SHORT).show();
+		if(computer_sum == player_sum){ //tie
+			System.out.println("No one won");
+			Toast.makeText(context, "It's a tie!", Toast.LENGTH_SHORT).show();
+		}else Toast.makeText(context, "the winner is the "+winner, Toast.LENGTH_SHORT).show();
 	}
 	private static void writeToFile(String winnerC,int numOfVictoriesC, String winnerP,int numOfVictoriesP,Context context) {
-		if (numOfVictoriesC < 0) numOfVictoriesC--;
-		if (numOfVictoriesP < 0) numOfVictoriesP--;
+//		if (numOfVictoriesC > 0) numOfVictoriesC--;
+//		if (numOfVictoriesP > 0) numOfVictoriesP--;
 		try {
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("statisticFile.txt", Context.MODE_PRIVATE));
-			System.out.println(context.getFilesDir().getAbsolutePath()+"/statisticFile.txt");
-			outputStreamWriter.write(readLine(context.getFilesDir().getAbsolutePath()+"/statisticFile.txt"));
-			outputStreamWriter.write("New Statistic: \n");
-			outputStreamWriter.write("The computer won "+ numOfVictoriesC+" times\n");
-			outputStreamWriter.write("The player won "+ numOfVictoriesP+" times\n");
-			outputStreamWriter.write("Computer Victory Statistics is: "+numOfVictoriesC/(numOfVictoriesC+numOfVictoriesP)+"\n");
+			OutputStreamWriter outputStreamWriter1 = new OutputStreamWriter(context.openFileOutput("statisticFile.txt", Context.MODE_PRIVATE));
+			OutputStreamWriter outputStreamWriter2 = new OutputStreamWriter(context.openFileOutput("statisticFile.txt", Context.MODE_PRIVATE));
+
+//			outputStreamWriter.write("New Statistic: \n");
+//			outputStreamWriter.write("The computer won "+ numOfVictoriesC+" times\n");
+//			outputStreamWriter.write("The player won "+ numOfVictoriesP+" times\n");
+//			outputStreamWriter.write("Computer Victory Statistics is: "+numOfVictoriesC/(numOfVictoriesC+numOfVictoriesP)+"\n");
+
+			outputStreamWriter.write(""+numOfVictoriesC+"\n");
+			outputStreamWriter.write(""+numOfVictoriesP+"\n");
+			double statisticD = (double)numOfVictoriesC/(numOfVictoriesC+numOfVictoriesP);
+			outputStreamWriter.write(""+statisticD+"\n");
 			outputStreamWriter.close();
+			outputStreamWriter2.write(readLine("statisticFile.txt"));
+			outputStreamWriter2.close();
 		}
 		catch (IOException e) {
 			Log.e("Exception", "File write failed: " + e.toString());
@@ -218,24 +236,90 @@ public class Game extends MainActivity{
 
 
 	private static String readLine(String path) {
+
+//		final File file = new File("sdcard/FinalProject/statisticFile.txt");
+//		System.out.println(Environment.getExternalStorageDirectory().getPath());
+
+//		if (file.exists()) {
+//			is = new FileInputStream(file);
+//			reader = new BufferedReader(new InputStreamReader(is));
+//			String line = reader.readLine();
+//			while(line != null){
+//				Log.d("StackOverflow", line);
+//				line = reader.readLine();
+//			}
+//		}
+
 		String mLines = "";
+		FileInputStream is;
 
-		AssetManager am = getContext().getAssets();
+		BufferedReader reader;
+		String line;
 
-		try {
-			InputStream is = am.open(path);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			String line;
+		System.out.println("1");
+		final File file = new File(getContext().getFilesDir()+"/statisticFile.txt");
+//		System.out.println(Environment.getExternalStorageDirectory().getPath());
+		System.out.println("2");
 
-			while ((line = reader.readLine()) != null)
-				mLines = mLines+ line + "\n";
-//				mLines.add(line);
-		} catch (IOException e) {
-			e.printStackTrace();
+
+		if (file.exists()) {
+			System.out.println("3");
+			try{
+				System.out.println("4");
+				is = new FileInputStream(file);
+				System.out.println("5");
+				reader = new BufferedReader(new InputStreamReader(is));
+				System.out.println("6");
+				try{
+					System.out.println("7");
+					while ((line = reader.readLine()) != null){
+						System.out.println("8");
+						mLines = mLines + line + "\n";
+						System.out.println("9");
+					}
+					System.out.println("10");
+				}catch (IOException e){
+					System.out.println("11");
+					e.printStackTrace();
+					System.out.println("12");
+				}
+				System.out.println("13");
+			}catch (FileNotFoundException e) {
+				System.out.println("14");
+				e.printStackTrace();
+				System.out.println("15");
+			}
+			System.out.println("16");
 		}
-System.out.println(mLines);
+		System.out.println("iggvkhkhbk"+mLines);
 		return mLines;
-	}
-
-
+//		String mLines = "";
+//
+//		AssetManager am = getContext().getAssets();
+//
+//		try {
+//			InputStream is = am.open(path);
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+//			String line;
+//
+//			while ((line = reader.readLine()) != null)
+//				mLines = mLines + line + "\n";
+//
+////				mLines.add(line);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//System.out.println(mLines);
+////		return mLines;
+//		Context ctx = getContext().getApplicationContext();
+//
+//		FileInputStream fileInputStream = ctx.openFileInput("statisticFile.txt");
+//
+//		InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+//		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//
+//		String lineData = bufferedReader.readLine();
+//
+//		return lineData;
+		}
 }
