@@ -11,7 +11,7 @@ import android.widget.VideoView;
 
 //import androidx.appcompat.app.AppCompatActivity;
 
-public class Videos extends AppCompatActivity {
+public class MyVideos extends AppCompatActivity {
 
     Button prev;
 

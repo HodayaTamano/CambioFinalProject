@@ -33,15 +33,13 @@ public class Instruction1 extends AppCompatActivity {
         cJQ = (Button) findViewById(R.id.button4);
         cK = (Button) findViewById(R.id.button6);
 
-        tv2.setText("Points:\n" +
-                "Ace: 1 point , 2-10: 2-10 points, Jack: 11 points, Queen: 12 points, Black king: 13 points\n" +
-                "Red King: -1 point\n"+"\n"+
-                "Card Rules:\n" +
+        tv2.setText("Card Rules:\n" +
                 "Certain cards have rules when you get them from the deck:\n" +"\n"+
                 "* 7 or 8 – Look at your own card - press short click on the card\n"+"\n"+
                 "* 9 or 10 – Look at someone else’s card - press short click on the cards\n"+"\n"+
                 "* Jack or Queen – Without looking at the card, you can blind switch one of your own with someone else’s. press long click on the cards , then, press swap button.\n"+"\n"+
-                "* Black King – You can look at anyone’s card - press short click on the card  - and switch anyone’s card with any one of yours - press long click on the cards.\n");
+                "* Black King – You can look at anyone’s card - press short click on the card  - and switch anyone’s card with any one of yours - press long click on the cards.\n"+"\n"+
+                "Videos for example:");
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +61,7 @@ public class Instruction1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cardNum = 78;
-                Intent myIntent = new Intent(getBaseContext(), Videos.class);
+                Intent myIntent = new Intent(getBaseContext(), MyVideos.class);
                 startActivity(myIntent);
             }
         });
@@ -72,7 +70,7 @@ public class Instruction1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cardNum = 910;
-                Intent myIntent = new Intent(getBaseContext(), Videos.class);
+                Intent myIntent = new Intent(getBaseContext(), MyVideos.class);
                 startActivity(myIntent);
             }
         });
@@ -81,7 +79,7 @@ public class Instruction1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cardNum = 1112;
-                Intent myIntent = new Intent(getBaseContext(), Videos.class);
+                Intent myIntent = new Intent(getBaseContext(), MyVideos.class);
                 startActivity(myIntent);
             }
         });
@@ -90,7 +88,7 @@ public class Instruction1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cardNum = 13;
-                Intent myIntent = new Intent(getBaseContext(), Videos.class);
+                Intent myIntent = new Intent(getBaseContext(), MyVideos.class);
                 startActivity(myIntent);
             }
         });

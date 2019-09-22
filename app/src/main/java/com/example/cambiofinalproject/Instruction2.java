@@ -24,7 +24,9 @@ public class Instruction2 extends AppCompatActivity {
         next = (Button) findViewById(R.id.button5);
         prev = (Button) findViewById(R.id.button);
 
-        tv3.setText("Winning:\n" +"\n" +
+        tv3.setText("Points:\n" +
+                "Ace: 1 point , 2-10: 2-10 points, Jack: 11 points, Queen: 12 points, Black king: 13 points\n" +
+                "Red King: -1 point\n"+"\n"+"Winning:" +"\n" +
                 "In order to win, one player has to call “Cambio” by pressing cambio, during their turn and cannot play a card if they call it.\n" +"\n" +
                 "Once the player calls Cambio, the rest of the players get one more turn to play before everyone flips their cards and adds up their points.\n" +"\n" +
                 "The person with the least amount of points wins. If there is a tie, the player who didn’t call Cambio wins.\n");
