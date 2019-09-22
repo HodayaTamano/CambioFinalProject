@@ -518,7 +518,7 @@ public class Computer {
                             Computer.computerMemory.add(new CardLocation(Computer.computerCards[indexComputer], indexComputer, "computer"));
 
 
-                        } else if (replaced == false && computerKnownCard != 4) {// I not replaced and thre are at least one unknown card
+                        } else if (replaced == false && computerKnownCard != 4) {// I not replaced and there are at least one unknown card
 
                             for (int j = 0; j < Computer.computerCards.length; j++) {
                                 if (Computer.computerCards[j].getKnown() == false) {
