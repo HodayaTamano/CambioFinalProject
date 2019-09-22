@@ -292,7 +292,7 @@
         tools:textColor="@android:color/black" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/levels"
         android:layout_width="37dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

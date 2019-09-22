@@ -1,13 +1,15 @@
 package com.example.cambiofinalproject;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class instruction1 extends AppCompatActivity {
+//import androidx.appcompat.app.AppCompatActivity;
+
+public class Instruction1 extends AppCompatActivity {
 
     TextView tv2;
     Button next;
@@ -44,7 +46,7 @@ public class instruction1 extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(getBaseContext(), instruction2.class);
+                Intent myIntent = new Intent(getBaseContext(), Instruction2.class);
                 startActivity(myIntent);
             }
         });
@@ -61,7 +63,7 @@ public class instruction1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cardNum = 78;
-                Intent myIntent = new Intent(getBaseContext(), videos.class);
+                Intent myIntent = new Intent(getBaseContext(), Videos.class);
                 startActivity(myIntent);
             }
         });
@@ -70,7 +72,7 @@ public class instruction1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cardNum = 910;
-                Intent myIntent = new Intent(getBaseContext(), videos.class);
+                Intent myIntent = new Intent(getBaseContext(), Videos.class);
                 startActivity(myIntent);
             }
         });
@@ -79,7 +81,7 @@ public class instruction1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cardNum = 1112;
-                Intent myIntent = new Intent(getBaseContext(), videos.class);
+                Intent myIntent = new Intent(getBaseContext(), Videos.class);
                 startActivity(myIntent);
             }
         });
@@ -88,7 +90,7 @@ public class instruction1 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cardNum = 13;
-                Intent myIntent = new Intent(getBaseContext(), videos.class);
+                Intent myIntent = new Intent(getBaseContext(), Videos.class);
                 startActivity(myIntent);
             }
         });

@@ -3,21 +3,18 @@ package com.example.cambiofinalproject;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.cambiofinalproject.Game;
-import com.example.cambiofinalproject.R;
-
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
 import java.util.Arrays;
+
+//import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     static Button swap;
     static Button endTurn;
     static Button cambio;
-    static Button menu;
+    static Button levels;
 
     private static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
     private static boolean [] c_shortFlags = new boolean[4]; // array flags for computer cards (0-3).
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     // we saved the context to a static field, and we created a static methods that returns this field.
     private static WeakReference<Context> mContext;
     private static WeakReference<ImageButton> mGarbage;
-    private static WeakReference<ImageButton> mCurrent;
+
 
 
     @Override
@@ -82,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         current = (ImageButton) findViewById(R.id.currentCard);
         garbage = (ImageButton) findViewById(R.id.garbage);
 
-        mCurrent = new WeakReference<ImageButton>(current);
         mContext = new WeakReference<Context>(this);
         mGarbage = new WeakReference<ImageButton>(garbage);
 
@@ -99,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Arrays.fill(c_shortFlags,0,4,true); // computer flags for short press
         Arrays.fill(p_shortFlags,0,4,true); // player flags for short press
 
-        menu = (Button) findViewById(R.id.button7);
+        levels = (Button) findViewById(R.id.levels);
 
 ///////////////////////////////////////////////// Computer Cards ////////////////////////////////////////////////////////////
 
@@ -108,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if ((peek_computerCard == true) && (swap_computerCards == true)) { // black king allows peeking and swaping
-                    c_shortFlags[0] = shortPress(Computer.computerCards[0].toString(), computerCard1, 0);
+                    c_shortFlags[0] = peekYourCard(Computer.computerCards[0].toString(), computerCard1, 0);
                 } else if ((peek_computerCard == true) && (swap_computerCards == false)) { // 9 10 allows peeking
-                    c_shortFlags[0] = shortPress(Computer.computerCards[0].toString(), computerCard1, 0);
+                    c_shortFlags[0] = peekYourCard(Computer.computerCards[0].toString(), computerCard1, 0);
                 } else if ((peek_computerCard == false) && (swap_computerCards == true)) { // jack queen allows swaping
                     // the player can't peek the computer cards
                 } else if ((peek_computerCard == false) && (swap_computerCards == false)) {
@@ -148,9 +144,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {     //
 
                 if ((peek_computerCard == true) && (swap_computerCards == true)) {
-                    c_shortFlags[1] = shortPress(Computer.computerCards[1].toString(), computerCard2, 1);
+                    c_shortFlags[1] = peekYourCard(Computer.computerCards[1].toString(), computerCard2, 1);
                 } else if ((peek_computerCard == true) && (swap_computerCards == false)) {
-                    c_shortFlags[1] = shortPress(Computer.computerCards[1].toString(), computerCard2, 1);
+                    c_shortFlags[1] = peekYourCard(Computer.computerCards[1].toString(), computerCard2, 1);
                 } else if ((peek_computerCard == false) && (swap_computerCards == true)) {
 
                 } else if ((peek_computerCard == false) && (swap_computerCards == false)) {
@@ -185,9 +181,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {     //
 
                 if ((peek_computerCard == true) && (swap_computerCards == true)) {
-                    c_shortFlags[2] = shortPress(Computer.computerCards[2].toString(), computerCard3, 2);
+                    c_shortFlags[2] = peekYourCard(Computer.computerCards[2].toString(), computerCard3, 2);
                 } else if ((peek_computerCard == true) && (swap_computerCards == false)) {
-                    c_shortFlags[2] = shortPress(Computer.computerCards[2].toString(), computerCard3, 2);
+                    c_shortFlags[2] = peekYourCard(Computer.computerCards[2].toString(), computerCard3, 2);
                 } else if ((peek_computerCard == false) && (swap_computerCards == true)) {
 
                 } else if ((peek_computerCard == false) && (swap_computerCards == false)) {
@@ -222,9 +218,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {     //
 
                 if ((peek_computerCard == true) && (swap_computerCards == true)) {
-                    c_shortFlags[3] = shortPress(Computer.computerCards[3].toString(), computerCard4, 3);
+                    c_shortFlags[3] = peekYourCard(Computer.computerCards[3].toString(), computerCard4, 3);
                 } else if ((peek_computerCard == true) && (swap_computerCards == false)) {
-                    c_shortFlags[3] = shortPress(Computer.computerCards[3].toString(), computerCard4, 3);
+                    c_shortFlags[3] = peekYourCard(Computer.computerCards[3].toString(), computerCard4, 3);
                 } else if ((peek_computerCard == false) && (swap_computerCards == true)) {
 //                    Toast.makeText(MainActivity.this, "(peek_computerCard == false) && (swap_computerCards == true)", Toast.LENGTH_SHORT).show();
                     System.out.println("(peek_computerCard == false) && (swap_computerCards == true)");
@@ -262,12 +258,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard12 == true)) { // black king allows peeking and swaping
                     if (counters[4] < 2) {
-                        p_shortFlags[0] = shortPress(Player.playerCards[0].toString(), playerCard1, 4);
+                        p_shortFlags[0] = peekYourCard(Player.playerCards[0].toString(), playerCard1, 4);
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == false) && (peek_playerCard12 == true)) {// 7 8 allows peeking
                     if (counters[4] < 2) {
-                        p_shortFlags[0] = shortPress(Player.playerCards[0].toString(), playerCard1, 4);
+                        p_shortFlags[0] = peekYourCard(Player.playerCards[0].toString(), playerCard1, 4);
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == true) && (peek_playerCard12 == false)) {// jack queen allows swaping
@@ -310,12 +306,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard12 == true)) {
                     if (counters[5] < 2) {
-                        p_shortFlags[1] = shortPress(Player.playerCards[1].toString(), playerCard2, 5);
+                        p_shortFlags[1] = peekYourCard(Player.playerCards[1].toString(), playerCard2, 5);
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == false) && (peek_playerCard12 == true)) {
                     if (counters[5] < 2) {
-                        p_shortFlags[1] = shortPress(Player.playerCards[1].toString(), playerCard2, 5);
+                        p_shortFlags[1] = peekYourCard(Player.playerCards[1].toString(), playerCard2, 5);
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == true) && (peek_playerCard12 == false)) {
@@ -350,12 +346,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
                     if (counters[6] < 2) {
-                        p_shortFlags[2] = shortPress(Player.playerCards[2].toString(), playerCard3, 6);
+                        p_shortFlags[2] = peekYourCard(Player.playerCards[2].toString(), playerCard3, 6);
                     } else
                         Toast.makeText(MainActivity.this, "you already peek card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == false) && (peek_playerCard34 == true)) {
                     if (counters[6] < 2) {
-                        p_shortFlags[2] = shortPress(Player.playerCards[2].toString(), playerCard3, 6);
+                        p_shortFlags[2] = peekYourCard(Player.playerCards[2].toString(), playerCard3, 6);
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == true) && (peek_playerCard34 == false)) {
@@ -393,12 +389,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if ((swap_playerCards == true) && (peek_playerCard34 == true)) {
                     if (counters[7] < 2) {
-                        p_shortFlags[3] = shortPress(Player.playerCards[3].toString(), playerCard4, 7);
+                        p_shortFlags[3] = peekYourCard(Player.playerCards[3].toString(), playerCard4, 7);
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == false) && (peek_playerCard34 == true)) {
                     if (counters[7] < 2) {
-                        p_shortFlags[3] = shortPress(Player.playerCards[3].toString(), playerCard4, 7);
+                        p_shortFlags[3] = peekYourCard(Player.playerCards[3].toString(), playerCard4, 7);
                     } else
                         Toast.makeText(MainActivity.this, "you already peek this card", Toast.LENGTH_SHORT).show();
                 } else if ((swap_playerCards == true) && (peek_playerCard34 == false)) {
@@ -600,33 +596,7 @@ public class MainActivity extends AppCompatActivity {
 //                    firstPress = false;
                 }
                 else if (start) Toast.makeText(MainActivity.this, "You can't swap cards now - press on the deck", Toast.LENGTH_SHORT).show();
-//                else if (firstPress == false && start){
-//
-//                    int imageIdBack = getContext().getResources().getIdentifier("back", "drawable", getContext().getPackageName());
-//                    Drawable myDrawable = getContext().getResources().getDrawable(imageIdBack);
-//
-//                    if (playerCardIndex == 0) {
-//                        playerCard1.setImageDrawable(myDrawable);
-//
-//                    }
-//                    if (playerCardIndex == 1) {
-//                        playerCard2.setImageDrawable(myDrawable);
-//                    }
-//                    if (playerCardIndex == 2) {
-//                        playerCard3.setImageDrawable(myDrawable);
-//                    }
-//                    if (playerCardIndex == 3) {
-//                        playerCard4.setImageDrawable(myDrawable);
-//                    }
-//
-//                    int imageIdCurrent = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
-//                    Drawable myDrawableCurrent = getContext().getResources().getDrawable(imageIdCurrent);
-//                    current.setImageDrawable(myDrawableCurrent);
-//
-//                    Arrays.fill(p_longFlags,0,4,true);
-//
-//                    Toast.makeText(MainActivity.this, "You've already swapped between your cards, you can't swap again", Toast.LENGTH_SHORT).show();
-//                }
+
                 else  Toast.makeText(MainActivity.this, "You didn't choose the cards you want to swap", Toast.LENGTH_SHORT).show();
 
                 garbageFlag = true;
@@ -694,11 +664,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(check == 16){
                     // Throw the current card into the garbage.
-//                    if (!currentFlag) {
                         int c_imageId = getContext().getResources().getIdentifier(Game.currentCard.toString(), "drawable", getContext().getPackageName());
                         Drawable c_myDrawable = getContext().getResources().getDrawable(c_imageId);
                         garbage.setImageDrawable(c_myDrawable);
-//                    }
 
                     current.setImageResource(android.R.color.transparent); //  Nothing in the current card is transparent
 
@@ -714,19 +682,6 @@ public class MainActivity extends AppCompatActivity {
 
                     if(Game.cambio_computer == true){ // the last turn of the game
                         System.out.println("cambio_computer: "+ Game.cambio_computer);
-//                        for (int i = 0; i < Computer.computerCards.length; i++) {
-//                            Game.computer_sum = Game.computer_sum+ Computer.computerCards[i].getValue();
-//                        }
-//                        for (int i = 0; i < Player.playerCards.length; i++) {
-//                            Game.player_sum = Game.player_sum+Player.playerCards[i].getValue();
-//                        }
-//                        if(Game.computer_sum < Game.player_sum){ //the computer win
-//                            Game.winner = "computer";
-//                        }
-//                        else{
-//                            Game.winner = "player";
-//                        }
-//                        System.out.println("the winner is: "+ Game.winner);
                         Game.setGameOn(false);
                         Game.theGame();
 
@@ -735,8 +690,6 @@ public class MainActivity extends AppCompatActivity {
                         handler.postDelayed(new Runnable() {
                             public void run() {
                                 Game.theGame();
-
-                                //  handler.postDelayed(this, delay);
                             }
                         }, delay);
                     }
@@ -762,10 +715,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        menu.setOnClickListener(new View.OnClickListener() {
+
+
+        levels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Menu.class));
+//                startActivity(new Intent(MainActivity.this, Levels.class));
+                Intent myIntent = new Intent(MainActivity.this, Levels.class);
+                startActivity(myIntent);
             }
         });
     }
@@ -773,9 +730,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static Context getContext() {
         return mContext.get();
-    }
-    public static ImageButton getCurrent() {
-        return mCurrent.get();
     }
     public static ImageButton getGarbage() {
         return mGarbage.get();
@@ -1045,7 +999,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static boolean shortPress(String cardName, ImageButton button, int i) {
+    public static boolean peekYourCard(String cardName, ImageButton button, int i) {
         if (i < 4){
             if (c_shortFlags[i] && !flagIsFalse(i ,"short")) {  //to expose the card
                 int imageId = getContext().getResources().getIdentifier(cardName, "drawable", getContext().getPackageName());

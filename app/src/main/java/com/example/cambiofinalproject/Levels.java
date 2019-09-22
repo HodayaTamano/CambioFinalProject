@@ -5,24 +5,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
-import java.util.Stack;
+public class Levels extends AppCompatActivity {
 
-public class Menu extends AppCompatActivity {
-
-    static Button newGame;
-    static Button easyLevel;
-    static Button instruction;
+    Button easyLevel;
+    Button hardLevel;
+    Button menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_levels);
 
         easyLevel = (Button) findViewById(R.id.easyLevel);
-        newGame = (Button) findViewById(R.id.newgame);
-        instruction = (Button) findViewById(R.id.instruction);
+        hardLevel = (Button) findViewById(R.id.hardLevel);
+        menu = (Button) findViewById(R.id.menu);
 
 
         easyLevel.setOnClickListener(new View.OnClickListener() {
@@ -35,31 +32,19 @@ public class Menu extends AppCompatActivity {
         });
 
 
-        newGame.setOnClickListener(new View.OnClickListener() {
+        hardLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Game.level = 1;
-                Game.gameOn = false;
-                Game.gameOn = false;
-                Game.winner = "";
-                Game.currentCard = new Card();
-                Game.currentTurn = "";
-                Game.garbage = new Stack<Card>();
-                Game.cambio_player = false;
-                Game.cambio_computer = false;
-                Game.computer_sum=0;
-                Game.player_sum=0;
-                Game.computerWins = 1;
-                Game.playerWins = 1;
                 Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(myIntent);
             }
         });
 
-        instruction.setOnClickListener(new View.OnClickListener() {
+        menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(getBaseContext(), Instruction.class);
+                Intent myIntent = new Intent(Levels.this, MyMenu.class);
                 startActivity(myIntent);
             }
         });
