@@ -43,6 +43,7 @@ public class EasyLevelStatistics extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+
                     textView1.setText("Computer won "+String.valueOf(dataSnapshot.getValue())+" times.");
                 }
             }
