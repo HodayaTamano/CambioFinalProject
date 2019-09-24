@@ -160,6 +160,13 @@ public class Game extends MainActivity{
 
 			if(computer_sum == player_sum){ //tie
 				winner = "no one";
+				if(level == 0) {
+                    Intent myIntent = new Intent(getContext(), EasyLevelStatistics.class);
+                    getContext().startActivity(myIntent);
+                }else if (level == 1){
+                    Intent myIntent = new Intent(getContext(), HardLevelStatistics.class);
+                    getContext().startActivity(myIntent);
+                }
 			}
 			else if(computer_sum < player_sum) { //the computer win
                 winner = "computer";
@@ -185,6 +192,8 @@ public class Game extends MainActivity{
                                             System.out.println("playerWins+computerWins: " + (playerWins + computerWins));
                                             System.out.println((double) computerWins / (computerWins + playerWins));
                                             database.getReference("Hard level").child("Computer Victory Statistics").setValue((double) computerWins / (computerWins + playerWins));
+                                            Intent myIntent = new Intent(getContext(), HardLevelStatistics.class);
+                                            getContext().startActivity(myIntent);
                                         }
                                     }
 
@@ -224,6 +233,8 @@ public class Game extends MainActivity{
                                             System.out.println("playerWins+computerWins: " + (playerWins + computerWins));
                                             System.out.println((double) computerWins / (computerWins + playerWins));
                                             database.getReference("Easy level").child("Computer Victory Statistics").setValue((double) computerWins / (computerWins + playerWins));
+                                            Intent myIntent = new Intent(getContext(), EasyLevelStatistics.class);
+                                            getContext().startActivity(myIntent);
                                         }
                                     }
 
@@ -268,6 +279,8 @@ public class Game extends MainActivity{
                                             System.out.println("playerWins+computerWins: " + (playerWins + computerWins));
                                             System.out.println((double) computerWins / (computerWins + playerWins));
                                             database.getReference("Hard level").child("Computer Victory Statistics").setValue((double) computerWins / (computerWins + playerWins));
+                                            Intent myIntent = new Intent(getContext(), HardLevelStatistics.class);
+                                            getContext().startActivity(myIntent);
                                         }
                                     }
 
@@ -286,6 +299,8 @@ public class Game extends MainActivity{
 
                         }
                     });
+
+
 
                 }else if (level == 0){
                     final DatabaseReference myRef = database.getReference("Easy level").child("Player");
@@ -308,6 +323,8 @@ public class Game extends MainActivity{
                                             System.out.println("playerWins+computerWins: " + (playerWins + computerWins));
                                             System.out.println((double) computerWins / (computerWins + playerWins));
                                             database.getReference("Easy level").child("Computer Victory Statistics").setValue((double) computerWins / (computerWins + playerWins));
+                                            Intent myIntent = new Intent(getContext(), EasyLevelStatistics.class);
+                                            getContext().startActivity(myIntent);
                                         }
                                     }
 
@@ -328,13 +345,7 @@ public class Game extends MainActivity{
             }
 			showToastMethod(Game.getContext().getApplicationContext());
             Game.gameOn = false;
-            if (level == 0){
-                Intent myIntent = new Intent(getContext(), EasyLevelStatistics.class);
-                getContext().startActivity(myIntent);
-            }else if (level == 1){
-                Intent myIntent = new Intent(getContext(), HardLevelStatistics.class);
-                getContext().startActivity(myIntent);
-            }
+
 		}
     }
 

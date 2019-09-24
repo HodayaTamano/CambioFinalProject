@@ -25,6 +25,7 @@ public class MyVideos extends AppCompatActivity {
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         VideoView vv = (VideoView) findViewById(R.id.videoView);
+
         if (Instruction1.cardNum == 78) {
             String uriPath = "android.resource://com.example.cambiofinalproject/" + R.raw.seveneight;
             Uri uri2 = Uri.parse(uriPath);

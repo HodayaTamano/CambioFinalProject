@@ -38,24 +38,24 @@ public class MainActivity extends AppCompatActivity {
     static Button cambio;
     static Button levels;
 
-    private static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
-    private static boolean [] c_shortFlags = new boolean[4]; // array flags for computer cards (0-3).
-    private static boolean [] p_shortFlags = new boolean[4]; // array flags for player cards (4-7).
-    private static boolean [] c_longFlags = new boolean[4]; // array flags for computer cards (0-3).
-    private static boolean [] p_longFlags = new boolean[4]; // array flags for player cards (4-7).
-    private static boolean currentFlag = true;
-    private static boolean garbageFlag = true;
-    private static boolean cardDeckFlag = true;
+    public static int [] counters = new int [8]; // array counters for computer (0-3) and player (4-7) cards.
+    public static boolean [] c_shortFlags = new boolean[4]; // array flags for computer cards (0-3).
+    public static boolean [] p_shortFlags = new boolean[4]; // array flags for player cards (4-7).
+    public static boolean [] c_longFlags = new boolean[4]; // array flags for computer cards (0-3).
+    public static boolean [] p_longFlags = new boolean[4]; // array flags for player cards (4-7).
+    public static boolean currentFlag = true;
+    public static boolean garbageFlag = true;
+    public static boolean cardDeckFlag = true;
 
 
 
-    private static boolean peek_playerCard12 = true;
-    private static boolean peek_playerCard34 = false;
-    private static boolean swap_playerCards = false;
-    private static boolean peek_computerCard = false;   //short press on the computer cards.
-    private static boolean swap_computerCards = false;
+    public static boolean peek_playerCard12 = true;
+    public static boolean peek_playerCard34 = false;
+    public static boolean swap_playerCards = false;
+    public static boolean peek_computerCard = false;   //short press on the computer cards.
+    public static boolean swap_computerCards = false;
 
-    private static boolean start = true;
+    public static boolean start = true;
 
 
 
@@ -483,8 +483,8 @@ public class MainActivity extends AppCompatActivity {
                     Drawable myDrawable = getContext().getResources().getDrawable(imageId);
                     current.setImageDrawable(myDrawable);
 
-                    Game.currentCard = Card.cardDeck.get(0);
-                    Card.cardDeck.remove(0);
+//                    Game.currentCard = Card.cardDeck.get(0);
+//                    Card.cardDeck.remove(0);
 //                    System.out.println("The first in the deck: "+Card.cardDeck.get(0).toString());
 //                    System.out.println("The current cardd: "+Game.currentCard);
                     playerTurn();
@@ -705,7 +705,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
                 Toast.makeText(MainActivity.this, "You can't press cambio in the beginning of the game", Toast.LENGTH_SHORT).show();
             }
-            if(cardDeckFlag == true && garbageFlag == true && Game.currentTurn.equals("player")){
+            if(cardDeckFlag == true && garbageFlag == true && Game.currentTurn.equals("player")){                Arrays.fill(counters,0,7,0); // player cards are available
+                currentFlag = true;
+                garbageFlag = true;
+                cardDeckFlag = true;
+                peek_playerCard12 = true;
+                peek_playerCard34 = false;
+                swap_playerCards = false;
+                peek_computerCard = false;   //short press on the computer cards.
+                swap_computerCards = false;
+                start = true;
+
                 Game.cambio_player = true;
                 System.out.println("cambio_player button: "+ Game.cambio_player);
 
@@ -723,6 +733,7 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(new Intent(MainActivity.this, Levels.class));
                 Intent myIntent = new Intent(MainActivity.this, Levels.class);
                 startActivity(myIntent);
+
             }
         });
     }

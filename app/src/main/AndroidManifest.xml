@@ -13,7 +13,7 @@
         <activity android:name=".HardLevelStatistics"></activity>
         <activity android:name=".EasyLevelStatistics" />
         <activity android:name=".Levels" />
-        <activity android:name=".Videos" />
+        <activity android:name=".MyVideos" />
         <activity android:name=".MyMenu" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

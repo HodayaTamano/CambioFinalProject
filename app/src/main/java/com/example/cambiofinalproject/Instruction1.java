@@ -33,7 +33,6 @@ public class Instruction1 extends AppCompatActivity {
         cJQ = (Button) findViewById(R.id.button4);
         cK = (Button) findViewById(R.id.button6);
 
-        
         tv2.setText("Card Rules:\n" +
                 "Certain cards have rules when you get them from the deck:\n" +"\n"+
                 "* 7 or 8 – Look at your own card - press short click on the card\n"+"\n"+

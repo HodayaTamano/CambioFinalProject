@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Arrays;
+import java.util.Stack;
+
+import static com.example.cambiofinalproject.Game.garbage;
+import static com.example.cambiofinalproject.MainActivity.counters;
+
 public class Levels extends AppCompatActivity {
 
     Button easyLevel;
@@ -26,6 +32,27 @@ public class Levels extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Game.level = 0;
+                Arrays.fill(counters,0,7,0); // player cards are available
+                MainActivity.currentFlag = true;
+                MainActivity.garbageFlag = true;
+                MainActivity.cardDeckFlag = true;
+                MainActivity.peek_playerCard12 = true;
+                MainActivity.peek_playerCard34 = false;
+                MainActivity.swap_playerCards = false;
+                MainActivity.peek_computerCard = false;   //short press on the computer cards.
+                MainActivity.swap_computerCards = false;
+                MainActivity.start = true;
+                Game.gameOn = false;
+                Game.winner = "";
+                Game.currentCard = new Card();
+                Game.currentTurn = "";
+//                <Card> garbage = new Stack<Card>();
+                Game.cambio_player = false;
+                Game.cambio_computer = false;
+                Game.computer_sum=0;
+                Game.player_sum=0;
+                Game.computerWins = 1;
+                Game.playerWins = 1;
                 Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(myIntent);
             }
@@ -35,9 +62,31 @@ public class Levels extends AppCompatActivity {
         hardLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Arrays.fill(counters,0,7,0); // player cards are available
+                MainActivity.currentFlag = true;
+                MainActivity.garbageFlag = true;
+                MainActivity.cardDeckFlag = true;
+                MainActivity.peek_playerCard12 = true;
+                MainActivity.peek_playerCard34 = false;
+                MainActivity.swap_playerCards = false;
+                MainActivity.peek_computerCard = false;   //short press on the computer cards.
+                MainActivity.swap_computerCards = false;
+                MainActivity.start = true;
+                Game.gameOn = false;
+                Game.winner = "";
+                Game.currentCard = new Card();
+                Game.currentTurn = "";
+//                <Card> garbage = new Stack<Card>();
+                Game.cambio_player = false;
+                Game.cambio_computer = false;
+                Game.computer_sum=0;
+                Game.player_sum=0;
+                Game.computerWins = 1;
+                Game.playerWins = 1;
                 Game.level = 1;
                 Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(myIntent);
+
             }
         });
 
