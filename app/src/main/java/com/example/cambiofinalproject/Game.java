@@ -43,9 +43,7 @@ import java.util.Stack;
 
 
 public class Game extends MainActivity {
-//    public void onCreate(Bundle savedInstanceState) {
-//        Game regularClass = new RegularClass(this);
-//    }
+
 
     public static boolean gameOn = false;
     public static String winner = "";
@@ -59,7 +57,6 @@ public class Game extends MainActivity {
     public static long computerWins = 1;
     public static long playerWins = 1;
     public static int level;
-//	DatabaseReference ref;
 
     public Game() {
     }
@@ -127,7 +124,7 @@ public class Game extends MainActivity {
     }
 
     public static void theGame() {
-        if (gameOn) {
+        if (gameOn == true) {
             if (currentTurn.equals("computer")) {
                 if (level == 1) {
                     Computer.computerTurn();
@@ -154,7 +151,6 @@ public class Game extends MainActivity {
 
             // Write a message to the database
             final FirebaseDatabase database = FirebaseDatabase.getInstance();
-
             if (computer_sum == player_sum) { //tie
                 winner = "no one";
                 if (level == 0) {
@@ -166,7 +162,6 @@ public class Game extends MainActivity {
                 }
             } else if (computer_sum < player_sum) { //the computer win
                 winner = "computer";
-
                 if (level == 1) {
                     final DatabaseReference myRef = database.getReference("Hard level").child("Computer");
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -182,6 +177,7 @@ public class Game extends MainActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         if (dataSnapshot.exists()) {
+                                            System.out.println("");
                                             playerWins = (long) dataSnapshot.getValue();
                                             database.getReference("Hard level").child("Computer Victory Statistics").setValue(String.format("%.2f", (double) computerWins / (computerWins + playerWins)));
                                             Intent myIntent = new Intent(getContext(), HardLevelStatistics.class);
@@ -194,8 +190,6 @@ public class Game extends MainActivity {
 
                                     }
                                 });
-
-
                             }
                         }
 
@@ -210,10 +204,11 @@ public class Game extends MainActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-
+                                System.out.println("1");
                                 computerWins = (long) dataSnapshot.getValue();
                                 computerWins++;
                                 myRef.setValue(computerWins);
+                                System.out.println("2");
 
                                 database.getReference("Easy level").child("Player").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -236,6 +231,7 @@ public class Game extends MainActivity {
                                     }
                                 });
 
+                                System.out.println("3");
 
                             }
                         }
@@ -248,7 +244,6 @@ public class Game extends MainActivity {
                 }
             } else {
                 winner = "player";
-
                 if (level == 1) {
                     final DatabaseReference myRef = database.getReference("Hard level").child("Player");
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -290,18 +285,18 @@ public class Game extends MainActivity {
 
                         }
                     });
-
-
                 } else if (level == 0) {
                     final DatabaseReference myRef = database.getReference("Easy level").child("Player");
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
+                                System.out.println("1");
 
                                 playerWins = (long) dataSnapshot.getValue();
                                 playerWins++;
                                 myRef.setValue(playerWins);
+                                System.out.println("2");
 
                                 database.getReference("Easy level").child("Computer").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -323,7 +318,10 @@ public class Game extends MainActivity {
 
                                     }
                                 });
+                                System.out.println("3");
+
                             }
+
                         }
 
                         @Override
@@ -335,7 +333,6 @@ public class Game extends MainActivity {
             }
             showToastMethod(Game.getContext().getApplicationContext());
             Game.gameOn = false;
-
         }
     }
 

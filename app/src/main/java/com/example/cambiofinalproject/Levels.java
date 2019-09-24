@@ -62,6 +62,7 @@ public class Levels extends AppCompatActivity {
         hardLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Arrays.fill(counters,0,7,0); // player cards are available
                 MainActivity.currentFlag = true;
                 MainActivity.garbageFlag = true;
